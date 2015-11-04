@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MindfulnessApp.iml" filepath="$PROJECT_DIR$/MindfulnessApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JustBe-Android.iml" filepath="$PROJECT_DIR$/JustBe-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
