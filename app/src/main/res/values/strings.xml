@@ -5,5 +5,15 @@
     <string name="title_activity_login">Login</string>
     <string name="login_text">Login</string>
     <string name="login_button">Login</string>
+    <string name="create_account_button">Create Account</string>
     <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_activity_create_account">CreateAccountActivity</string>
+    <string name="create_account_text">Create Account</string>
+
+    <string name="title_activity_preferences">PreferencesActivity</string>
+    <string name="first_name_text">First Name: </string>
+    <string name="last_name_text">Last Name: </string>
+    <string name="age_text">Age: </string>
+    <string name="gender_text">Gender: </string>
 </resources>
