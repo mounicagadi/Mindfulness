@@ -6,6 +6,14 @@
     android:layout_height="match_parent" android:fitsSystemWindows="true"
     tools:context="justbe.mindfulnessapp.LoginActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/myToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ToolbarStyle.Event" />
+
     <include layout="@layout/content_login" />
 
 </android.support.design.widget.CoordinatorLayout>
