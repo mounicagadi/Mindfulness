@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.support.v7.widget.Toolbar;
 
 public class LoginActivity extends AppCompatActivity {
     public final static String EXTRA_USERNAME = "justbe.mindfulnessapp.USERNAME";
@@ -18,6 +19,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.myToolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setTitle(getString(R.string.title_activity_login));
 
         username_field = (EditText) findViewById(R.id.editUsername);
         username_field.addTextChangedListener(new TextWatcher() {

@@ -13,5 +13,22 @@
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.NoActionBar.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Custom theme -->
+    <style name="ToolbarStyle" parent="ToolbarStyle.Base"/>
+    <style name="ToolbarStyle.Base" parent="">
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+    <style name="ToolbarStyle.Event" parent="ToolbarStyle">
+        <item name="titleTextAppearance">@style/TextAppearance.Widget.Event.Toolbar.Title</item>
+    </style>
+    <style name="TextAppearance.Widget.Event.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/event_title_text_size</item>
+    </style>
 
 </resources>
