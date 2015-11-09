@@ -13,10 +13,14 @@
 
     <string name="title_activity_getting_started">Getting Started</string>
     <string name="submit_button">Submit</string>
-    <string name="first_name_text">First Name: </string>
-    <string name="last_name_text">Last Name: </string>
-    <string name="age_text">Age: </string>
-    <string name="gender_text">Gender: </string>
+    <string name="first_name_text">First Name</string>
+    <string name="last_name_text">Last Name</string>
+    <string name="age_text">Age</string>
+    <string name="gender_text">Gender</string>
     <string name="meditation_date_text">Meditation Time: </string>
     <string name="lesson_time_text">Lesson Time: </string>
+
+    <string name="title_activity_preferences">Preferences</string>
+    <string name="meditations_text">Meditations</string>
+    <string name="lessons_text">Lessons</string>
 </resources>

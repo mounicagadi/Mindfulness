@@ -2,103 +2,159 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:layout_height="match_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:layout_marginTop="50dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_preferences"
-    tools:context="justbe.mindfulnessapp.GettingStartedActivity">
+    tools:context="justbe.mindfulnessapp.PreferencesActivity">
 
-    <ScrollView
-        android:id="@+id/accountForm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:scrollbars="vertical">
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/firstNameText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/first_name_text"
-                    android:textSize="10pt"/>
+    <TableLayout
+        android:id="@+id/preferencesTable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1">
+        <TableRow>
+            <TextView
+                android:id="@+id/firstNameText"
+                android:layout_column="0"
+                android:padding="3dip"
+                android:text="@string/first_name_text"
+                android:textSize="10pt" />
 
-                <EditText
-                    android:id="@+id/editFirstName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/lastNameText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/last_name_text"
-                    android:textSize="10pt"/>
+            <TextView
+                android:id="@+id/editFirstName"
+                android:padding="3dip"
+                android:gravity="right"
+                android:text="Colin"
+                android:textSize="10pt" />
+        </TableRow>
 
-                <EditText
-                    android:id="@+id/editLasttName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/ageText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/age_text"
-                    android:textSize="10pt"/>
-
-                <EditText
-                    android:id="@+id/editAge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/genderText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/gender_text"
-                    android:textSize="10pt"/>
-
-                <EditText
-                    android:id="@+id/editGender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="10" />
-            </LinearLayout>
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="2dip" >
+            <View style="@style/Divider" />
         </LinearLayout>
-    </ScrollView>
 
-    <Button
-        android:id="@+id/submitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:onClick="submitPressed"
-        android:text="@string/submit_button"/>
+        <TableRow>
+            <TextView
+                android:id="@+id/lastNameText"
+                android:padding="3dip"
+                android:text="@string/last_name_text"
+                android:textSize="10pt" />
+
+            <TextView
+                android:id="@+id/editLasttName"
+                android:padding="3dip"
+                android:gravity="right"
+                android:text="Kohler"
+                android:textSize="10pt" />
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip" >
+            <View style="@style/Divider" />
+        </LinearLayout>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/ageText"
+                android:padding="3dip"
+                android:text="@string/age_text"
+                android:textSize="10pt" />
+
+            <TextView
+                android:id="@+id/editAge"
+                android:padding="3dip"
+                android:gravity="right"
+                android:text="22"
+                android:textSize="10pt" />
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip" >
+            <View style="@style/Divider" />
+        </LinearLayout>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/genderText"
+                android:padding="3dip"
+                android:text="@string/gender_text"
+                android:textSize="10pt" />
+
+            <TextView
+                android:id="@+id/editGender"
+                android:padding="3dip"
+                android:gravity="right"
+                android:text="Male"
+                android:textSize="10pt" />
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip" >
+            <View style="@style/Divider" />
+        </LinearLayout>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/meditationText"
+                android:padding="3dip"
+                android:text="@string/meditations_text"
+                android:textSize="10pt" />
+
+            <TextView
+                android:id="@+id/editMeditation"
+                android:padding="3dip"
+                android:gravity="right"
+                android:text="Mornings at 8 AM"
+                android:textSize="10pt" />
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip" >
+            <View style="@style/Divider" />
+        </LinearLayout>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/lessonText"
+                android:padding="3dip"
+                android:text="@string/lessons_text"
+                android:textSize="10pt" />
+
+            <TextView
+                android:id="@+id/editLesson"
+                android:padding="3dip"
+                android:gravity="right"
+                android:text="Sundays at 9 PM"
+                android:textSize="10pt" />
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip" >
+            <View style="@style/Divider" />
+        </LinearLayout>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/logOut"
+                android:padding="3dip"
+                android:text="Log Out"
+                android:textSize="10pt"
+                android:textColor="@color/colorAccent"/>
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip" >
+            <View style="@style/Divider" />
+        </LinearLayout>
+    </TableLayout>
 
 </RelativeLayout>
