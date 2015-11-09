@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MindfulnessApp</string>
+    <string name="app_name">Mindfulness</string>
     <string name="action_settings">Settings</string>
 
     <string name="title_activity_login">Login</string>
