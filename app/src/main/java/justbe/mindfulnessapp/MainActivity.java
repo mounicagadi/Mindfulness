@@ -15,11 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.myToolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle(getString(R.string.title_activity_main));
-
-        // Get the username from the intent
-        Intent intent = getIntent();
-        String username = intent.getStringExtra(LoginActivity.EXTRA_USERNAME);
+        getSupportActionBar().setTitle("");
     }
 
     public void preferencesButtonPressed(View view) {
