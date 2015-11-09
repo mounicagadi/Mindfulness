@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:fitsSystemWindows="true"
-    tools:context="justbe.mindfulnessapp.GettingStartedActivity">
+    tools:context="justbe.mindfulnessapp.LessonActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,6 +14,6 @@
         android:elevation="4dp"
         android:theme="@style/ToolbarStyle.Event" />
 
-    <include layout="@layout/content_getting_started" />
+    <include layout="@layout/content_lesson" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -14,6 +14,7 @@
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -35,7 +36,12 @@
         <activity
             android:name=".PreferencesActivity"
             android:label="Preferences"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".LessonActivity"
+            android:label="@string/title_activity_lesson"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 

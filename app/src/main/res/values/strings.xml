@@ -23,4 +23,6 @@
     <string name="title_activity_preferences">Preferences</string>
     <string name="meditations_text">Meditations</string>
     <string name="lessons_text">Lessons</string>
+
+    <string name="title_activity_lesson">Lesson</string>
 </resources>

@@ -7,7 +7,7 @@
     tools:context="justbe.mindfulnessapp.LoginActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/myToolbar"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
