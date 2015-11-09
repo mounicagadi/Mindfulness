@@ -12,10 +12,18 @@
     tools:showIn="@layout/activity_main" tools:context="justbe.mindfulnessapp.MainActivity">
 
     <Button
-        android:id="@+id/preferencesButton"
+    android:id="@+id/preferencesButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:onClick="preferencesButtonPressed"
+    android:text="Preferences tmp button"/>
+
+    <Button
+        android:id="@+id/lessonButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="preferencesButtonPressed"
-        android:text="Preferences tmp button"/>
+        android:layout_toRightOf="@+id/preferencesButton"
+        android:onClick="lessonButtonPressed"
+        android:text="Lesson tmp button"/>
 
 </RelativeLayout>
