@@ -31,4 +31,15 @@
         <item name="android:textSize">@dimen/event_title_text_size</item>
     </style>
 
+    <!-- Table Dividers -->
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dip</item>
+        <item name="android:background">@color/colorTableDivider</item>
+    </style>
+    <style name="Divider_invisible">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dip</item>
+    </style>
+
 </resources>

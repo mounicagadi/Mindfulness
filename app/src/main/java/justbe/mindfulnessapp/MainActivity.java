@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,12 +20,11 @@ public class MainActivity extends AppCompatActivity {
         // Get the username from the intent
         Intent intent = getIntent();
         String username = intent.getStringExtra(LoginActivity.EXTRA_USERNAME);
+    }
 
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
-        textView.setText("Hello " + username);
-
-        setContentView(textView);
+    public void preferencesButtonPressed(View view) {
+        Intent intent = new Intent(this, PreferencesActivity.class);
+        startActivity(intent);
     }
 
 }
