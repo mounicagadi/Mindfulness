@@ -25,4 +25,13 @@
     <string name="lessons_text">Lessons</string>
 
     <string name="title_activity_lesson">Lesson</string>
+
+    <!-- Text String -->
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Vestibulum pellentesque odio velit, at eleifend velit ultrices quis. Aliquam eu magna ante.
+        Nam non ex felis. Quisque feugiat orci nec ornare tristique.
+        Integer porta arcu erat, non commodo quam finibus sed.
+        Donec posuere tortor nec tellus sagittis venenatis.
+        Pellentesque vestibulum pellentesque nulla vel porta.
+        Cras dapibus nulla sed mi hendrerit, in ullamcorper odio tincidunt.</string>
 </resources>
