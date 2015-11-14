@@ -21,31 +21,33 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
             android:name=".CreateAccountActivity"
             android:label="@string/title_activity_create_account"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".LoginActivity">
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
             android:name=".GettingStartedActivity"
             android:label="@string/title_activity_getting_started"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".CreateAccountActivity">
+            android:parentActivityName=".CreateAccountActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
             android:name=".PreferencesActivity"
             android:label="Preferences"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
             android:name=".LessonActivity"
             android:label="@string/title_activity_lesson"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity android:name=".AssessmentActivity" >
         </activity>
     </application>
 

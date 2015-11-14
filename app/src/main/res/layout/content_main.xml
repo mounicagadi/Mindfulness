@@ -25,4 +25,15 @@
         android:onClick="lessonButtonPressed"
         android:text="Lesson tmp button"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Assessment Tmp Button"
+        android:id="@+id/assessmentButton"
+        android:layout_below="@+id/preferencesButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp"
+        android:onClick="assessmentButtonPressed" />
+
 </RelativeLayout>
