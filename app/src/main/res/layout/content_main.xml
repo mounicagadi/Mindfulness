@@ -11,29 +11,36 @@
     tools:showIn="@layout/activity_main" tools:context="justbe.mindfulnessapp.MainActivity">
 
     <Button
-    android:id="@+id/preferencesButton"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:onClick="preferencesButtonPressed"
-    android:text="Preferences tmp button"/>
-
-    <Button
-        android:id="@+id/lessonButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/preferencesButton"
-        android:onClick="lessonButtonPressed"
-        android:text="Lesson tmp button"/>
-
-    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Assessment Tmp Button"
         android:id="@+id/assessmentButton"
-        android:layout_below="@+id/preferencesButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp"
         android:onClick="assessmentButtonPressed" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/weeklyLessonButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:onClick="lessonButtonPressed"
+        style="@android:style/Widget.Button"
+        android:backgroundTint="#99E0EDCF">
+        <ImageView
+            android:id="@+id/weeklyLessonButtonImage"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/check_green_2x"/>
+        <TextView
+            android:id="@+id/weeklyLessonButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/bpWhite"
+            android:textSize="20dp"
+            android:text="Week # Exercise"
+            android:layout_toRightOf="@+id/weeklyLessonButtonImage"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"/>
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bpWhite">
+    <TableLayout
+        android:id="@+id/preferencesTable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="1">
+        <TableRow>
+            <TextView
+                android:id="@+id/week1Text"
+                android:padding="3dip"
+                android:text="@string/week_one_text"
+                android:textSize="10pt"
+                android:layout_gravity="center_horizontal"/>
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip" >
+            <View style="@style/Divider" />
+        </LinearLayout>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/week2Text"
+                android:padding="3dip"
+                android:text="@string/week_two_text"
+                android:textSize="10pt"
+                android:layout_gravity="center_horizontal"/>
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dip" >
+            <View style="@style/Divider" />
+        </LinearLayout>
+
+    </TableLayout>
+
+</RelativeLayout>

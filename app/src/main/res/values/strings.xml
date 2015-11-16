@@ -31,6 +31,16 @@
     <string name="title_activity_lesson">Lesson</string>
     <string name="title_activity_assessment">Assessment</string>
 
+    <string name="week_one_text">Week 1</string>
+    <string name="week_two_text">Week 2</string>
+    <string name="week_three_text">Week 3</string>
+    <string name="week_four_text">Week 4</string>
+    <string name="week_five_text">Week 5</string>
+    <string name="week_six_text">Week 6</string>
+    <string name="week_seven_text">Week 7</string>
+    <string name="week_eight_text">Week 8</string>
+    <string name="this_week_text">This Week</string>
+
     <!-- Text String -->
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Vestibulum pellentesque odio velit, at eleifend velit ultrices quis. Aliquam eu magna ante.
