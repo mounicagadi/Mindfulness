@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- TODO: Change this to center vertically -->
+    <ImageButton
+        android:id="@+id/weekButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/calendar_2x"
+        android:background="@color/bpTransparent"
+        android:scaleType="centerInside"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:onClick="weekButtonPressed"/>
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:src="@drawable/lotus_2x"
+        android:scaleType="centerInside"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"/>
+    <!-- TODO: Change this to center vertically -->
+    <ImageButton
+        android:id="@+id/settingsButton"
+        android:layout_height="40dp"
+        android:layout_width="40dp"
+        android:src="@drawable/gear_2x"
+        android:background="@color/bpTransparent"
+        android:scaleType="centerInside"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp"
+        android:onClick="settingsButtonPressed"/>
+</RelativeLayout>
