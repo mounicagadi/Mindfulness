@@ -60,7 +60,7 @@
         android:ems="10"
         android:inputType="text"
         android:hint="@string/email_text"/>
-
+<!--
     <EditText
         android:id="@+id/editFirstName"
         android:layout_width="wrap_content"
@@ -86,16 +86,16 @@
         android:ems="10"
         android:inputType="text"
         android:hint="@string/last_name_text"/>
-
+-->
     <EditText
         android:id="@+id/editBirthday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editLastName"
+        android:layout_below="@+id/editEmail"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/editLastName"
-        android:layout_alignEnd="@+id/editLastName"
+        android:layout_alignRight="@+id/editEmail"
+        android:layout_alignEnd="@+id/editEmail"
         android:ems="10"
         android:inputType="text"
         android:hint="@string/birthday_text"/>
