@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingRight="10dp" >
     <!-- TODO: Change this to center vertically -->
     <ImageButton
         android:id="@+id/weekButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/calendar_2x"
-        android:background="@color/bpTransparent"
+        android:background="@drawable/settings_button_selector"
         android:scaleType="centerInside"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -28,7 +29,7 @@
         android:layout_height="40dp"
         android:layout_width="40dp"
         android:src="@drawable/gear_2x"
-        android:background="@color/bpTransparent"
+        android:background="@drawable/settings_button_selector"
         android:scaleType="centerInside"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"

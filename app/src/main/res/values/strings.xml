@@ -21,8 +21,10 @@
     <string name="birthday_text">Birthday</string>
     <string name="age_text">Age</string>
     <string name="gender_text">Gender</string>
-    <string name="meditation_date_text">Meditation Time: </string>
-    <string name="lesson_time_text">Lesson Time: </string>
+    <string name="wake_up_text">I wake up at </string>
+    <string name="go_to_sleep_text">I go to sleep at </string>
+    <string name="change_password_text">Change Password</string>
+    <string name="log_out_text">Log Out</string>
 
     <string name="title_activity_preferences">Preferences</string>
     <string name="meditations_text">Meditations</string>

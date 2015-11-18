@@ -1,5 +1,6 @@
 package justbe.mindfulnessapp;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,11 +18,6 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText username_field;
     private EditText password_field;
     private EditText confirm_password_field;
-    private EditText email_field;
-    //private EditText first_name_field;
-    //private EditText last_name_field;
-    private EditText birthday_field;
-    private EditText gender_field;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +33,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         username_field = (EditText) findViewById(R.id.editUsername);
         password_field = (EditText) findViewById(R.id.editPassword);
         confirm_password_field = (EditText) findViewById(R.id.editConfirmPassword);
-        email_field = (EditText) findViewById(R.id.editEmail);
-      //  first_name_field = (EditText) findViewById(R.id.editFirstName);
-        //last_name_field = (EditText) findViewById(R.id.editLastName);
-        birthday_field = (EditText) findViewById(R.id.editBirthday);
-        gender_field = (EditText) findViewById(R.id.editGender);
 
         confirm_password_field.addTextChangedListener(new TextWatcher() {
             @Override
@@ -65,11 +56,6 @@ public class CreateAccountActivity extends AppCompatActivity {
             Map<String,String> params = new HashMap<String, String>();
             params.put("username", username_field.getText().toString());
             params.put("password", password_field.getText().toString());
-            params.put("email", email_field.getText().toString());
-          //  params.put("first_name", first_name_field.getText().toString());
-          // params.put("last_name", last_name_field.getText().toString());
-            params.put("birthday", birthday_field.getText().toString());
-            params.put("gender", gender_field.getText().toString());
 
             // Create connection and post the new account
             new PostTask(this).execute("https://www.secure-headland-8362.herokuapp.com/api/v1/create_user/", params);
