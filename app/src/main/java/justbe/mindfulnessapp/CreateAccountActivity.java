@@ -72,7 +72,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             params.put("gender", gender_field.getText().toString());
 
             // Create connection and post the new account
-            new PostTask(this).execute("https://www.secure-headland-8362.herokuapp.com/api/v1/create_user/", params);
+            new PostTask(this).execute("https://secure-headland-8362.herokuapp.com/api/v1/create_user/", params);
 
             // Go to the getting stated activity
             Intent intent = new Intent(this, GettingStartedActivity.class);
