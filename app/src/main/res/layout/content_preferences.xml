@@ -13,37 +13,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:stretchColumns="1">
-        <TableRow>
-            <TextView
-                android:id="@+id/firstNameText"
-                android:layout_column="0"
-                android:padding="3dip"
-                android:text="@string/first_name_text"
-                android:textSize="10pt" />
-
-            <TextView
-                android:id="@+id/editFirstName"
-                android:padding="3dip"
-                android:gravity="right"
-                android:text="Colin"
-                android:textSize="10pt" />
-        </TableRow>
-
-         <LinearLayout
-             android:layout_width="match_parent"
-             android:layout_height="2dip" >
-            <View style="@style/Divider" />
-        </LinearLayout>
 
         <TableRow>
             <TextView
-                android:id="@+id/lastNameText"
+                android:id="@+id/usernameText"
                 android:padding="3dip"
-                android:text="@string/last_name_text"
+                android:text="@string/username_text"
                 android:textSize="10pt" />
 
             <TextView
-                android:id="@+id/editLasttName"
+                android:id="@+id/editUsername"
                 android:padding="3dip"
                 android:gravity="right"
                 android:text="Kohler"
