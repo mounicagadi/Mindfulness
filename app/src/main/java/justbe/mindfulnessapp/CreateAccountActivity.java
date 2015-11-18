@@ -18,8 +18,8 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText password_field;
     private EditText confirm_password_field;
     private EditText email_field;
-    private EditText first_name_field;
-    private EditText last_name_field;
+    //private EditText first_name_field;
+    //private EditText last_name_field;
     private EditText birthday_field;
     private EditText gender_field;
 
@@ -38,8 +38,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         password_field = (EditText) findViewById(R.id.editPassword);
         confirm_password_field = (EditText) findViewById(R.id.editConfirmPassword);
         email_field = (EditText) findViewById(R.id.editEmail);
-        first_name_field = (EditText) findViewById(R.id.editFirstName);
-        last_name_field = (EditText) findViewById(R.id.editLastName);
+      //  first_name_field = (EditText) findViewById(R.id.editFirstName);
+        //last_name_field = (EditText) findViewById(R.id.editLastName);
         birthday_field = (EditText) findViewById(R.id.editBirthday);
         gender_field = (EditText) findViewById(R.id.editGender);
 
@@ -66,8 +66,8 @@ public class CreateAccountActivity extends AppCompatActivity {
             params.put("username", username_field.getText().toString());
             params.put("password", password_field.getText().toString());
             params.put("email", email_field.getText().toString());
-            params.put("first_name", first_name_field.getText().toString());
-            params.put("last_name", last_name_field.getText().toString());
+          //  params.put("first_name", first_name_field.getText().toString());
+          // params.put("last_name", last_name_field.getText().toString());
             params.put("birthday", birthday_field.getText().toString());
             params.put("gender", gender_field.getText().toString());
 
