@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#8CBE50</color>
     <color name="colorAccent">#8CBE50</color>
     <color name="colorTableDivider">#EBEBEB</color>
+    <color name="tableBackground">#FAFAFA</color>
 
     <color name="orange">#FCB24C</color>
     <color name="black">#000000</color>

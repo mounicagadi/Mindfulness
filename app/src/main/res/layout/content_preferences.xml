@@ -14,7 +14,10 @@
         android:layout_height="match_parent"
         android:stretchColumns="1">
 
-        <TableRow>
+        <TableRow
+            android:id="@+id/currentUsernameRow"
+            android:clickable="false"
+            android:background="@drawable/clickable_table_row_selector">
             <TextView
                 android:id="@+id/usernameText"
                 android:padding="10dp"
@@ -40,7 +43,11 @@
             <View style="@style/Divider" />
         </LinearLayout>
 
-        <TableRow>
+        <TableRow
+            android:id="@+id/meditationRow"
+            android:clickable="true"
+            android:onClick="showTimePickerDialog"
+            android:background="@drawable/clickable_table_row_selector">
             <TextView
                 android:id="@+id/meditationTimeText"
                 android:padding="10dp"
@@ -49,16 +56,14 @@
                 android:textColor="@color/black"
                 android:textSize="10pt" />
 
-            <Button
-                android:id="@+id/meditationTimeButton"
+            <TextView
+                android:id="@+id/meditationTime"
                 android:padding="10dp"
                 android:layout_marginRight="5dp"
                 android:gravity="right"
                 android:text="8 AM"
                 android:textColor="@color/bpTransparent_black"
-                android:textSize="10pt"
-                android:onClick="showTimePickerDialog"
-                style="?android:attr/borderlessButtonStyle" />
+                android:textSize="10pt" />
         </TableRow>
 
         <LinearLayout
@@ -67,7 +72,11 @@
             <View style="@style/Divider" />
         </LinearLayout>
 
-        <TableRow>
+        <TableRow
+            android:id="@+id/lessonRow"
+            android:clickable="true"
+            android:onClick="showTimePickerDialog"
+            android:background="@drawable/clickable_table_row_selector">
             <TextView
                 android:id="@+id/lessonTimeText"
                 android:padding="10dp"
@@ -76,16 +85,14 @@
                 android:textColor="@color/black"
                 android:textSize="10pt" />
 
-            <Button
-                android:id="@+id/lessonTimeButton"
+            <TextView
+                android:id="@+id/lessonTime"
                 android:padding="10dp"
                 android:layout_marginRight="5dp"
                 android:gravity="right"
                 android:text="9 PM"
                 android:textColor="@color/bpTransparent_black"
-                android:textSize="10pt"
-                android:onClick="showTimePickerDialog"
-                style="?android:attr/borderlessButtonStyle" />
+                android:textSize="10pt"/>
         </TableRow>
 
         <LinearLayout
@@ -94,7 +101,11 @@
             <View style="@style/Divider" />
         </LinearLayout>
 
-        <TableRow>
+        <TableRow
+            android:id="@+id/wakeUpRow"
+            android:clickable="true"
+            android:onClick="showTimePickerDialog"
+            android:background="@drawable/clickable_table_row_selector">
             <TextView
                 android:id="@+id/wakeUpText"
                 android:padding="10dp"
@@ -103,16 +114,14 @@
                 android:textColor="@color/black"
                 android:textSize="10pt" />
 
-            <Button
-                android:id="@+id/wakeUpButton"
+            <TextView
+                android:id="@+id/wakeUpTime"
                 android:padding="10dp"
                 android:layout_marginRight="5dp"
                 android:gravity="right"
                 android:text="8 AM"
                 android:textColor="@color/bpTransparent_black"
-                android:textSize="10pt"
-                android:onClick="showTimePickerDialog"
-                style="?android:attr/borderlessButtonStyle"/>
+                android:textSize="10pt"/>
         </TableRow>
 
         <LinearLayout
@@ -121,7 +130,11 @@
             <View style="@style/Divider" />
         </LinearLayout>
 
-        <TableRow>
+        <TableRow
+            android:id="@+id/goToSleepRow"
+            android:clickable="true"
+            android:onClick="showTimePickerDialog"
+            android:background="@drawable/clickable_table_row_selector">
             <TextView
                 android:id="@+id/goToSleepText"
                 android:padding="10dp"
@@ -130,16 +143,14 @@
                 android:textColor="@color/black"
                 android:textSize="10pt" />
 
-            <Button
-                android:id="@+id/goToSleepButton"
+            <TextView
+                android:id="@+id/goToSleepTime"
                 android:padding="10dp"
                 android:layout_marginRight="5dp"
                 android:gravity="right"
                 android:text="9 PM"
                 android:textColor="@color/bpTransparent_black"
-                android:textSize="10pt"
-                android:onClick="showTimePickerDialog"
-                style="?android:attr/borderlessButtonStyle" />
+                android:textSize="10pt"/>
         </TableRow>
 
         <LinearLayout
@@ -148,17 +159,18 @@
             <View style="@style/Divider" />
         </LinearLayout>
 
-        <TableRow>
-            <Button
-                android:id="@+id/changeButtonPassword"
+        <TableRow
+            android:clickable="true"
+            android:onClick="changePassword"
+            android:background="@drawable/clickable_table_row_selector">
+            <TextView
+                android:id="@+id/changePasswordText"
                 android:padding="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="left"
                 android:text="@string/change_password_text"
                 android:textSize="10pt"
-                android:textColor="@color/orange"
-                android:onClick="changePassword"
-                style="?android:attr/borderlessButtonStyle"/>
+                android:textColor="@color/orange"/>
         </TableRow>
 
         <LinearLayout
@@ -167,17 +179,18 @@
             <View style="@style/Divider" />
         </LinearLayout>
 
-        <TableRow>
-            <Button
-                android:id="@+id/logOutButton"
+        <TableRow
+            android:clickable="true"
+            android:onClick="logout"
+            android:background="@drawable/clickable_table_row_selector">
+            <TextView
+                android:id="@+id/logOut"
                 android:padding="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="left"
                 android:text="@string/log_out_text"
                 android:textSize="10pt"
-                android:textColor="@color/orange"
-                android:onClick="logout"
-                style="?android:attr/borderlessButtonStyle"/>
+                android:textColor="@color/orange"/>
         </TableRow>
 
         <LinearLayout

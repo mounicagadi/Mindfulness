@@ -30,9 +30,13 @@ public class TimePickerFragment extends DialogFragment
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         switch (buttonID) {
-            case R.id.wakeUpButton:
+            case R.id.meditationRow:
+                // Save meditation time
+            case R.id.lessonRow:
+                // Save start lesson time
+            case R.id.wakeUpRow:
                 // Save wake up time
-            case R.id.goToSleepButton:
+            case R.id.goToSleepRow:
                 // Save go to sleep time
             default:
                 // should never reach this

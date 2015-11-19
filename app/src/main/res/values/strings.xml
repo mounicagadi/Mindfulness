@@ -15,6 +15,8 @@
     <string name="username_text">Username</string>
     <string name="password_text">Password</string>
     <string name="confim_password_text">Confirm Password</string>
+    <string name="new_password_text">New Password</string>
+    <string name="confim_new_password_text">Confirm New Password</string>
     <string name="email_text">Email</string>
     <string name="first_name_text">First Name</string>
     <string name="last_name_text">Last Name</string>
@@ -51,4 +53,5 @@
         Donec posuere tortor nec tellus sagittis venenatis.
         Pellentesque vestibulum pellentesque nulla vel porta.
         Cras dapibus nulla sed mi hendrerit, in ullamcorper odio tincidunt.</string>
+    <string name="title_activity_change_password">ChangePasswordActivity</string>
 </resources>

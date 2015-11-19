@@ -3,6 +3,7 @@ package justbe.mindfulnessapp;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -39,10 +40,12 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     public void changePassword(View view) {
-
+        Intent intent = new Intent(this, ChangePasswordActivity.class);
+        startActivity(intent);
     }
 
     public void logout(View view) {
-
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 }

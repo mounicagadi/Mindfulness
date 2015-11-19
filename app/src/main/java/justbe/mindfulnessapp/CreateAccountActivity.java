@@ -34,7 +34,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         password_field = (EditText) findViewById(R.id.editPassword);
         confirm_password_field = (EditText) findViewById(R.id.editConfirmPassword);
 
-        confirm_password_field.addTextChangedListener(new TextWatcher() {
+        password_field.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
