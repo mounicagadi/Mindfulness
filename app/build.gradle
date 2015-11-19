@@ -20,6 +20,10 @@ android {
             debuggable true
         }
     }
+    packagingOptions {
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+    }
 }
 
 dependencies {
@@ -28,4 +32,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'
     compile 'com.code-troopers.betterpickers:library:2.2.1'
+    compile 'org.springframework.android:spring-android-rest-template:2.0.0.M1'
+}
+repositories {
+    maven {
+        url 'http://repo.spring.io/milestone'
+    }
 }
