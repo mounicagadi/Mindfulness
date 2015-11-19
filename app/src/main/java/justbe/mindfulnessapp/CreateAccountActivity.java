@@ -1,5 +1,7 @@
 package justbe.mindfulnessapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +11,11 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
@@ -72,11 +77,31 @@ public class CreateAccountActivity extends AppCompatActivity {
             params.put("gender", gender_field.getText().toString());
 
             // Create connection and post the new account
-            new PostTask(this).execute("https://secure-headland-8362.herokuapp.com/api/v1/create_user/", params);
+            PostTask task = new PostTask(this);
 
-            // Go to the getting stated activity
-            Intent intent = new Intent(this, GettingStartedActivity.class);
-            startActivity(intent);
+            task.execute("https://api.hurtigtechnologies.com/submit?content=foobaz", params);
+
+            try {
+                task.get(5000, TimeUnit.MILLISECONDS);
+
+                // Go to the getting stated activity
+                Intent intent = new Intent(this, GettingStartedActivity.class);
+                startActivity(intent);
+
+            } catch (Exception e) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Account Creation")
+                        .setMessage("Sorry! we couldn't create your account at this time")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Return to dialog
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+
+
         } else {
             confirm_password_field.setError("Passwords didn't match");
         }
