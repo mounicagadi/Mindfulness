@@ -50,7 +50,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     public void changePassword(View view) {
         // TODO: Make sure the current password is valid
-        if(current_password_field.getText().toString().equals("admin")) {
+
+        if(new_password_field.getText().toString().isEmpty()) {
+            new_password_field.setError("Did not enter a password");
+        } else if(current_password_field.getText().toString().equals("admin")) {
             if (samePassword()) {
                 // TODO: Change password here
 
