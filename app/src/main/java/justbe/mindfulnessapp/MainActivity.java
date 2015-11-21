@@ -1,6 +1,8 @@
 package justbe.mindfulnessapp;
 
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,10 +33,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void settingsButtonPressed(View view) {
-        // Change button tint
-        ImageButton settingsButton = (ImageButton) this.findViewById(R.id.settingsButton);
-        settingsButton.setColorFilter(R.color.bpDark_gray);
-
         Intent intent = new Intent(this, PreferencesActivity.class);
         startActivity(intent);
     }
