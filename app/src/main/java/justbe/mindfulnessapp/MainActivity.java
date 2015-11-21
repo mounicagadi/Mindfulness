@@ -50,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View pw_view = inflater.inflate(R.layout.check_progress_popup_view,
                     (ViewGroup) findViewById(R.id.checkProgressPopup));
-            pw = new PopupWindow(pw_view, width-250, height-500, true);
+            // TODO: Make this figure out its size better
+            pw = new PopupWindow(pw_view, width-250, height-710, true);
             pw.showAtLocation(pw_view, Gravity.CENTER, 0, 0);
         } catch (Exception e) {
             e.printStackTrace();
