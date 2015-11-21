@@ -22,9 +22,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
+        android:clickable="true"
         android:onClick="lessonButtonPressed"
         style="@android:style/Widget.Button"
-        android:backgroundTint="#99E0EDCF">
+        android:background="@drawable/lessons_button_selector">
         <ImageView
             android:id="@+id/weeklyLessonButtonImage"
             android:layout_width="25dp"
