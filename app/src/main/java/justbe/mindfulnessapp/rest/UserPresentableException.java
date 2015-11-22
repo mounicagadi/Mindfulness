@@ -6,9 +6,29 @@ import android.content.DialogInterface;
 
 /**
  * An exception used to display user friendly alerts when an error occurs
+ *
+ * <p>
+ *     Designed to be called from an activity controller, this exception includes an
+ *     {@link UserPresentableException#alert} method to display a consistent and user friendly
+ *     alert when the application encounters a problem, whether that be the application's fault or
+ *     the user's fault.
+ *
+ *     This Exception by no means requires use of the alert method, you may use this class to simply
+ *     parse and/or pass exceptions in readable titles and messages.
+ * </p>
+ * @example new UserPresentableException("Thing Failed", "Because xyz").alert(this)
+ * @example new UserPresentableException(new Exception("XYZ failed to respond")).alert(this)
  */
 public class UserPresentableException extends RuntimeException {
+
+    /**
+     * The user presentable title
+     */
     private String title;
+
+    /**
+     * The user presentable message
+     */
     private String message;
 
     /**

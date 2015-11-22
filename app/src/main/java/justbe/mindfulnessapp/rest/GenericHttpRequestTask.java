@@ -22,8 +22,18 @@ import java.util.Set;
 
 
 /**
- * Generic HTTP Request Async Task. Takes Request parameters in doInBackground and a Type Parameter
- * to define the model to parse the expected JSON HTTP response as.
+ * Generic HTTP Request Async Task. Used to interact with the API
+ *
+ * <p>
+ *     To get a basic understanding of how this class works check out this tutorial from Spring
+ *     https://spring.io/guides/gs/consuming-rest-android/
+ *
+ *     To learn more about how I abstracted this out with Generics and to understand the
+ *     {@link ParameterizedTypeReference} class check out this SO article
+ *     http://stackoverflow.com/questions/21987295/
+ * </p>
+ *
+ * @author edhurtig
  */
 public class GenericHttpRequestTask<S, T> extends AsyncTask<Object, Void, ResponseEntity<ResponseWrapper<T>>> {
 
