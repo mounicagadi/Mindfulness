@@ -1,10 +1,14 @@
 package justbe.mindfulnessapp.rest;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import justbe.mindfulnessapp.rest.DataError;
 
 /**
  * Created by eddiehurtig on 11/19/15.
  */
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ResponseWrapper <T> {
     private T[] objects;
     private APIMeta meta;

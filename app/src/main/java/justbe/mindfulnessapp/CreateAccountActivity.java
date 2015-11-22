@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import justbe.mindfulnessapp.models.User;
-import justbe.mindfulnessapp.rest.HttpRequestTask;
+import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
 import justbe.mindfulnessapp.rest.QueryStatus;
 import justbe.mindfulnessapp.rest.RESTResultReceiver;
 import justbe.mindfulnessapp.rest.ResponseWrapper;
@@ -98,10 +98,10 @@ public class CreateAccountActivity extends AppCompatActivity implements RESTResu
             }
 
             // Create an HTTPRequestTask that sends a User Object and Returns a User Object
-            HttpRequestTask<User, User> task = new HttpRequestTask();
+            GenericHttpRequestTask<User, String> task = new GenericHttpRequestTask();
 
             task.execute("/api/v1/create_user/", HttpMethod.POST, u);
-            ResponseEntity<ResponseWrapper<User>> result;
+            ResponseEntity<ResponseWrapper<String>> result;
             try {
                 result = task.get(5000, TimeUnit.SECONDS);
 

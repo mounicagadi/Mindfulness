@@ -1,6 +1,7 @@
 package justbe.mindfulnessapp.rest;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,17 +12,20 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.core.ParameterizedTypeReference;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
  * Generic HTTP Request Async Task. Takes Request parameters in doInBackground and a Type Parameter
  * to define the model to parse the expected JSON HTTP response as.
  */
-public class HttpRequestTask<S, T> extends AsyncTask<Object, Void, ResponseEntity<ResponseWrapper<T>>> {
+public class GenericHttpRequestTask<S, T> extends AsyncTask<Object, Void, ResponseEntity<ResponseWrapper<T>>> {
 
     protected ResponseEntity<ResponseWrapper<T>> doInBackground(Object... params) {
 
@@ -67,20 +71,19 @@ public class HttpRequestTask<S, T> extends AsyncTask<Object, Void, ResponseEntit
         HttpEntity<S> entity = new HttpEntity<S>(body, headers);
 
         Map<String, Object> uriVariables = new HashMap<String, Object>();
-        //uriVariables.put("content", "foobazzeee");
+        ResponseEntity<ResponseWrapper<T>> response;
         try {
             // Send the request
-            ResponseEntity<ResponseWrapper<T>> response = restTemplate.exchange(
+            response = restTemplate.exchange(
                     url,
                     method,
                     entity,
-                    new ParameterizedTypeReference<ResponseWrapper<T>>() {
-                    },
+                    new ParameterizedTypeReference<ResponseWrapper<T>>() {},
                     uriVariables);
-            ResponseEntity<ResponseWrapper<T>> r = response;
-
+            Log.i("REST", url + " " + response.getStatusCode().toString());
             return response;
         } catch (Exception e) {
+            Log.i("REST", url + " " + e.getMessage());
             return null;
         }
     }
