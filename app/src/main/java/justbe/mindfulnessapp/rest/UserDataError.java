@@ -3,18 +3,8 @@ package justbe.mindfulnessapp.rest;
 /**
  * Created by eddiehurtig on 11/21/15.
  */
-public class DataError extends RuntimeException {
-    private String message;
+public class UserDataError extends UserPresentableException {
     private String code;
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public String getCode() {
         return code;

@@ -2,8 +2,6 @@ package justbe.mindfulnessapp.rest;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import justbe.mindfulnessapp.rest.DataError;
-
 /**
  * Created by eddiehurtig on 11/19/15.
  */
@@ -15,7 +13,7 @@ public class ResponseWrapper <T> {
 
     private String error_message;
     private String traceback;
-    private DataError error;
+    private UserDataError error;
 
     public T[] getObjects() {
         return objects;
@@ -61,11 +59,11 @@ public class ResponseWrapper <T> {
         }
     }
 
-    public void setError(DataError error) {
+    public void setError(UserDataError error) {
         this.error = error;
     }
 
-    public DataError getError() {
+    public UserDataError getError() {
         return this.error;
     }
 
