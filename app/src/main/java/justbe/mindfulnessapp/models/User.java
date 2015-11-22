@@ -75,6 +75,14 @@ public class User extends BaseModel {
         this.raw_password = raw_password;
     }
 
+    public String getPassword() {
+        return raw_password;
+    }
+
+    public void setPassword(String raw_password) {
+        this.raw_password = raw_password;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }

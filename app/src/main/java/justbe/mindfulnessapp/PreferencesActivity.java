@@ -15,6 +15,8 @@ import com.codetroopers.betterpickers.timepicker.TimePickerDialogFragment;
 import java.text.DateFormat;
 import java.util.Calendar;
 
+import justbe.mindfulnessapp.rest.UserPresentableException;
+
 public class PreferencesActivity extends AppCompatActivity {
 
     @Override
@@ -45,7 +47,14 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     public void logout(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        if (App.getSession().invalidate()) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        } else {
+            new UserPresentableException(
+                    getString(R.string.cannot_logout),
+                    getString(R.string.cannot_logout_message)).alert(this);
+
+        }
     }
 }

@@ -55,4 +55,8 @@
         Cras dapibus nulla sed mi hendrerit, in ullamcorper odio tincidunt.</string>
     <string name="title_activity_change_password">ChangePasswordActivity</string>
     <string name="user_data_error_title">Let\'s try that again</string>
+    <string name="auth_failed">Authentication Failed</string>
+    <string name="cant_login_to_new_account">We can\'t seem to be able to login to the account we just created</string>
+    <string name="cannot_logout">Logout Failed</string>
+    <string name="cannot_logout_message">Could not logout with the server</string>
 </resources>
