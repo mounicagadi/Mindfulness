@@ -1,5 +1,10 @@
 package justbe.mindfulnessapp.rest;
 
+import android.app.Application;
+
+import justbe.mindfulnessapp.App;
+import justbe.mindfulnessapp.R;
+
 /**
  * Describes an error in the user's data entry as specified by a response from the django API
  *
@@ -14,6 +19,14 @@ package justbe.mindfulnessapp.rest;
  * @author edhurtig
  */
 public class UserDataError extends UserPresentableException {
+
+    /**
+     * Sets a default title for the base UserPresentableException
+     */
+    public UserDataError() {
+        this.setTitle(App.context().getResources().getString(R.string.user_data_error_title));
+    }
+
     /**
      * The django error code that is returned when a request fails validation
      */

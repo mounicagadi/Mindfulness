@@ -54,4 +54,5 @@
         Pellentesque vestibulum pellentesque nulla vel porta.
         Cras dapibus nulla sed mi hendrerit, in ullamcorper odio tincidunt.</string>
     <string name="title_activity_change_password">ChangePasswordActivity</string>
+    <string name="user_data_error_title">Let\'s try that again</string>
 </resources>
