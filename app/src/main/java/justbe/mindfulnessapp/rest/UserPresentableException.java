@@ -7,7 +7,7 @@ import android.content.DialogInterface;
 /**
  * An exception used to display user friendly alerts when an error occurs
  */
-public class UserPresentableException {
+public class UserPresentableException extends RuntimeException {
     private String title;
     private String message;
 
