@@ -59,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
     private void login(String username, String password) {
         if(username.equals("admin") && password.equals("admin")) {
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(EXTRA_USERNAME, username);
             startActivity(intent);
         } else {
             password_field = (EditText) findViewById(R.id.editPassword);

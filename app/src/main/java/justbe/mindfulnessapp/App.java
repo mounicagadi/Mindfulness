@@ -18,6 +18,19 @@ public class App extends android.app.Application {
     private static App app = null;
 
     /**
+     * The currently signed in Session
+     */
+    private static Session session = null;
+
+    /**
+     * Gets the current Session object
+     * @return
+     */
+    public static Session getSession() {
+        return App.session;
+    }
+
+    /**
      * Store the context in App.app static property
      */
     @Override
@@ -25,6 +38,9 @@ public class App extends android.app.Application {
     {
         super.onCreate();
         App.app = this;
+
+        // Load the Session
+        App.session = new Session(this.getApplicationContext());
     }
 
     /**
@@ -34,4 +50,6 @@ public class App extends android.app.Application {
     public static Context context() {
         return App.app.getApplicationContext();
     }
+
+
 }
