@@ -55,14 +55,18 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // TODO: Authenticate login
+    /**
+     * Checks the username and password and moves on
+     * @param username The Username
+     * @param password The Password
+     */
     private void login(String username, String password) {
-        if(username.equals("admin") && password.equals("admin")) {
+        if(App.getSession().authenticate(username, password)) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         } else {
             password_field = (EditText) findViewById(R.id.editPassword);
-            password_field.setError("Password and username didn't match");
+            password_field.setError("Password and username didn't match an account");
         }
     }
 }

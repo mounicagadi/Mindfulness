@@ -46,7 +46,13 @@ public class UserPresentableException extends RuntimeException {
      */
     public UserPresentableException(Exception e) {
         this.setMessage(e.getMessage());
-        this.setTitle("Something went wrong");
+
+        // If we are being passed another UserPresentableException use its title
+        if (e instanceof UserPresentableException) {
+            this.setTitle(((UserPresentableException) e).getTitle());
+        } else {
+            this.setTitle("Something went wrong");
+        }
     }
 
     /**

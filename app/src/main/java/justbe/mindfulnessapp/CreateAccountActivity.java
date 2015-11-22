@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import justbe.mindfulnessapp.models.User;
@@ -82,6 +83,13 @@ public class CreateAccountActivity extends AppCompatActivity {
                 ResponseEntity<ResponseWrapper<String>> result = task.get(5000, TimeUnit.SECONDS);
 
                 RestUtil.checkResponseHazardously(result);
+
+                // Authenticate with the server, store session
+                if ( ! App.getSession().authenticate(u.getUsername(), u.getRaw_password()) ) {
+                    throw new UserPresentableException(
+                            getString(R.string.auth_failed),
+                            getString(R.string.cant_login_to_new_account));
+                }
 
                 // Go to the getting stated activity
                 Intent intent = new Intent(this, GettingStartedActivity.class);

@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import justbe.mindfulnessapp.App;
+
 
 /**
  * Generic HTTP Request Async Task. Used to interact with the API
@@ -76,6 +78,11 @@ public class GenericHttpRequestTask<S, T> extends AsyncTask<Object, Void, Respon
 
         headers.setAccept(acceptableMediaTypes);
         headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // If we are logged in provide auth header
+        if (App.getSession().getSessionId() != null) {
+            headers.set("Cookie", "sessionid=" + App.getSession().getSessionId());
+        }
 
         // body
         HttpEntity<S> entity = new HttpEntity<S>(body, headers);

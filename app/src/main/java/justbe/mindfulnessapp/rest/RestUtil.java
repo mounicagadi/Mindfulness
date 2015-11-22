@@ -11,20 +11,40 @@ import org.springframework.web.client.RestClientException;
  */
 public class RestUtil {
     /**
-     * Checks whether the given Response was successfully fufulled, if not then a
+     * Checks whether the given Response was successfully fulfilled, if not then a
      * UserPresentableException is thrown
-     * @param response
-     * @param <T>
+     * @param response The response from the server
+     * @param <T> The type of the object in the {@link ResponseWrapper}
      */
     public static <T> void checkResponseHazardously(ResponseEntity<ResponseWrapper<T>> response)
             throws UserDataError, RestClientException {
         if (response == null) {
             throw new RestClientException(
                     "We couldn't create your account at this time. Please try again later.");
-        } else if (response.getStatusCode() != HttpStatus.CREATED) {
+        } else if (response.getStatusCode().value() >= HttpStatus.BAD_REQUEST.value() ||
+                response.getStatusCode().value() < HttpStatus.SWITCHING_PROTOCOLS.value()) {
             if (response.getBody().getError() != null) {
                 throw response.getBody().getError();
             }
+        }
+    }
+
+    /**
+     * Checks whether the given Response was successfully fulfilled
+     *
+     * @param response The Response from the server
+     * @param <T> The type of the object in the {@link ResponseWrapper}
+     * @return True if the response is deemed successful, otherwise false
+     *
+     */
+    public static <T> boolean checkResponse(ResponseEntity<ResponseWrapper<T>> response) {
+        if (response == null) {
+            return false;
+        } else if (response.getStatusCode().value() >= HttpStatus.BAD_REQUEST.value() ||
+                response.getStatusCode().value() < HttpStatus.SWITCHING_PROTOCOLS.value()) {
+            return false;
+        } else {
+            return true;
         }
     }
 }
