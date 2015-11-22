@@ -24,7 +24,7 @@ public class UserDataError extends UserPresentableException {
      * Sets a default title for the base UserPresentableException
      */
     public UserDataError() {
-        this.setTitle(App.context().getResources().getString(R.string.user_data_error_title));
+        this.setTitle("Let's try that again");
     }
 
     /**
