@@ -11,13 +11,20 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeoutException;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-public class CreateAccountActivity extends AppCompatActivity {
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import justbe.mindfulnessapp.models.User;
+import justbe.mindfulnessapp.rest.HttpRequestTask;
+import justbe.mindfulnessapp.rest.QueryStatus;
+import justbe.mindfulnessapp.rest.RESTResultReceiver;
+import justbe.mindfulnessapp.rest.ResponseWrapper;
+
+public class CreateAccountActivity extends AppCompatActivity implements RESTResultReceiver.Receiver {
 
     private EditText username_field;
     private EditText password_field;
@@ -65,24 +72,46 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     public void createAccountPressed(View view) {
-        if(samePassword()) {
+        if (samePassword()) {
             // Get params from fields
-            Map<String,String> params = new HashMap<String, String>();
-            params.put("username", username_field.getText().toString());
-            params.put("password", password_field.getText().toString());
-            params.put("email", email_field.getText().toString());
-            params.put("first_name", first_name_field.getText().toString());
-            params.put("last_name", last_name_field.getText().toString());
-            params.put("birthday", birthday_field.getText().toString());
-            params.put("gender", gender_field.getText().toString());
+            User u = new User();
+            u.setUsername(username_field.getText().toString());
+            u.setRaw_password(password_field.getText().toString());
+            u.setEmail(email_field.getText().toString());
 
-            // Create connection and post the new account
-            PostTask task = new PostTask(this);
+            java.util.Date dt = new java.util.Date();
+            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+            u.setBirthday(sdf.format(dt)); ///birthday_field.getText()));
 
-            task.execute("https://api.hurtigtechnologies.com/submit?content=foobaz", params);
+            switch (gender_field.getText().toString().toLowerCase()) {
+                case "male":
+                case "boy":
+                    u.setGender(User.Gender.MALE.getValue());
+                    break;
+                case "female":
+                case "girl":
+                    u.setGender(User.Gender.FEMALE.getValue());
+                    break;
+                default:
+                    u.setGender(User.Gender.OTHER.getValue());
+                    break;
+            }
 
+            // Create an HTTPRequestTask that sends a User Object and Returns a User Object
+            HttpRequestTask<User, User> task = new HttpRequestTask();
+
+            task.execute("/api/v1/create_user/", HttpMethod.POST, u);
+            ResponseEntity<ResponseWrapper<User>> result;
             try {
-                task.get(5000, TimeUnit.MILLISECONDS);
+                result = task.get(5000, TimeUnit.SECONDS);
+
+                if (result == null) {
+                    throw new Exception("We couldn't create your account at this time. Please try again later.");
+                } else if (result.getStatusCode() != HttpStatus.CREATED) {
+                    if (result.getBody().getError() != null) {
+                        throw result.getBody().getError();
+                    }
+                }
 
                 // Go to the getting stated activity
                 Intent intent = new Intent(this, GettingStartedActivity.class);
@@ -90,8 +119,8 @@ public class CreateAccountActivity extends AppCompatActivity {
 
             } catch (Exception e) {
                 new AlertDialog.Builder(this)
-                        .setTitle("Account Creation")
-                        .setMessage("Sorry! we couldn't create your account at this time")
+                        .setTitle("Account Creation Failed")
+                        .setMessage(e.getMessage())
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Return to dialog
@@ -109,5 +138,32 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     private boolean samePassword() {
         return password_field.getText().toString().equals(confirm_password_field.getText().toString());
+    }
+
+    @Override
+    public void onReceiveResult(int resultCode, Bundle resultData) {
+        switch (resultCode) {
+            case QueryStatus.STATUS_RUNNING:
+                //show progress
+                break;
+            case QueryStatus.STATUS_FINISHED:
+                List results = resultData.getParcelableArrayList("results");
+                // do something interesting
+                // hide progress
+                break;
+            case QueryStatus.STATUS_ERROR:
+                // handle the error;
+                new AlertDialog.Builder(this)
+                        .setTitle("Account Creation 1234")
+                        .setMessage("Sorry! we couldn't create your account at this time")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Return to dialog
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+                break;
+        }
     }
 }

@@ -23,6 +23,8 @@ android {
     packagingOptions {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/license.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
     }
 }
 
@@ -33,6 +35,7 @@ dependencies {
     compile 'com.android.support:design:23.1.0'
     compile 'com.code-troopers.betterpickers:library:2.2.1'
     compile 'org.springframework.android:spring-android-rest-template:2.0.0.M1'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
 }
 repositories {
     maven {
