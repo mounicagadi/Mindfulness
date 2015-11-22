@@ -20,12 +20,15 @@ import java.util.concurrent.TimeUnit;
 
 import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
-import justbe.mindfulnessapp.rest.QueryStatus;
-import justbe.mindfulnessapp.rest.RESTResultReceiver;
 import justbe.mindfulnessapp.rest.ResponseWrapper;
+import justbe.mindfulnessapp.rest.RestUtil;
+import justbe.mindfulnessapp.rest.UserPresentableException;
 
-public class CreateAccountActivity extends AppCompatActivity implements RESTResultReceiver.Receiver {
+public class CreateAccountActivity extends AppCompatActivity {
 
+    /*
+     * Fields
+     */
     private EditText username_field;
     private EditText password_field;
     private EditText confirm_password_field;
@@ -35,6 +38,10 @@ public class CreateAccountActivity extends AppCompatActivity implements RESTResu
     private EditText birthday_field;
     private EditText gender_field;
 
+    /**
+     * Called when the view is created
+     * @param savedInstanceState Instance State
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,99 +78,108 @@ public class CreateAccountActivity extends AppCompatActivity implements RESTResu
         });
     }
 
+    /**
+     * Callback for when the create account button is pressed
+     * @param view The View
+     */
     public void createAccountPressed(View view) {
-        if (samePassword()) {
-            // Get params from fields
-            User u = new User();
-            u.setUsername(username_field.getText().toString());
-            u.setRaw_password(password_field.getText().toString());
-            u.setEmail(email_field.getText().toString());
+        if ( validateActivity() ) {
 
-            java.util.Date dt = new java.util.Date();
-            java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
-            u.setBirthday(sdf.format(dt)); ///birthday_field.getText()));
 
-            switch (gender_field.getText().toString().toLowerCase()) {
-                case "male":
-                case "boy":
-                    u.setGender(User.Gender.MALE.getValue());
-                    break;
-                case "female":
-                case "girl":
-                    u.setGender(User.Gender.FEMALE.getValue());
-                    break;
-                default:
-                    u.setGender(User.Gender.OTHER.getValue());
-                    break;
-            }
-
+            User u = createUser();
             // Create an HTTPRequestTask that sends a User Object and Returns a User Object
             GenericHttpRequestTask<User, String> task = new GenericHttpRequestTask();
 
             task.execute("/api/v1/create_user/", HttpMethod.POST, u);
-            ResponseEntity<ResponseWrapper<String>> result;
-            try {
-                result = task.get(5000, TimeUnit.SECONDS);
 
-                if (result == null) {
-                    throw new Exception("We couldn't create your account at this time. Please try again later.");
-                } else if (result.getStatusCode() != HttpStatus.CREATED) {
-                    if (result.getBody().getError() != null) {
-                        throw result.getBody().getError();
-                    }
-                }
+            try {
+                ResponseEntity<ResponseWrapper<String>> result = task.get(5000, TimeUnit.SECONDS);
+
+                RestUtil.checkResponseHazardously(result);
 
                 // Go to the getting stated activity
                 Intent intent = new Intent(this, GettingStartedActivity.class);
                 startActivity(intent);
 
             } catch (Exception e) {
-                new AlertDialog.Builder(this)
-                        .setTitle("Account Creation Failed")
-                        .setMessage(e.getMessage())
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Return to dialog
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+                new UserPresentableException(e).alert(this);
             }
 
 
-        } else {
-            confirm_password_field.setError("Passwords didn't match");
         }
     }
 
+    /**
+     * Creates a user model from the current state of the fields in the activity
+     * @return A User object
+     */
+    private User createUser() {
+        User u = new User();
+        u.setUsername(username_field.getText().toString());
+        u.setRaw_password(password_field.getText().toString());
+        u.setEmail(email_field.getText().toString());
+
+        java.util.Date dt = new java.util.Date();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        u.setBirthday(sdf.format(dt)); ///birthday_field.getText()));
+
+        switch (gender_field.getText().toString().toLowerCase()) {
+            case "male":
+            case "boy":
+                u.setGender(User.Gender.MALE.getValue());
+                break;
+            case "female":
+            case "girl":
+                u.setGender(User.Gender.FEMALE.getValue());
+                break;
+            default:
+                u.setGender(User.Gender.OTHER.getValue());
+                break;
+        }
+
+        return u;
+    }
+
+    /**
+     * Checks to make sure that the two password fields are the same
+     * @return whether the password fields are the same
+     */
     private boolean samePassword() {
         return password_field.getText().toString().equals(confirm_password_field.getText().toString());
     }
 
-    @Override
-    public void onReceiveResult(int resultCode, Bundle resultData) {
-        switch (resultCode) {
-            case QueryStatus.STATUS_RUNNING:
-                //show progress
-                break;
-            case QueryStatus.STATUS_FINISHED:
-                List results = resultData.getParcelableArrayList("results");
-                // do something interesting
-                // hide progress
-                break;
-            case QueryStatus.STATUS_ERROR:
-                // handle the error;
-                new AlertDialog.Builder(this)
-                        .setTitle("Account Creation 1234")
-                        .setMessage("Sorry! we couldn't create your account at this time")
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Return to dialog
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-                break;
+
+    /**
+     * Validates all fields in the add user form and sets an error on the first invalid input
+     * @return true if the form is valid, false if it is not
+     */
+    private boolean validateActivity() {
+
+        if ( username_field.getText().length() == 0 ) {
+            username_field.setError("The username field must not be empty");
+            return false;
+        } else if ( username_field.getText().length() > 16 ) {
+            username_field.setError("Your username is too long");
+            return false;
         }
+
+
+        if ( email_field.getText().length() == 0 ) {
+            email_field.setError("The email field must not be empty");
+            return false;
+        } else if ( email_field.getText().length() > 255 ) {
+            email_field.setError("Your email is too long");
+            return false;
+        }
+
+        if ( ! samePassword() ) {
+            confirm_password_field.setError("Passwords didn't match");
+            return false;
+        } else if ( password_field.getText().length() < 6 ) {
+            password_field.setError("Your password must be at least 6 characters");
+            return false;
+        }
+
+        return true;
     }
 }
