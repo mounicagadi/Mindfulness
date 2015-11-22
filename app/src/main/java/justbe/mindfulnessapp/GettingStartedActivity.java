@@ -23,4 +23,8 @@ public class GettingStartedActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
+    public void submitPressed(View view) {
+
+    }
+
 }

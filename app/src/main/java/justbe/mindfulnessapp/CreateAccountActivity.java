@@ -1,6 +1,5 @@
 package justbe.mindfulnessapp;
 
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,15 +9,32 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import justbe.mindfulnessapp.models.User;
+import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
+import justbe.mindfulnessapp.rest.ResponseWrapper;
+import justbe.mindfulnessapp.rest.RestUtil;
+import justbe.mindfulnessapp.rest.UserPresentableException;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
+    /*
+     * Fields
+     */
     private EditText username_field;
     private EditText password_field;
     private EditText confirm_password_field;
 
+    /**
+     * Called when the view is created
+     * @param savedInstanceState Instance State
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,25 +66,81 @@ public class CreateAccountActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Callback for when the create account button is pressed
+     * @param view The View
+     */
     public void createAccountPressed(View view) {
-        if(samePassword()) {
-            // Get params from fields
-            Map<String,String> params = new HashMap<String, String>();
-            params.put("username", username_field.getText().toString());
-            params.put("password", password_field.getText().toString());
+        if ( validateActivity() ) {
+            User u = createUser();
+            // Create an HTTPRequestTask that sends a User Object and Returns a User Object
+            GenericHttpRequestTask<User, String> task = new GenericHttpRequestTask();
 
-            // Create connection and post the new account
-            new PostTask(this).execute("https://www.secure-headland-8362.herokuapp.com/api/v1/create_user/", params);
+            task.execute("/api/v1/create_user/", HttpMethod.POST, u);
 
-            // Go to the getting stated activity
-            Intent intent = new Intent(this, GettingStartedActivity.class);
-            startActivity(intent);
-        } else {
-            confirm_password_field.setError("Passwords didn't match");
+            try {
+                ResponseEntity<ResponseWrapper<String>> result = task.get(5000, TimeUnit.SECONDS);
+
+                RestUtil.checkResponseHazardously(result);
+
+                // Go to the getting stated activity
+                Intent intent = new Intent(this, GettingStartedActivity.class);
+                startActivity(intent);
+
+            } catch (Exception e) {
+                new UserPresentableException(e).alert(this);
+            }
         }
     }
 
+    /**
+     * Creates a user model from the current state of the fields in the activity
+     * @return A User object
+     */
+    private User createUser() {
+        User u = new User();
+        u.setUsername(username_field.getText().toString());
+        u.setRaw_password(password_field.getText().toString());
+
+
+        java.util.Date dt = new java.util.Date();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        u.setBirthday(sdf.format(dt)); ///birthday_field.getText()));
+
+        return u;
+    }
+
+    /**
+     * Checks to make sure that the two password fields are the same
+     * @return whether the password fields are the same
+     */
     private boolean samePassword() {
         return password_field.getText().toString().equals(confirm_password_field.getText().toString());
+    }
+
+
+    /**
+     * Validates all fields in the add user form and sets an error on the first invalid input
+     * @return true if the form is valid, false if it is not
+     */
+    private boolean validateActivity() {
+
+        if ( username_field.getText().length() == 0 ) {
+            username_field.setError("The username field must not be empty");
+            return false;
+        } else if ( username_field.getText().length() > 16 ) {
+            username_field.setError("Your username is too long");
+            return false;
+        }
+
+        if ( ! samePassword() ) {
+            confirm_password_field.setError("Passwords didn't match");
+            return false;
+        } else if ( password_field.getText().length() < 6 ) {
+            password_field.setError("Your password must be at least 6 characters");
+            return false;
+        }
+
+        return true;
     }
 }
