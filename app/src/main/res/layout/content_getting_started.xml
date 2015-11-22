@@ -41,6 +41,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="65"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:ems="10" />
             </LinearLayout>
             <LinearLayout
@@ -59,6 +60,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="65"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:onClick="setDate"
                     android:ems="10" />
             </LinearLayout>
@@ -78,6 +80,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="65"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
                     android:ems="10" />
             </LinearLayout>
         </LinearLayout>
