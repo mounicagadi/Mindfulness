@@ -1,7 +1,5 @@
 package justbe.mindfulnessapp;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -32,11 +30,6 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText username_field;
     private EditText password_field;
     private EditText confirm_password_field;
-    private EditText email_field;
-    private EditText first_name_field;
-    private EditText last_name_field;
-    private EditText birthday_field;
-    private EditText gender_field;
 
     /**
      * Called when the view is created
@@ -56,13 +49,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         username_field = (EditText) findViewById(R.id.editUsername);
         password_field = (EditText) findViewById(R.id.editPassword);
         confirm_password_field = (EditText) findViewById(R.id.editConfirmPassword);
-        email_field = (EditText) findViewById(R.id.editEmail);
-        first_name_field = (EditText) findViewById(R.id.editFirstName);
-        last_name_field = (EditText) findViewById(R.id.editLastName);
-        birthday_field = (EditText) findViewById(R.id.editBirthday);
-        gender_field = (EditText) findViewById(R.id.editGender);
 
-        confirm_password_field.addTextChangedListener(new TextWatcher() {
+        password_field.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -84,8 +72,6 @@ public class CreateAccountActivity extends AppCompatActivity {
      */
     public void createAccountPressed(View view) {
         if ( validateActivity() ) {
-
-
             User u = createUser();
             // Create an HTTPRequestTask that sends a User Object and Returns a User Object
             GenericHttpRequestTask<User, String> task = new GenericHttpRequestTask();
@@ -104,8 +90,6 @@ public class CreateAccountActivity extends AppCompatActivity {
             } catch (Exception e) {
                 new UserPresentableException(e).alert(this);
             }
-
-
         }
     }
 
@@ -117,25 +101,11 @@ public class CreateAccountActivity extends AppCompatActivity {
         User u = new User();
         u.setUsername(username_field.getText().toString());
         u.setRaw_password(password_field.getText().toString());
-        u.setEmail(email_field.getText().toString());
+
 
         java.util.Date dt = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd");
         u.setBirthday(sdf.format(dt)); ///birthday_field.getText()));
-
-        switch (gender_field.getText().toString().toLowerCase()) {
-            case "male":
-            case "boy":
-                u.setGender(User.Gender.MALE.getValue());
-                break;
-            case "female":
-            case "girl":
-                u.setGender(User.Gender.FEMALE.getValue());
-                break;
-            default:
-                u.setGender(User.Gender.OTHER.getValue());
-                break;
-        }
 
         return u;
     }
@@ -160,15 +130,6 @@ public class CreateAccountActivity extends AppCompatActivity {
             return false;
         } else if ( username_field.getText().length() > 16 ) {
             username_field.setError("Your username is too long");
-            return false;
-        }
-
-
-        if ( email_field.getText().length() == 0 ) {
-            email_field.setError("The email field must not be empty");
-            return false;
-        } else if ( email_field.getText().length() > 255 ) {
-            email_field.setError("Your email is too long");
             return false;
         }
 
