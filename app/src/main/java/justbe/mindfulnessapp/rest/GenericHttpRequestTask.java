@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -35,9 +36,28 @@ import java.util.Set;
  *
  * @author edhurtig
  */
-public class GenericHttpRequestTask<S, T> extends AsyncTask<Object, Void, ResponseEntity<ResponseWrapper<T>>> {
+public class GenericHttpRequestTask<S, T> extends AsyncTask<Object, Void, ResponseEntity<T>> {
 
-    protected ResponseEntity<ResponseWrapper<T>> doInBackground(Object... params) {
+    Class provides;
+
+    Class yields;
+
+
+    GenericHttpRequestTask() {
+
+    }
+
+    GenericHttpRequestTask(Class provides, Class yields) {
+        this.provides = provides;
+        this.yields = yields;
+    }
+
+    GenericHttpRequestTask(Object provides, Object yields) {
+        this.provides = provides.getClass();
+        this.yields = yields.getClass();
+    }
+
+    protected ResponseEntity<T> doInBackground(Object... params) {
 
         String url = (String) params[0];
         if (!url.startsWith("http")) {
@@ -81,14 +101,14 @@ public class GenericHttpRequestTask<S, T> extends AsyncTask<Object, Void, Respon
         HttpEntity<S> entity = new HttpEntity<S>(body, headers);
 
         Map<String, Object> uriVariables = new HashMap<String, Object>();
-        ResponseEntity<ResponseWrapper<T>> response;
+        ResponseEntity<T> response;
         try {
             // Send the request
             response = restTemplate.exchange(
                     url,
                     method,
                     entity,
-                    new ParameterizedTypeReference<ResponseWrapper<T>>() {},
+                    this.yields,
                     uriVariables);
             Log.i("REST", url + " " + response.getStatusCode().toString());
             return response;
