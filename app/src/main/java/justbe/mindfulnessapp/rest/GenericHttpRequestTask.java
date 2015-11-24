@@ -20,6 +20,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 import justbe.mindfulnessapp.App;
 import justbe.mindfulnessapp.models.BaseModel;
 
@@ -123,5 +127,16 @@ public class GenericHttpRequestTask<S, T extends BaseModel> extends AsyncTask<Ob
             Log.i("REST", url + " " + e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * Waits for a response from the API for a consistent amount of time
+     * @return
+     * @throws InterruptedException
+     * @throws ExecutionException
+     * @throws TimeoutException
+     */
+    public ResponseEntity<T> waitForResponse() throws InterruptedException, ExecutionException, TimeoutException {
+        return this.get(25, TimeUnit.SECONDS);
     }
 }

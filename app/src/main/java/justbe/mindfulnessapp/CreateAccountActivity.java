@@ -74,13 +74,14 @@ public class CreateAccountActivity extends AppCompatActivity {
     public void createAccountPressed(View view) {
         if ( validateActivity() ) {
             User u = createUser();
+
             // Create an HTTPRequestTask that sends a User Object and Returns a User Object
-            GenericHttpRequestTask<User, String> task = new GenericHttpRequestTask();
+            GenericHttpRequestTask<User, User> task = new GenericHttpRequestTask(User.class, User.class);
 
             task.execute("/api/v1/create_user/", HttpMethod.POST, u);
 
             try {
-                ResponseEntity<ResponseWrapper<String>> result = task.get(5000, TimeUnit.SECONDS);
+                ResponseEntity<User> result = task.waitForResponse();
 
                 RestUtil.checkResponseHazardously(result);
 

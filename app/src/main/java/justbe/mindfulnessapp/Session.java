@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import justbe.mindfulnessapp.models.Success;
 import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
 import justbe.mindfulnessapp.rest.ResponseWrapper;
@@ -206,7 +207,7 @@ public class Session {
      * @return True if the authentication was successful, otherwise false
      */
     public boolean authenticate(String username, String raw_password) {
-        GenericHttpRequestTask<User, String> task = new GenericHttpRequestTask();
+        GenericHttpRequestTask<User, User> task = new GenericHttpRequestTask(User.class, User.class);
 
         User u = new User();
 
@@ -215,9 +216,9 @@ public class Session {
         task.execute("/api/v1/user/login/", HttpMethod.POST, u);
 
 
-        ResponseEntity<ResponseWrapper<String>> response;
+        ResponseEntity<User> response;
         try {
-            response = task.get(5000, TimeUnit.SECONDS);
+            response = task.waitForResponse();
         } catch (InterruptedException e) {
             e.printStackTrace();
             return false;
@@ -254,14 +255,14 @@ public class Session {
     }
 
     public boolean invalidate() {
-        GenericHttpRequestTask<User, String> task = new GenericHttpRequestTask();
+        GenericHttpRequestTask<User, Success> task = new GenericHttpRequestTask(User.class, Success.class);
 
         task.execute("/api/v1/user/logout/", HttpMethod.GET);
 
 
-        ResponseEntity<ResponseWrapper<String>> response;
+        ResponseEntity<Success> response;
         try {
-            response = task.get(5000, TimeUnit.SECONDS);
+            response = task.waitForResponse();
         } catch (InterruptedException e) {
             e.printStackTrace();
             return false;
@@ -273,7 +274,7 @@ public class Session {
             return false;
         }
 
-        if (RestUtil.checkResponse(response)) {
+        if (RestUtil.checkResponse(response) && response.getBody() != null && response.getBody().getSuccess()) {
             this.removeSessionId();
             this.removeCsrfToken();
             return true;
