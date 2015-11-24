@@ -3,7 +3,7 @@ package justbe.mindfulnessapp.models;
 /**
  * Created by eddiehurtig on 11/20/15.
  */
-public class User extends BaseModel<User> {
+public class User extends BaseModel {
 
     public enum Gender {
         MALE(0), FEMALE(1), OTHER(2);
