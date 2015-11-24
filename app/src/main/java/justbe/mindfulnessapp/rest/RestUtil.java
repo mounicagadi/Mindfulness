@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 
+import justbe.mindfulnessapp.models.BaseModel;
+
 /**
  * Static utilities for Rest API Requests
  *
@@ -16,7 +18,7 @@ public class RestUtil {
      * @param response The response from the server
      * @param <T> The type of the object in the {@link ResponseWrapper}
      */
-    public static <T> void checkResponseHazardously(ResponseEntity<ResponseWrapper<T>> response)
+    public static <T> void checkResponseHazardously(ResponseEntity<? extends BaseModel> response)
             throws UserDataError, RestClientException {
         if (response == null) {
             throw new RestClientException(
@@ -37,7 +39,7 @@ public class RestUtil {
      * @return True if the response is deemed successful, otherwise false
      *
      */
-    public static <T> boolean checkResponse(ResponseEntity<ResponseWrapper<T>> response) {
+    public static <T> boolean checkResponse(ResponseEntity<T> response) {
         if (response == null) {
             return false;
         } else if (response.getStatusCode().value() >= HttpStatus.BAD_REQUEST.value() ||

@@ -18,9 +18,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import justbe.mindfulnessapp.App;
+import justbe.mindfulnessapp.models.BaseModel;
 
 
 /**
@@ -37,9 +42,28 @@ import justbe.mindfulnessapp.App;
  *
  * @author edhurtig
  */
-public class GenericHttpRequestTask<S, T> extends AsyncTask<Object, Void, ResponseEntity<ResponseWrapper<T>>> {
+public class GenericHttpRequestTask<S, T extends BaseModel> extends AsyncTask<Object, Void, ResponseEntity<T>> {
 
-    protected ResponseEntity<ResponseWrapper<T>> doInBackground(Object... params) {
+    Class provides;
+
+    Class yields;
+
+
+    public GenericHttpRequestTask() {
+
+    }
+
+    public GenericHttpRequestTask(Class provides, Class yields) {
+        this.provides = provides;
+        this.yields = yields;
+    }
+
+    public GenericHttpRequestTask(Object provides, Object yields) {
+        this.provides = provides.getClass();
+        this.yields = yields.getClass();
+    }
+
+    protected ResponseEntity<T> doInBackground(Object... params) {
 
         String url = (String) params[0];
         if (!url.startsWith("http")) {
@@ -88,14 +112,14 @@ public class GenericHttpRequestTask<S, T> extends AsyncTask<Object, Void, Respon
         HttpEntity<S> entity = new HttpEntity<S>(body, headers);
 
         Map<String, Object> uriVariables = new HashMap<String, Object>();
-        ResponseEntity<ResponseWrapper<T>> response;
+        ResponseEntity<T> response;
         try {
             // Send the request
             response = restTemplate.exchange(
                     url,
                     method,
                     entity,
-                    new ParameterizedTypeReference<ResponseWrapper<T>>() {},
+                    this.yields,
                     uriVariables);
             Log.i("REST", url + " " + response.getStatusCode().toString());
             return response;
@@ -103,5 +127,16 @@ public class GenericHttpRequestTask<S, T> extends AsyncTask<Object, Void, Respon
             Log.i("REST", url + " " + e.getMessage());
             return null;
         }
+    }
+
+    /**
+     * Waits for a response from the API for a consistent amount of time
+     * @return
+     * @throws InterruptedException
+     * @throws ExecutionException
+     * @throws TimeoutException
+     */
+    public ResponseEntity<T> waitForResponse() throws InterruptedException, ExecutionException, TimeoutException {
+        return this.get(25, TimeUnit.SECONDS);
     }
 }
