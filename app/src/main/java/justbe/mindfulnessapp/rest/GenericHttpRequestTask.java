@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-
 import justbe.mindfulnessapp.App;
+import justbe.mindfulnessapp.models.BaseModel;
 
 
 /**
@@ -38,23 +38,23 @@ import justbe.mindfulnessapp.App;
  *
  * @author edhurtig
  */
-public class GenericHttpRequestTask<S, T> extends AsyncTask<Object, Void, ResponseEntity<T>> {
+public class GenericHttpRequestTask<S, T extends BaseModel> extends AsyncTask<Object, Void, ResponseEntity<T>> {
 
     Class provides;
 
     Class yields;
 
 
-    GenericHttpRequestTask() {
+    public GenericHttpRequestTask() {
 
     }
 
-    GenericHttpRequestTask(Class provides, Class yields) {
+    public GenericHttpRequestTask(Class provides, Class yields) {
         this.provides = provides;
         this.yields = yields;
     }
 
-    GenericHttpRequestTask(Object provides, Object yields) {
+    public GenericHttpRequestTask(Object provides, Object yields) {
         this.provides = provides.getClass();
         this.yields = yields.getClass();
     }
