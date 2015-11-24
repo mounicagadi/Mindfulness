@@ -21,7 +21,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  *        single resource
  * </p>
  * @param <T>
- * @deprecated
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResponseWrapper <T> {
