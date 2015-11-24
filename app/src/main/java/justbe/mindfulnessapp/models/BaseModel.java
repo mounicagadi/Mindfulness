@@ -1,6 +1,8 @@
 package justbe.mindfulnessapp.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.util.Arrays;
+import java.util.Iterator;
 
 import justbe.mindfulnessapp.rest.ResponseMeta;
 import justbe.mindfulnessapp.rest.UserDataError;
@@ -8,21 +10,13 @@ import justbe.mindfulnessapp.rest.UserDataError;
 /**
  * Created by eddiehurtig on 11/20/15.
  */
-public abstract class BaseModel<T> {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public abstract class BaseModel<T> implements Iterable<T> {
 
+    /**
+     * The URI to the resource... used if you want to get the single detail response of the resource
+     */
     private String resource_uri;
-
-    public Boolean isValid() {
-        return null;
-    }
-
-    public String getResource_uri() {
-        return resource_uri;
-    }
-
-    public void setResource_uri(String resource_uri) {
-        this.resource_uri = resource_uri;
-    }
 
     /**
      * The list of objects returned by the api
@@ -49,6 +43,16 @@ public abstract class BaseModel<T> {
      */
     private UserDataError error;
 
+    /**
+     * A way of determining if the resource is valid, used before sending a request with an instance
+     * of a model as the body, will refuse to send the request if isValid returns false.  Will send
+     * request if isValid returns true or null
+     *
+     * @return True if the resource is valid, false if it is not, null if unknown.
+     */
+    public Boolean isValid() {
+        return null;
+    }
 
     /**
      * Looks at the entire request and determines the best error message to present
@@ -67,6 +71,23 @@ public abstract class BaseModel<T> {
     /*******************
      * GETTERS/SETTERS *
      ******************/
+
+    /**
+     * Gets the resource URI
+     * @return The URI of the resource
+     */
+    public String getResource_uri() {
+        return resource_uri;
+    }
+
+    /**
+     * Sets the resource URI
+     * @param resource_uri The URI of the resource
+     */
+    public void setResource_uri(String resource_uri) {
+        this.resource_uri = resource_uri;
+    }
+
 
     /**
      * Gets the objects
@@ -145,5 +166,18 @@ public abstract class BaseModel<T> {
      */
     public void setError(UserDataError error) {
         this.error = error;
+    }
+
+    /*****************
+     * Extra Methods *
+     *****************/
+
+    /**
+     * Provides a way of iterating over the objects array when a list response is returned.
+     * @return An Iterator for the objects array
+     */
+    @Override
+    public Iterator<T> iterator() {
+        return Arrays.asList(this.objects).iterator();
     }
 }
