@@ -35,7 +35,7 @@
     <style name="Divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">2dip</item>
-        <item name="android:background">@color/colorTableDivider</item>
+        <item name="android:background">@color/tableDivider</item>
     </style>
     <style name="Divider_invisible">
         <item name="android:layout_width">match_parent</item>
