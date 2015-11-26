@@ -138,12 +138,12 @@ public class CreateAccountActivity extends AppCompatActivity {
             username_field.setError("The username field must not be empty");
             return false;
         } else if ( username_field.getText().length() > 16 ) {
-            username_field.setError("Your username is too long");
+            username_field.setError("Your username must be less than 16 characters");
             return false;
         }
 
         if ( ! samePassword() ) {
-            confirm_password_field.setError("Passwords didn't match");
+            confirm_password_field.setError("Your passwords do not match");
             return false;
         } else if ( password_field.getText().length() < 6 ) {
             password_field.setError("Your password must be at least 6 characters");
