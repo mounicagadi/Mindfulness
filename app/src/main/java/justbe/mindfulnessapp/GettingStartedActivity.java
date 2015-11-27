@@ -19,22 +19,29 @@ import java.util.Calendar;
 
 public class GettingStartedActivity extends AppCompatActivity {
 
+    /**
+     * Fields
+     */
     private DatePicker datePicker;
     private Calendar calendar;
     private TextView dateView;
     private int year, month, day;
 
+    /**
+     * Called when the view is created
+     * @param savedInstanceState Saved Instance State
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_getting_started);
 
+        // Create the toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.title_activity_getting_started));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
 
         dateView = (TextView) findViewById(R.id.editBirthday);
         calendar = Calendar.getInstance();

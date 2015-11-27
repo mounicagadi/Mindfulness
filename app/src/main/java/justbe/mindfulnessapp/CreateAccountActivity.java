@@ -34,23 +34,26 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     /**
      * Called when the view is created
-     * @param savedInstanceState Instance State
+     * @param savedInstanceState Saved Instance State
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
+        // Create Toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.title_activity_create_account));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        // Assign EditTetx Fields to their vars
         username_field = (EditText) findViewById(R.id.editUsername);
         password_field = (EditText) findViewById(R.id.editPassword);
         confirm_password_field = (EditText) findViewById(R.id.editConfirmPassword);
 
+        // TextChangedListener to handle error dismissal
         password_field.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -133,7 +136,6 @@ public class CreateAccountActivity extends AppCompatActivity {
      * @return true if the form is valid, false if it is not
      */
     private boolean validateActivity() {
-
         if ( username_field.getText().length() == 0 ) {
             username_field.setError("The username field must not be empty");
             return false;

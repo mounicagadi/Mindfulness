@@ -18,6 +18,10 @@ public class MainActivity extends AppCompatActivity {
 
     private PopupWindow pw;
 
+    /**
+     * Called when the view is created
+     * @param savedInstanceState Saved Instance State
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,18 +39,27 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(customToolbarView);
     }
 
+    /**
+     * Callback for when the preferences button is pressed
+     * @param view The View
+     */
     public void preferencesButtonPressed(View view) {
         Intent intent = new Intent(this, PreferencesActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Callback for when the calender button is pressed
+     * @param view The view
+     */
     public void weekButtonPressed(View view) {
+        // Get the size of the screen
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
-        int height = size.y;
 
+        // Attempt to create  and display the weekly progress popup
         try {
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View pw_view = inflater.inflate(R.layout.activity_check_progress_popup,
@@ -59,11 +72,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Callback for when the lesson button is pressed
+     * @param view The view
+     */
     public void lessonButtonPressed(View view) {
         Intent intent = new Intent(this, LessonActivity.class);
         startActivity(intent);
     }
 
+    // TODO: Remove this after assessment acitivies are done
+    // THIS IS A TEMP BUTTON USED TO TEST ASSESSMENT ACTIVITIES
     public void assessmentButtonPressed(View view) {
         Intent intent = new Intent(this, AssessmentActivity.class);
         startActivity(intent);

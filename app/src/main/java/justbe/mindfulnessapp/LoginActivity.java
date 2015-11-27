@@ -10,21 +10,32 @@ import android.widget.EditText;
 import android.support.v7.widget.Toolbar;
 
 public class LoginActivity extends AppCompatActivity {
-    public final static String EXTRA_USERNAME = "justbe.mindfulnessapp.USERNAME";
 
+    /**
+     * Fields
+     */
     private EditText username_field;
     private EditText password_field;
 
+    /**
+     * Called when the view is created
+     * @param savedInstanceState Saved Instance State
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Create the toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.title_activity_login));
 
+        // Assign EditText fields to their variables
         username_field = (EditText) findViewById(R.id.editUsername);
+        password_field = (EditText) findViewById(R.id.editPassword);
+
+        // Add TextChangedListener to handle error dismisal
         username_field.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -40,16 +51,22 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Callback for when the login button is pressed
+     * @param view The View
+     */
     public void loginPressed(View view) {
         // Get the username and password from their respective fields
-        username_field = (EditText) findViewById(R.id.editUsername);
-        password_field = (EditText) findViewById(R.id.editPassword);
         String username = username_field.getText().toString();
         String password = password_field.getText().toString();
 
         login(username, password);
     }
 
+    /**
+     * Callback for when the create account button is presed
+     * @param view The View
+     */
     public void createAccountPressed(View view) {
         Intent intent = new Intent(this, CreateAccountActivity.class);
         startActivity(intent);
