@@ -24,7 +24,7 @@
                 android:layout_marginLeft="5dp"
                 android:text="@string/username_text"
                 android:textColor="@color/black"
-                android:textSize="10pt" />
+                android:textSize="@dimen/normal_text_size" />
 
             <TextView
                 android:id="@+id/currentUsernameText"
@@ -34,7 +34,7 @@
                 android:gravity="right"
                 android:text="Kohler"
                 android:textColor="@color/bpTransparent_black"
-                android:textSize="10pt" />
+                android:textSize="@dimen/normal_text_size" />
         </TableRow>
 
         <LinearLayout
@@ -54,7 +54,7 @@
                 android:layout_marginLeft="5dp"
                 android:text="@string/meditations_text"
                 android:textColor="@color/black"
-                android:textSize="10pt" />
+                android:textSize="@dimen/normal_text_size" />
 
             <TextView
                 android:id="@+id/meditationTime"
@@ -63,7 +63,7 @@
                 android:gravity="right"
                 android:text="8 AM"
                 android:textColor="@color/bpTransparent_black"
-                android:textSize="10pt" />
+                android:textSize="@dimen/normal_text_size" />
         </TableRow>
 
         <LinearLayout
@@ -83,7 +83,7 @@
                 android:layout_marginLeft="5dp"
                 android:text="@string/lessons_text"
                 android:textColor="@color/black"
-                android:textSize="10pt" />
+                android:textSize="@dimen/normal_text_size" />
 
             <TextView
                 android:id="@+id/lessonTime"
@@ -92,7 +92,7 @@
                 android:gravity="right"
                 android:text="9 PM"
                 android:textColor="@color/bpTransparent_black"
-                android:textSize="10pt"/>
+                android:textSize="@dimen/normal_text_size"/>
         </TableRow>
 
         <LinearLayout
@@ -112,7 +112,7 @@
                 android:layout_marginLeft="5dp"
                 android:text="@string/wake_up_text"
                 android:textColor="@color/black"
-                android:textSize="10pt" />
+                android:textSize="@dimen/normal_text_size" />
 
             <TextView
                 android:id="@+id/wakeUpTime"
@@ -121,7 +121,7 @@
                 android:gravity="right"
                 android:text="8 AM"
                 android:textColor="@color/bpTransparent_black"
-                android:textSize="10pt"/>
+                android:textSize="@dimen/normal_text_size"/>
         </TableRow>
 
         <LinearLayout
@@ -141,7 +141,7 @@
                 android:layout_marginLeft="5dp"
                 android:text="@string/go_to_sleep_text"
                 android:textColor="@color/black"
-                android:textSize="10pt" />
+                android:textSize="@dimen/normal_text_size" />
 
             <TextView
                 android:id="@+id/goToSleepTime"
@@ -150,7 +150,7 @@
                 android:gravity="right"
                 android:text="9 PM"
                 android:textColor="@color/bpTransparent_black"
-                android:textSize="10pt"/>
+                android:textSize="@dimen/normal_text_size"/>
         </TableRow>
 
         <LinearLayout
@@ -169,7 +169,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="left"
                 android:text="@string/change_password_text"
-                android:textSize="10pt"
+                android:textSize="@dimen/normal_text_size"
                 android:textColor="@color/orange"/>
         </TableRow>
 
@@ -189,7 +189,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="left"
                 android:text="@string/log_out_text"
-                android:textSize="10pt"
+                android:textSize="@dimen/normal_text_size"
                 android:textColor="@color/orange"/>
         </TableRow>
 
