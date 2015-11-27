@@ -8,6 +8,7 @@
 
     <color name="orange">#FCB24C</color>
     <color name="black">#000000</color>
+    <color name="lightGray">#EEEEEE</color>
     <color name="transparentLightGreen">#99E0EDCF</color>
     <color name="transparentDarkGreen">#50E0EDCF</color>
 </resources>

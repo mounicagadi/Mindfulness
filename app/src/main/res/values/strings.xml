@@ -34,6 +34,8 @@
 
     <string name="title_activity_lesson">Weekly Lesson</string>
     <string name="title_activity_assessment">Assessment</string>
+    <string name="stress_assessment_question">How stressed do you feel?</string>
+    <string name="sleep_assessment_question">How much sleep did you get?</string>
 
     <string name="week_one_text">Week 1</string>
     <string name="week_two_text">Week 2</string>
@@ -53,7 +55,8 @@
         Donec posuere tortor nec tellus sagittis venenatis.
         Pellentesque vestibulum pellentesque nulla vel porta.
         Cras dapibus nulla sed mi hendrerit, in ullamcorper odio tincidunt.</string>
-    <string name="title_activity_change_password">ChangePasswordActivity</string>
+
+    <string name="title_activity_change_password">Change Password</string>
     <string name="user_data_error_title">Let\'s try that again</string>
     <string name="auth_failed">Authentication Failed</string>
     <string name="cant_login_to_new_account">We can\'t seem to be able to login to the account we just created</string>

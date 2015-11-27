@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void assessmentButtonPressed(View view) {
-        Intent intent = new Intent(this, AssessmentActivity.class);
+        Intent intent = new Intent(this, SleepAssessmentActivity.class);
         startActivity(intent);
     }
 }
