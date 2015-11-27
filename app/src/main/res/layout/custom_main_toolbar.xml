@@ -25,14 +25,14 @@
         android:layout_centerInParent="true"/>
     <!-- TODO: Change this to center vertically -->
     <ImageButton
-        android:id="@+id/settingsButton"
+        android:id="@+id/preferencesButton"
         android:layout_height="40dp"
         android:layout_width="40dp"
-        android:src="@drawable/settings_button_selector"
+        android:src="@drawable/preferences_button_selector"
         android:background="@color/bpTransparent"
         android:scaleType="centerInside"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="5dp"
-        android:onClick="settingsButtonPressed"/>
+        android:onClick="preferencesButtonPressed"/>
 </RelativeLayout>

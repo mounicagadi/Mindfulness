@@ -32,7 +32,7 @@
     <string name="meditations_text">Meditations</string>
     <string name="lessons_text">Lessons</string>
 
-    <string name="title_activity_lesson">Lesson</string>
+    <string name="title_activity_lesson">Weekly Lesson</string>
     <string name="title_activity_assessment">Assessment</string>
 
     <string name="week_one_text">Week 1</string>

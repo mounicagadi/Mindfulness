@@ -1,10 +1,17 @@
 package justbe.mindfulnessapp;
 
 import android.support.test.espresso.assertion.ViewAssertions;
-import android.support.test.rule.ActivityTestRule;
+import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import org.junit.Rule;
@@ -17,17 +24,34 @@ public class MainActivityTest {
 
 
     @Rule
-    public ActivityTestRule mActivityRule = new ActivityTestRule(PreferencesActivity.class);
+    public IntentsTestRule mActivityRule = new IntentsTestRule(MainActivity.class);
 
     @Test
-    public void testTextViewDisplay() {
-        //test the view on the Preferences page
-        onView(withText("Username")).check(ViewAssertions.matches(isDisplayed()));
-        onView(withText("Meditations")).check(ViewAssertions.matches(isDisplayed()));
-        onView(withText("Lessons")).check(ViewAssertions.matches(isDisplayed()));
-        onView(withText("I wake up at")).check(ViewAssertions.matches(isDisplayed()));
-        onView(withText("I go to sleep at")).check(ViewAssertions.matches(isDisplayed()));
-        onView(withText("Change Password")).check(ViewAssertions.matches(isDisplayed()));
-        onView(withText("Log Out")).check(ViewAssertions.matches(isDisplayed()));
+    public void testPreferencesButton() {
+        onView(withId(R.id.preferencesButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.preferencesButton)).perform(click());
+        intended(hasComponent(PreferencesActivity.class.getName()));
+        onView(withText("Preferences")).check(ViewAssertions.matches(isDisplayed()));
+        pressBack();
+        onView(withText("Preferences")).check(doesNotExist());
+    }
+
+    @Test
+    public void testWeekButton() {
+        onView(withId(R.id.weekButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.weekButton)).perform(click());
+        onView(withText("Week 1")).check(ViewAssertions.matches(isDisplayed()));
+        pressBack();
+        onView(withText("Week 1")).check(doesNotExist());
+    }
+
+    @Test
+    public void testWeeklyLessonButton() {
+        onView(withId(R.id.weeklyLessonButton)).check(matches(isDisplayed()));
+        onView(withId(R.id.weeklyLessonButton)).perform(click());
+        intended(hasComponent(LessonActivity.class.getName()));
+        onView(withText("Weekly Lesson")).check(ViewAssertions.matches(isDisplayed()));
+        pressBack();
+        onView(withText("Weekly Lesson")).check(doesNotExist());
     }
 }

@@ -62,9 +62,9 @@ public class LoginActivityTest {
     @Test
     public void testSuccessfulLogin() {
         onView(withId(R.id.editUsername))
-                .perform(typeText("ckohler"));
+                .perform(typeText("testuser"));
         onView(withId(R.id.editPassword))
-                .perform(typeText("bearbear"), closeSoftKeyboard());
+                .perform(typeText("password"), closeSoftKeyboard());
         onView(withId(R.id.loginButton)).perform(click());
         intended(hasComponent(MainActivity.class.getName()));
         onView(withText("Login")).check(doesNotExist());

@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setCustomView(customToolbarView);
     }
 
-    public void settingsButtonPressed(View view) {
+    public void preferencesButtonPressed(View view) {
         Intent intent = new Intent(this, PreferencesActivity.class);
         startActivity(intent);
     }
