@@ -11,6 +11,8 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import justbe.mindfulnessapp.models.User;
+
 public class ChangePasswordActivity extends AppCompatActivity {
 
     private EditText current_password_field;

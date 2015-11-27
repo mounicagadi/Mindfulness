@@ -1,6 +1,5 @@
 package justbe.mindfulnessapp;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View pw_view = inflater.inflate(R.layout.check_progress_popup_view,
+            View pw_view = inflater.inflate(R.layout.activity_check_progress_popup,
                     (ViewGroup) findViewById(R.id.checkProgressPopup));
             // TODO: Make this figure out its size better
             pw = new PopupWindow(pw_view, width-250, LayoutParams.WRAP_CONTENT, true);
