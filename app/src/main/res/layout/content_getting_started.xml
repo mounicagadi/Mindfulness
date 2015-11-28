@@ -34,7 +34,7 @@
                     android:layout_weight="35"
                     android:layout_height="wrap_content"
                     android:text="@string/email_text"
-                    android:textSize="10pt"/>
+                    android:textSize="@dimen/normal_text_size"/>
 
                 <EditText
                     android:id="@+id/editEmail"
@@ -53,7 +53,7 @@
                     android:layout_weight="35"
                     android:layout_height="wrap_content"
                     android:text="@string/birthday_text"
-                    android:textSize="10pt"/>
+                    android:textSize="@dimen/normal_text_size"/>
 
                 <EditText
                     android:id="@+id/editBirthday"
@@ -73,7 +73,7 @@
                     android:layout_weight="35"
                     android:layout_height="wrap_content"
                     android:text="@string/gender_text"
-                    android:textSize="10pt"/>
+                    android:textSize="@dimen/normal_text_size"/>
 
                 <EditText
                     android:id="@+id/editGender"
