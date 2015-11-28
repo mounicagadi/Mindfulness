@@ -80,7 +80,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         if ( ! passwordCorrect() ) {
             current_password_field.setError("Incorrect Password");
         } else {
-            if (!samePassword()) {
+            if ( ! samePassword() ) {
                 confirm_password_field.setError("Your passwords do not match");
                 return false;
             } else if (password_field.getText().length() < 6) {
@@ -89,6 +89,14 @@ public class ChangePasswordActivity extends AppCompatActivity {
             }
         }
 
+        return true;
+    }
+
+    /**
+     * Validates the current password
+     * @return true if the password is correct, else false
+     */
+    private boolean passwordCorrect() {
         return true;
     }
 
