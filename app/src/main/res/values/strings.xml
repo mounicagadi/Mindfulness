@@ -36,6 +36,9 @@
     <string name="title_activity_assessment">Assessment</string>
     <string name="stress_assessment_question">How stressed do you feel?</string>
     <string name="sleep_assessment_question">How much sleep did you get?</string>
+    <string name="smoke_assessment_question">Did you smoke today?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string name="week_one_text">Week 1</string>
     <string name="week_two_text">Week 2</string>
@@ -62,4 +65,5 @@
     <string name="cant_login_to_new_account">We can\'t seem to be able to login to the account we just created</string>
     <string name="cannot_logout">Logout Failed</string>
     <string name="cannot_logout_message">Could not logout with the server</string>
+    <string name="title_activity_smoke_assessment">SmokeAssessmentActivity</string>
 </resources>

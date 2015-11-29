@@ -12,10 +12,17 @@ import android.widget.Spinner;
 public class SleepAssessmentActivity extends AppCompatActivity
         implements AdapterView.OnItemSelectedListener {
 
+    /**
+     * Fields
+     */
     private Spinner spinner;
     private static final String[]paths = {"Did Not Sleep", "1 Hour", "2 Hours", "3 Hours", "4 Hours",
                                           "5 Hours", "6 Hours", "7 Hours", "8 Hours", "9 Or More Hours"};
 
+    /**
+     * Called when the view is created
+     * @param savedInstanceState Saved Instance State
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +41,21 @@ public class SleepAssessmentActivity extends AppCompatActivity
         spinner.setOnItemSelectedListener(this);
     }
 
+    /**
+     * Controls dropdown menu when a item is selected
+     * @param parent The dropdown menu
+     * @param v The view
+     * @param position The dropdown menu's current selection
+     * @param id
+     */
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
 
     }
 
+    /**
+     * Controls dropdown menu when nothing is selected
+     * @param parent The dropdown menu
+     */
     public void onNothingSelected(AdapterView parent) {
 
     }
