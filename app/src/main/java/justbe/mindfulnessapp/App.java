@@ -50,6 +50,4 @@ public class App extends android.app.Application {
     public static Context context() {
         return App.app.getApplicationContext();
     }
-
-
 }
