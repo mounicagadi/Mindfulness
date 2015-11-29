@@ -38,6 +38,7 @@ dependencies {
     compile 'com.code-troopers.betterpickers:library:2.2.1'
     compile 'org.springframework.android:spring-android-rest-template:2.0.0.M1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.3.2'
+    compile 'com.google.code.gson:gson:2.2.4'
 
     androidTestCompile 'com.android.support:support-annotations:23.1.0'
     androidTestCompile 'com.android.support.test:runner:0.4.1'
