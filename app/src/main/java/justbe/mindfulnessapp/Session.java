@@ -7,6 +7,8 @@ import android.util.Log;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
+import com.google.gson.*;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -30,6 +32,7 @@ public class Session {
     public static final String PREFERENCES_KEY = "CURRENT_SESSION";
 
     private String username;
+    private String user;
     private String sessionId;
     private String csrfToken;
 
@@ -40,6 +43,7 @@ public class Session {
         SharedPreferences settings = this.getContext().getSharedPreferences(PREFERENCES_KEY, 0);
 
         this.username = settings.getString("username", null);
+        this.user = settings.getString("user", null);
         this.sessionId = settings.getString("sessionId", null);
         this.csrfToken = settings.getString("csrfToken", null);
     }
@@ -54,6 +58,10 @@ public class Session {
 
         if (this.username != null) {
             editor.putString("username", this.username);
+        }
+
+        if (this.user != null) {
+            editor.putString("user", this.user);
         }
 
         if (this.sessionId != null) {
@@ -93,6 +101,14 @@ public class Session {
     }
 
     /**
+     * Removes the user from the store
+     */
+    private void removeUser() {
+        this.user = null;
+        this.remove("user");
+    }
+
+    /**
      * Removes the Session Id from the Store
      */
     private void removeSessionId() {
@@ -123,6 +139,24 @@ public class Session {
      */
     public void setUsername(String username) {
         this.username = username;
+        this.save();
+    }
+
+    /**
+     * Gets the current user
+     */
+    public User getUser() {
+        Gson gson = new Gson();
+        return gson.fromJson(this.user, User.class);
+    }
+
+    /**
+     * Updates the session user
+     * @param user the new user
+     */
+    public void setUser(User user) {
+        Gson gson = new Gson();
+        this.user = gson.toJson(user);
         this.save();
     }
 
@@ -247,6 +281,8 @@ public class Session {
                         break;
                 }
             }
+
+            this.setUser(response.getBody());
             this.setUsername(username);
             return true;
         } else {
