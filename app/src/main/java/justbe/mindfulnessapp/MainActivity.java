@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     // TODO: Remove this after assessment acitivies are done
     // THIS IS A TEMP BUTTON USED TO TEST ASSESSMENT ACTIVITIES
     public void assessmentButtonPressed(View view) {
-        Intent intent = new Intent(this, SleepAssessmentActivity.class);
+        Intent intent = new Intent(this, StressAssessmentActivity.class);
         startActivity(intent);
     }
 }

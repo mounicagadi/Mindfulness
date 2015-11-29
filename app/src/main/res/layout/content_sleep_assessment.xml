@@ -9,14 +9,14 @@
     android:paddingBottom="@dimen/activity_bottom_margin"
     tools:context="justbe.mindfulnessapp.SleepAssessmentActivity">
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerVertical="true" >
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:text="@string/sleep_assessment_question"
             android:textSize="@dimen/normal_text_size" />
 
@@ -26,5 +26,12 @@
             android:layout_below="@+id/textView"
             android:layout_marginTop="20dp"/>
     </RelativeLayout>
-
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:text="@string/submit_button"
+        android:textSize="@dimen/normal_text_size"
+        android:onClick="submitPressed"/>
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package justbe.mindfulnessapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -23,8 +24,6 @@ public class SleepAssessmentActivity extends AppCompatActivity
         Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Assessment");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         // Create dropdown menu
         spinner = (Spinner)findViewById(R.id.sleep_spinner);
@@ -41,5 +40,17 @@ public class SleepAssessmentActivity extends AppCompatActivity
 
     public void onNothingSelected(AdapterView parent) {
 
+    }
+
+    /**
+     * Callback for when the submit button is pressed
+     * Saves the results from the assessment
+     * @param view The view
+     */
+    public void submitPressed(View view) {
+        // TODO: Save assessment here
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
