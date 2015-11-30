@@ -51,15 +51,22 @@ public class PreferencesActivity extends AppCompatActivity {
         wakeUpTime = (TextView) findViewById(R.id.wakeUpTime);
         goToSleepTime = (TextView) findViewById(R.id.goToSleepTime);
 
+        // Set the fields to the user's values
         user = App.getSession().getUser();
         currentUsername.setText(user.getUsername());
         setTimeFields();
     }
 
+    /**
+     * Sets time fields on view, callable from anywhere
+     */
     public void refreshTimeFields() {
         setTimeFields();
     }
 
+    /**
+     * Sets time fields on view
+     */
     private void setTimeFields() {
         user = App.getSession().getUser();
         DateFormat sdf = new SimpleDateFormat("hh:mm a");

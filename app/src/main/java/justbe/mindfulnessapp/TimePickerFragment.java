@@ -62,9 +62,14 @@ public class TimePickerFragment extends DialogFragment
                 android.text.format.DateFormat.is24HourFormat(getActivity()));
     }
 
+    /**
+     * Called when TimePicker is dismissed
+     * @param frag The TimePicker
+     */
     @Override
     public void onDismiss(DialogInterface frag) {
         super.onDismiss(frag);
+        // Reload the time fields with the new values
         ((PreferencesActivity)getActivity()).refreshTimeFields();
     }
 
