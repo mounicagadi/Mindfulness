@@ -80,7 +80,7 @@ public class TimePickerFragment extends DialogFragment
         // Save the new values on the server
         // Create an HTTPRequestTask that sends a User Object and Returns a User Object
         GenericHttpRequestTask<User, User> task = new GenericHttpRequestTask(User.class, User.class);
-        task.execute("/api/v1/user_profile/", HttpMethod.POST, user);
+        task.execute("/api/v1/user_profile/", HttpMethod.PUT, user);
 
         try {
             ResponseEntity<User> result = task.waitForResponse();
