@@ -1,9 +1,11 @@
 package justbe.mindfulnessapp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
@@ -13,10 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private PopupWindow pw;
+
+    // su, m, t, w, th, f, s
+    private String selectedDay;
 
     /**
      * Called when the view is created
@@ -37,6 +43,43 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater li = LayoutInflater.from(this);
         View customToolbarView = li.inflate(R.layout.custom_main_toolbar, null);
         getSupportActionBar().setCustomView(customToolbarView);
+
+        // TODO: initialize as current day of the week
+        selectedDay = "th";
+        updateSelectedDay(selectedDay);
+    }
+
+    /**
+     * Colors the currently selected day and updates selectedDay
+     * @param newDay the newly selected day
+     */
+    @SuppressLint("NewApi")
+    private void updateSelectedDay(String newDay){
+        int currentMeditationId = getResources().getIdentifier(
+                selectedDay.toString() + "Meditation" , "id", getPackageName());
+        int newMeditationId = getResources().getIdentifier(
+                newDay + "Meditation" , "id", getPackageName());
+        int currentTextViewId = getResources().getIdentifier(
+                selectedDay.toString() + "MeditationText" , "id", getPackageName());
+        int newTextViewId = getResources().getIdentifier(
+                newDay + "MeditationText" , "id", getPackageName());
+
+        // remove styling from current day
+        TextView currentDayTextView = (TextView) findViewById(currentTextViewId);
+        currentDayTextView.setTextColor(ContextCompat.getColor(this, R.color.transparentLightGreen));
+
+        View currentDayLayout = findViewById(currentMeditationId);
+        // Note: lint incorrectly marks setForeground as requiring api level 23 (https://code.google.com/p/android/issues/detail?id=186273)
+        currentDayLayout.setForeground(null);
+
+        // add styling to new day
+        TextView newDayTextView = (TextView) findViewById(newTextViewId);
+        newDayTextView.setTextColor(ContextCompat.getColor(this, R.color.bpWhite));
+
+        View newDayLayout = findViewById(newMeditationId);
+        newDayLayout.setForeground(ContextCompat.getDrawable(this, R.drawable.selected_day_border));
+
+        selectedDay = newDay;
     }
 
     /**
@@ -66,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
                     (ViewGroup) findViewById(R.id.checkProgressPopup));
             // TODO: Make this figure out its size better
             pw = new PopupWindow(pw_view, width-250, LayoutParams.WRAP_CONTENT, true);
+
             pw.showAtLocation(pw_view, Gravity.CENTER, 0, 0);
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,5 +130,17 @@ public class MainActivity extends AppCompatActivity {
     public void assessmentButtonPressed(View view) {
         Intent intent = new Intent(this, SmokeAssessmentActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * Callback for when any weekday is pressed
+     * @param view The view
+     */
+    public void changeWeekdayButtonPressed (View view) {
+        // Get the abbreviated weekday from beginning of the id set in layout
+        String stringId = view.getResources().getResourceName(view.getId());
+        stringId = stringId.substring(0, stringId.length() - "Meditation".length());
+
+        updateSelectedDay(stringId);
     }
 }
