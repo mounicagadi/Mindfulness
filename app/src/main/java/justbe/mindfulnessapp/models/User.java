@@ -1,5 +1,9 @@
 package justbe.mindfulnessapp.models;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by eddiehurtig on 11/20/15.
  */
@@ -28,10 +32,11 @@ public class User extends BaseModel<User> {
     private String created_at;
     private String updated_at;
     private String start_date;
-    private String lesson_start;
-    private String meditation_time;
-    private String wake_up_time;
-    private String go_to_sleep_time;
+    private Integer exercise_day_of_week;
+    private Date exercise_time;
+    private Date meditation_time;
+    private Date wake_up_time;
+    private Date go_to_sleep_time;
     private Integer gender;
 
     public String getEmail() {
@@ -122,21 +127,53 @@ public class User extends BaseModel<User> {
         this.start_date = start_date;
     }
 
-    public String getLesson_start() { return lesson_start; }
+    public Integer getExercise_day_of_week() { return exercise_day_of_week; }
 
-    public void setLesson_start(String lesson_start) { this.lesson_start = lesson_start; }
+    public void setExercise_day_of_week(Integer exercise_day_of_week) { this.exercise_day_of_week = exercise_day_of_week; }
 
-    public String getMeditation_time() { return meditation_time; }
+    public Date getExercise_time() { return exercise_time; }
 
-    public void setMeditation_time(String meditation_time) { this.meditation_time = meditation_time; }
+    public void setExercise_time(String exercise_time) {
+        DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+        try {
+            this.exercise_time = sdf.parse(exercise_time);
+        } catch (Exception e) {
 
-    public String getWake_up_time() { return wake_up_time; }
+        }
+    }
 
-    public void setWake_up_time(String wake_up_time) { this.wake_up_time = wake_up_time; }
+    public Date getMeditation_time() { return meditation_time; }
 
-    public String getGo_to_sleep_time() { return this.go_to_sleep_time; }
+    public void setMeditation_time(String meditation_time) {
+        DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+        try {
+            this.meditation_time = sdf.parse(meditation_time);
+        } catch (Exception e) {
 
-    public void setGo_to_sleep_time(String go_to_sleep_time) { this.go_to_sleep_time = go_to_sleep_time; }
+        }
+    }
+
+    public Date getWake_up_time() { return wake_up_time; }
+
+    public void setWake_up_time(String wake_up_time) {
+        DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+        try {
+            this.wake_up_time = sdf.parse(wake_up_time);
+        } catch (Exception e) {
+
+        }
+    }
+
+    public Date getGo_to_sleep_time() { return this.go_to_sleep_time; }
+
+    public void setGo_to_sleep_time(String go_to_sleep_time) {
+        DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+        try {
+            this.go_to_sleep_time = sdf.parse(go_to_sleep_time);
+        } catch (Exception e) {
+
+        }
+    }
 
     public Integer getGender() {
         return gender;

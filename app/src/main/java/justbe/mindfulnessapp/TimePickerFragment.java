@@ -3,10 +3,16 @@ package justbe.mindfulnessapp;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TimePicker;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Handler;
+
+import justbe.mindfulnessapp.models.User;
 
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
@@ -15,26 +21,56 @@ public class TimePickerFragment extends DialogFragment
      * Fields
      */
     private int buttonID;
+    private User user;
 
     /**
      * Called when the dialog is created
-     * @param savedInstaceState Saved Instance State
+     * @param savedInstanceState Saved Instance State
      * @return The newly created Time Picker Dialog
      */
     @Override
-    public Dialog onCreateDialog(Bundle savedInstaceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         // get the button ID to determine what we are changing
         Bundle bundle = getArguments();
         buttonID = bundle.getInt("buttonID");
 
-        // Use the current time as the default values for the picker
-        // TODO: Change this to get the user's currently selected time
-        final Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-
+        // Set the picker time to the current user value
+        user = App.getSession().getUser();
+        int[] time = new int[2];
+        switch (buttonID) {
+            case R.id.meditationRow:
+                time = convertStringToHourMin(user.getMeditation_time());
+                break;
+            case R.id.lessonRow:
+                time = convertStringToHourMin(user.getExercise_time());
+                break;
+            case R.id.wakeUpRow:
+                time = convertStringToHourMin(user.getWake_up_time());
+                break;
+            case R.id.goToSleepRow:
+                time = convertStringToHourMin(user.getGo_to_sleep_time());
+                break;
+            default:
+                final Calendar c = Calendar.getInstance();
+                time[0] = c.get(Calendar.HOUR_OF_DAY);
+                time[1] = c.get(Calendar.MINUTE);
+                break;
+        }
+        int hour = time[0];
+        int minute = time[1];
         return new TimePickerDialog(getActivity(), this, hour, minute,
                 android.text.format.DateFormat.is24HourFormat(getActivity()));
+    }
+
+    /**
+     * Called when TimePicker is dismissed
+     * @param frag The TimePicker
+     */
+    @Override
+    public void onDismiss(DialogInterface frag) {
+        super.onDismiss(frag);
+        // Reload the time fields with the new values
+        ((PreferencesActivity)getActivity()).refreshTimeFields();
     }
 
     /**
@@ -44,18 +80,41 @@ public class TimePickerFragment extends DialogFragment
      * @param minute The minute selected on the Time picker
      */
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(hourOfDay);
+        sb.append(":");
+        sb.append(minute);
+        sb.append(":00");
+        String time = sb.toString();
+
         // Check to see what field we are editing
         switch (buttonID) {
             case R.id.meditationRow:
-                // Save meditation time
+                user.setMeditation_time(time);
+                break;
             case R.id.lessonRow:
-                // Save start lesson time
+                user.setExercise_time(time);
+                break;
             case R.id.wakeUpRow:
-                // Save wake up time
+                user.setWake_up_time(time);
+                break;
             case R.id.goToSleepRow:
-                // Save go to sleep time
+                user.setGo_to_sleep_time(time);
+                break;
             default:
-                // should never reach this
+                throw new RuntimeException("Attempted to set time for unknown field");
         }
+
+        App.getSession().setUser(user);
+    }
+
+    /**
+     * Converts the String time held by the User object to two integers
+     * @param time Time in date format
+     * @return Integer array containing hour and minute from given time
+     */
+    private int[] convertStringToHourMin(Date time) {
+        int[] res = {time.getHours(), time.getMinutes()};
+        return res;
     }
 }
