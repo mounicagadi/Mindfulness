@@ -5,13 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.rest.UserPresentableException;
@@ -23,10 +22,10 @@ public class PreferencesActivity extends AppCompatActivity {
      */
     private User user;
     private TextView currentUsername;
-    private TextView meditationTime;
-    private TextView lessonTime;
-    private TextView wakeUpTime;
-    private TextView goToSleepTime;
+    private TextView meditationTimeText;
+    private TextView lessonTimeText;
+    private TextView wakeUpTimeText;
+    private TextView goToSleepTimeText;
 
     /**
      * Called when the view is created
@@ -46,10 +45,10 @@ public class PreferencesActivity extends AppCompatActivity {
 
         // Set variables to their Text Views
         currentUsername = (TextView) findViewById(R.id.currentUsername);
-        meditationTime = (TextView) findViewById(R.id.meditationTime);
-        lessonTime = (TextView) findViewById(R.id.lessonTime);
-        wakeUpTime = (TextView) findViewById(R.id.wakeUpTime);
-        goToSleepTime = (TextView) findViewById(R.id.goToSleepTime);
+        meditationTimeText = (TextView) findViewById(R.id.meditationTime);
+        lessonTimeText = (TextView) findViewById(R.id.lessonTime);
+        wakeUpTimeText = (TextView) findViewById(R.id.wakeUpTime);
+        goToSleepTimeText = (TextView) findViewById(R.id.goToSleepTime);
 
         // Set the fields to the user's values
         user = App.getSession().getUser();
@@ -68,12 +67,22 @@ public class PreferencesActivity extends AppCompatActivity {
      * Sets time fields on view
      */
     private void setTimeFields() {
+        // Get times from user
         user = App.getSession().getUser();
+        Date meditationTime = user.getMeditation_time();
+        Date lessonTime = user.getExercise_time();
+        Date wakeUpTime = user.getWake_up_time();
+        Date goToSleepTime = user.getGo_to_sleep_time();
+        
         DateFormat sdf = new SimpleDateFormat("hh:mm a");
-        meditationTime.setText(sdf.format(user.getMeditation_time()));
-        lessonTime.setText(sdf.format(user.getExercise_time()));
-        //wakeUpTime.setText(sdf.format(user.getWake_up_time()));
-        //goToSleepTime.setText(sdf.format(user.getGo_to_sleep_time()));
+        if(meditationTime != null)
+            meditationTimeText.setText(sdf.format(meditationTime));
+        if(lessonTime != null)
+            lessonTimeText.setText(sdf.format(lessonTime));
+        if(wakeUpTime != null)
+            wakeUpTimeText.setText(sdf.format(wakeUpTime));
+        if(goToSleepTime != null)
+            goToSleepTimeText.setText(sdf.format(goToSleepTime));
     }
 
     /**

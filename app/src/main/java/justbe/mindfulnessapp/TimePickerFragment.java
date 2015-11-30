@@ -5,12 +5,9 @@ import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TimePicker;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Handler;
 
 import justbe.mindfulnessapp.models.User;
 
@@ -39,21 +36,19 @@ public class TimePickerFragment extends DialogFragment
         int[] time = new int[2];
         switch (buttonID) {
             case R.id.meditationRow:
-                time = convertStringToHourMin(user.getMeditation_time());
+                time = convertDateToHourMin(user.getMeditation_time());
                 break;
             case R.id.lessonRow:
-                time = convertStringToHourMin(user.getExercise_time());
+                time = convertDateToHourMin(user.getExercise_time());
                 break;
             case R.id.wakeUpRow:
-                time = convertStringToHourMin(user.getWake_up_time());
+                time = convertDateToHourMin(user.getWake_up_time());
                 break;
             case R.id.goToSleepRow:
-                time = convertStringToHourMin(user.getGo_to_sleep_time());
+                time = convertDateToHourMin(user.getGo_to_sleep_time());
                 break;
             default:
-                final Calendar c = Calendar.getInstance();
-                time[0] = c.get(Calendar.HOUR_OF_DAY);
-                time[1] = c.get(Calendar.MINUTE);
+                time = convertDateToHourMin(new Date());
                 break;
         }
         int hour = time[0];
@@ -109,11 +104,15 @@ public class TimePickerFragment extends DialogFragment
     }
 
     /**
-     * Converts the String time held by the User object to two integers
+     * Converts the Date held by the User object to two integers
+     * If the Date is null, returns the current Time
      * @param time Time in date format
      * @return Integer array containing hour and minute from given time
+     *         or the current time if the given time is null
      */
-    private int[] convertStringToHourMin(Date time) {
+    private int[] convertDateToHourMin(Date time) {
+        if(time == null)
+            time = new Date();
         int[] res = {time.getHours(), time.getMinutes()};
         return res;
     }
