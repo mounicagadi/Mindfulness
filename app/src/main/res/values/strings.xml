@@ -50,6 +50,12 @@
     <string name="week_eight_text">Week 8</string>
     <string name="this_week_text">This Week</string>
 
+    <string name="s_text">S</string>
+    <string name="m_text">M</string>
+    <string name="t_text">T</string>
+    <string name="w_text">W</string>
+    <string name="f_text">F</string>
+
     <!-- Text String -->
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Vestibulum pellentesque odio velit, at eleifend velit ultrices quis. Aliquam eu magna ante.
