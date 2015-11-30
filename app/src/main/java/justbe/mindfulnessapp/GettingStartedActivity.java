@@ -9,7 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,15 +20,19 @@ import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialo
 
 import java.util.Calendar;
 
+import justbe.mindfulnessapp.models.User;
+
 public class GettingStartedActivity extends AppCompatActivity {
 
     /**
      * Fields
      */
+    private EditText email_field;
     private DatePicker datePicker;
     private Calendar calendar;
     private TextView dateView;
     private int year, month, day;
+    private Spinner gender_spinner;
 
     /**
      * Called when the view is created
@@ -43,7 +50,13 @@ public class GettingStartedActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        email_field = (EditText) findViewById(R.id.editEmail);
         dateView = (TextView) findViewById(R.id.editBirthday);
+        gender_spinner = (Spinner) findViewById(R.id.genderSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.genders_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        gender_spinner.setAdapter(adapter);
         calendar = Calendar.getInstance();
 
         year = calendar.get(Calendar.YEAR) - 20;
@@ -94,6 +107,22 @@ public class GettingStartedActivity extends AppCompatActivity {
 
     public void submitPressed(View view) {
         // Update User account
+        String email = email_field.getText().toString();
+        String birthday = dateView.getText().toString();
+        String gender = gender_spinner.getSelectedItem().toString();
+        User u = App.getSession().getUser();
+        u.setEmail(email);
+        u.setBirthday(birthday);
+        if (gender == "Male") {
+            u.setGender(0);
+        }
+        else if (gender == "Female") {
+            u.setGender(1);
+        }
+        else {
+            u.setGender(2);
+        }
+        // TODO Save user info
     }
 
 }

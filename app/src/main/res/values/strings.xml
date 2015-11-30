@@ -72,4 +72,10 @@
     <string name="cannot_logout">Logout Failed</string>
     <string name="cannot_logout_message">Could not logout with the server</string>
     <string name="title_activity_smoke_assessment">SmokeAssessmentActivity</string>
+
+    <string-array name="genders_array">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
 </resources>

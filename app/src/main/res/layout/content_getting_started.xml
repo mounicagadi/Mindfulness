@@ -74,14 +74,11 @@
                     android:layout_height="wrap_content"
                     android:text="@string/gender_text"
                     android:textSize="@dimen/normal_text_size"/>
-
-                <EditText
-                    android:id="@+id/editGender"
-                    android:layout_width="0dp"
-                    android:layout_weight="65"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:ems="10" />
+                <Spinner
+                    android:id="@+id/genderSpinner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                </Spinner>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
