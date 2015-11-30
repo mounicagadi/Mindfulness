@@ -32,11 +32,6 @@
             android:parentActivityName=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".GettingStartedActivity"
-            android:label="@string/title_activity_getting_started"
-            android:parentActivityName=".CreateAccountActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
             android:name=".PreferencesActivity"
             android:label="Preferences"
             android:parentActivityName=".MainActivity"

@@ -10,7 +10,9 @@
     <string name="title_activity_getting_started">Getting Started</string>
     <string name="create_account_text">Create Account</string>
     <string name="continue_button">Continue</string>
+    <string name="next">Next</string>
     <string name="submit_button">Submit</string>
+    <string name="setup">Setup</string>
 
     <string name="username_text">Username</string>
     <string name="password_text">Password</string>

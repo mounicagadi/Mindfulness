@@ -15,7 +15,7 @@ import java.util.Date;
 import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.rest.UserPresentableException;
 
-public class PreferencesActivity extends AppCompatActivity {
+public class PreferencesActivity extends AppCompatActivity implements RefreshViewListener {
 
     /**
      * Fields
@@ -59,8 +59,33 @@ public class PreferencesActivity extends AppCompatActivity {
     /**
      * Sets time fields on view, callable from anywhere
      */
-    public void refreshTimeFields() {
+    public void refreshView() {
         setTimeFields();
+    }
+
+    /**
+     * Saves the time from the Time Picker
+     */
+    public void saveTimes(int buttonID, String time) {
+        // Check to see what field we are editing
+        switch (buttonID) {
+            case R.id.meditationRow:
+                user.setMeditation_time(time);
+                break;
+            case R.id.lessonRow:
+                user.setExercise_time(time);
+                break;
+            case R.id.wakeUpRow:
+                user.setWake_up_time(time);
+                break;
+            case R.id.goToSleepRow:
+                user.setGo_to_sleep_time(time);
+                break;
+            default:
+                throw new RuntimeException("Attempted to set time for unknown field");
+        }
+
+        App.getSession().setUser(user);
     }
 
     /**
