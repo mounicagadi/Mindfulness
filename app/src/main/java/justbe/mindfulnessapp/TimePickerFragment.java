@@ -4,15 +4,22 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TimePicker;
+
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Handler;
 
 import justbe.mindfulnessapp.models.User;
+import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
+import justbe.mindfulnessapp.rest.RestUtil;
+import justbe.mindfulnessapp.rest.UserPresentableException;
 
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
@@ -69,7 +76,21 @@ public class TimePickerFragment extends DialogFragment
     @Override
     public void onDismiss(DialogInterface frag) {
         super.onDismiss(frag);
+
+        // Save the new values on the server
+        // Create an HTTPRequestTask that sends a User Object and Returns a User Object
+        GenericHttpRequestTask<User, User> task = new GenericHttpRequestTask(User.class, User.class);
+        task.execute("/api/v1/user_profile/", HttpMethod.POST, user);
+
+        try {
+            ResponseEntity<User> result = task.waitForResponse();
+            RestUtil.checkResponseHazardously(result);
+        } catch (Exception e) {
+            //new UserPresentableException(e).alert(this);
+        }
+
         // Reload the time fields with the new values
+        App.getSession().setUser(user);
         ((PreferencesActivity)getActivity()).refreshTimeFields();
     }
 
@@ -104,8 +125,6 @@ public class TimePickerFragment extends DialogFragment
             default:
                 throw new RuntimeException("Attempted to set time for unknown field");
         }
-
-        App.getSession().setUser(user);
     }
 
     /**
