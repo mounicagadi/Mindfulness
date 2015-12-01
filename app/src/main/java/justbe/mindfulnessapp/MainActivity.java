@@ -17,6 +17,8 @@ import android.widget.PopupWindow;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 import justbe.mindfulnessapp.models.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
         user.setProgramWeek(1);
         lessonButtonText.setText(String.format("Week %d Exercise", user.getProgramWeek()));
 
-        // TODO: initialize as current day of the week
-        selectedDay = "th";
+        selectedDay = getCurrentDayOfTheWeek();
         updateSelectedDay(selectedDay);
     }
 
@@ -154,5 +155,35 @@ public class MainActivity extends AppCompatActivity {
         stringId = stringId.substring(0, stringId.length() - "Meditation".length());
 
         updateSelectedDay(stringId);
+    }
+
+    private String getCurrentDayOfTheWeek() {
+        String day = "";
+        switch(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
+            case Calendar.SUNDAY:
+                day = "su";
+                break;
+            case Calendar.MONDAY:
+                day = "m";
+                break;
+            case Calendar.TUESDAY:
+                day = "t";
+                break;
+            case Calendar.WEDNESDAY:
+                day = "w";
+                break;
+            case Calendar.THURSDAY:
+                day = "th";
+                break;
+            case Calendar.FRIDAY:
+                day = "f";
+                break;
+            case Calendar.SATURDAY:
+                day = "s";
+                break;
+            default:
+                // impossible to get here
+        }
+        return day;
     }
 }
