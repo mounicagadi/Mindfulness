@@ -1,5 +1,6 @@
 package justbe.mindfulnessapp;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
@@ -18,6 +19,7 @@ public class TimePickerFragment extends DialogFragment
      * Fields
      */
     private int buttonID;
+    private RefreshViewListener listener;
     private User user;
 
     /**
@@ -31,8 +33,12 @@ public class TimePickerFragment extends DialogFragment
         Bundle bundle = getArguments();
         buttonID = bundle.getInt("buttonID");
 
-        // Set the picker time to the current user value
+        // check to see of the user exists yet
         user = App.getSession().getUser();
+        if(user == null)
+            user = new User();
+
+        // Set the picker time to the current user value
         int[] time = new int[2];
         switch (buttonID) {
             case R.id.meditationRow:
@@ -65,7 +71,21 @@ public class TimePickerFragment extends DialogFragment
     public void onDismiss(DialogInterface frag) {
         super.onDismiss(frag);
         // Reload the time fields with the new values
-        ((PreferencesActivity)getActivity()).refreshTimeFields();
+        listener.refreshView();
+    }
+
+    /**
+     * Attach the listener to the time picker so we can refresh the view
+     * @param activity The parent activity
+     */
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            listener = (RefreshViewListener) activity;
+        } catch (ClassCastException castException) {
+
+        }
     }
 
     /**
@@ -75,6 +95,7 @@ public class TimePickerFragment extends DialogFragment
      * @param minute The minute selected on the Time picker
      */
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        // Build new time string
         StringBuilder sb = new StringBuilder();
         sb.append(hourOfDay);
         sb.append(":");
@@ -82,25 +103,8 @@ public class TimePickerFragment extends DialogFragment
         sb.append(":00");
         String time = sb.toString();
 
-        // Check to see what field we are editing
-        switch (buttonID) {
-            case R.id.meditationRow:
-                user.setMeditation_time(time);
-                break;
-            case R.id.lessonRow:
-                user.setExercise_time(time);
-                break;
-            case R.id.wakeUpRow:
-                user.setWake_up_time(time);
-                break;
-            case R.id.goToSleepRow:
-                user.setGo_to_sleep_time(time);
-                break;
-            default:
-                throw new RuntimeException("Attempted to set time for unknown field");
-        }
-
-        App.getSession().setUser(user);
+        // Call parent activity's save time method
+        listener.saveTimes(buttonID, time);
     }
 
     /**
