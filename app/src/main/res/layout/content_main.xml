@@ -280,7 +280,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/bpWhite"
             android:textSize="@dimen/normal_text_size"
-            android:text="Week # Exercise"
+            android:text=""
             android:layout_toRightOf="@+id/weeklyLessonButtonImage"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"/>

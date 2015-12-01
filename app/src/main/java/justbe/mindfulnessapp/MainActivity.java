@@ -17,10 +17,15 @@ import android.widget.PopupWindow;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
 
+import justbe.mindfulnessapp.models.User;
+
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * Fields
+     */
     private PopupWindow pw;
-
+    private User user;
     // su, m, t, w, th, f, s
     private String selectedDay;
 
@@ -44,6 +49,13 @@ public class MainActivity extends AppCompatActivity {
         View customToolbarView = li.inflate(R.layout.custom_main_toolbar, null);
         getSupportActionBar().setCustomView(customToolbarView);
 
+        user = App.getSession().getUser();
+
+        // Set the lesson button's text to the current week
+        TextView lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
+        user.setProgramWeek(1);
+        lessonButtonText.setText(String.format("Week %d Exercise", user.getProgramWeek()));
+
         // TODO: initialize as current day of the week
         selectedDay = "th";
         updateSelectedDay(selectedDay);
@@ -56,11 +68,11 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("NewApi")
     private void updateSelectedDay(String newDay){
         int currentMeditationId = getResources().getIdentifier(
-                selectedDay.toString() + "Meditation" , "id", getPackageName());
+                selectedDay + "Meditation" , "id", getPackageName());
         int newMeditationId = getResources().getIdentifier(
                 newDay + "Meditation" , "id", getPackageName());
         int currentTextViewId = getResources().getIdentifier(
-                selectedDay.toString() + "MeditationText" , "id", getPackageName());
+                selectedDay + "MeditationText" , "id", getPackageName());
         int newTextViewId = getResources().getIdentifier(
                 newDay + "MeditationText" , "id", getPackageName());
 
