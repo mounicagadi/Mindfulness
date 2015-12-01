@@ -38,6 +38,7 @@ public class User extends BaseModel<User> {
     private Date wake_up_time;
     private Date go_to_sleep_time;
     private Integer gender;
+    private Integer programWeek;
 
     public String getEmail() {
         return email;
@@ -182,4 +183,8 @@ public class User extends BaseModel<User> {
     public void setGender(Integer gender) {
         this.gender = gender;
     }
+
+    public Integer getProgramWeek() { return programWeek; }
+
+    public void setProgramWeek(Integer programWeek) { this.programWeek = programWeek; }
 }
