@@ -3,19 +3,23 @@ package justbe.mindfulnessapp;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Display;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.Calendar;
 
@@ -26,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Fields
      */
-    private PopupWindow pw;
+    private PopupWindow popupWindow;
     private User user;
     // su, m, t, w, th, f, s
     private String selectedDay;
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the lesson button's text to the current week
         TextView lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
-        user.setProgramWeek(1);
+        user.setProgramWeek(3);
         lessonButtonText.setText(String.format("Week %d Exercise", user.getProgramWeek()));
 
         selectedDay = getCurrentDayOfTheWeek();
@@ -109,23 +113,59 @@ public class MainActivity extends AppCompatActivity {
      * @param view The view
      */
     public void weekButtonPressed(View view) {
-        // Get the size of the screen
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
+        // Get screen size
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = displaymetrics.heightPixels;
+        int width = displaymetrics.widthPixels;
 
         // Attempt to create  and display the weekly progress popup
         try {
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View pw_view = inflater.inflate(R.layout.activity_check_progress_popup,
                     (ViewGroup) findViewById(R.id.checkProgressPopup));
-            // TODO: Make this figure out its size better
-            pw = new PopupWindow(pw_view, width-250, LayoutParams.WRAP_CONTENT, true);
+            popupWindow = new PopupWindow(pw_view,  width, height, true);
+            popupWindow.setBackgroundDrawable(new ColorDrawable());
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.setTouchable(true);
 
-            pw.showAtLocation(pw_view, Gravity.CENTER, 0, 0);
+            setupPopupTextFields(pw_view);
+
+            popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+                @Override public boolean onTouch(View v, MotionEvent event) {
+                    popupWindow.dismiss(); return true;
+                }
+            });
+
+            popupWindow.showAtLocation(pw_view, Gravity.CENTER, 0, 0);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sets the Text and Image fields on the weekly progress popup
+     * @param pw_view The popup view that the fields are on
+     */
+    private void setupPopupTextFields(View pw_view) {
+        int currentWeek = user.getProgramWeek();
+
+        // Go through each week of the program and sets the correct UI
+        for(int i = 1; i <= 8; i++) {
+            TextView weekTextView = getTextViewForWeek(pw_view, i);
+            ImageView weekImageView = getImageViewForWeek(pw_view, i);
+            if(i < currentWeek) {
+                weekTextView.setTextColor(ContextCompat.getColor(this, R.color.black));
+                weekImageView.setImageResource(R.drawable.check_green_2x);
+            } else if(i == currentWeek) {
+                weekTextView.setText(R.string.this_week_text);
+                weekTextView.setTypeface(null, Typeface.BOLD);
+                weekTextView.setTextColor(ContextCompat.getColor(this, R.color.black));
+                weekImageView.setVisibility(View.GONE);
+            } else {
+                weekTextView.setTextColor(ContextCompat.getColor(this, R.color.lightGray));
+                weekImageView.setImageResource(R.drawable.check_gray_2x);
+            }
         }
     }
 
@@ -189,5 +229,85 @@ public class MainActivity extends AppCompatActivity {
                 // impossible to get here
         }
         return day;
+    }
+
+    /**
+     * Helper function that finds the text view for a given week in the given view
+     * @param pw_view The popup view that the text field is on
+     * @param week The week
+     * @return The text view for the given week
+     */
+    private TextView getTextViewForWeek(View pw_view, int week) {
+        TextView weekTextView;
+        switch (week){
+            case 1:
+                weekTextView = (TextView) pw_view.findViewById(R.id.week1Text);
+                break;
+            case 2:
+                weekTextView = (TextView) pw_view.findViewById(R.id.week2Text);
+                break;
+            case 3:
+                weekTextView = (TextView) pw_view.findViewById(R.id.week3Text);
+                break;
+            case 4:
+                weekTextView = (TextView) pw_view.findViewById(R.id.week4Text);
+                break;
+            case 5:
+                weekTextView = (TextView) pw_view.findViewById(R.id.week5Text);
+                break;
+            case 6:
+                weekTextView = (TextView) pw_view.findViewById(R.id.week6Text);
+                break;
+            case 7:
+                weekTextView = (TextView) pw_view.findViewById(R.id.week7Text);
+                break;
+            case 8:
+                weekTextView = (TextView) pw_view.findViewById(R.id.week8Text);
+                break;
+            default:
+                weekTextView = null;
+                break;
+        }
+        return weekTextView;
+    }
+
+    /**
+     * Helper function that finds the image view for a given week in the given view
+     * @param pw_view The popup view that the image field is on
+     * @param week The week
+     * @return The image view for the given week
+     */
+    private ImageView getImageViewForWeek(View pw_view, int week) {
+        ImageView weekImageView;
+        switch (week){
+            case 1:
+                weekImageView = (ImageView) pw_view.findViewById(R.id.week1Check);
+                break;
+            case 2:
+                weekImageView = (ImageView) pw_view.findViewById(R.id.week2Check);
+                break;
+            case 3:
+                weekImageView = (ImageView) pw_view.findViewById(R.id.week3Check);
+                break;
+            case 4:
+                weekImageView = (ImageView) pw_view.findViewById(R.id.week4Check);
+                break;
+            case 5:
+                weekImageView = (ImageView) pw_view.findViewById(R.id.week5Check);
+                break;
+            case 6:
+                weekImageView = (ImageView) pw_view.findViewById(R.id.week6Check);
+                break;
+            case 7:
+                weekImageView = (ImageView) pw_view.findViewById(R.id.week7Check);
+                break;
+            case 8:
+                weekImageView = (ImageView) pw_view.findViewById(R.id.week8Check);
+                break;
+            default:
+                weekImageView = null;
+                break;
+        }
+        return weekImageView;
     }
 }
