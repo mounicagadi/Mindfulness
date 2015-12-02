@@ -157,6 +157,10 @@ public class MainActivity extends AppCompatActivity {
         updateSelectedDay(stringId);
     }
 
+    /**
+     * Returns the day of the week in the string format used by the day selector
+     * @return The day of the week in the following format: su, m, t, w, th, f, s
+     */
     private String getCurrentDayOfTheWeek() {
         String day = "";
         switch(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
