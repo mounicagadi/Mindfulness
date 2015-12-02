@@ -49,6 +49,8 @@ public class MainActivityTest {
     @Test
     public void testWeeklyLessonButton() {
         onView(withId(R.id.weeklyLessonButton)).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.weeklyLessonButtonText), withText("Week 1 Exercise")))
+                .check(matches(isDisplayed()));
         onView(withId(R.id.weeklyLessonButton)).perform(click());
         intended(hasComponent(LessonActivity.class.getName()));
         onView(withText("Weekly Lesson")).check(ViewAssertions.matches(isDisplayed()));
