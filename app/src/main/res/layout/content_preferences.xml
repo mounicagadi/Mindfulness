@@ -176,6 +176,7 @@
         </LinearLayout>
 
         <TableRow
+            android:id="@+id/logOutRow"
             android:clickable="true"
             android:onClick="logout"
             android:background="@drawable/clickable_table_row_selector">

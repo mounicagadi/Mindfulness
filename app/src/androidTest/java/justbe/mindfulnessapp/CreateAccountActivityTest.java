@@ -1,8 +1,10 @@
 package justbe.mindfulnessapp;
 
+import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,15 +15,32 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static justbe.mindfulnessapp.ErrorTextMatcher.hasErrorText;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class CreateAccountActivityTest {
 
-
     @Rule
     public IntentsTestRule caIntentRule = new IntentsTestRule(CreateAccountActivity.class);
+
+    @Test
+    public void testViewDisplay() {
+        onView(allOf(withId(R.id.editUsername), withHint("Username")))
+                .check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.editPassword), withHint("Password")))
+                .check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.editConfirmPassword), withHint("Confirm Password")))
+                .check(ViewAssertions.matches(isDisplayed()));
+        onView(withText("Meditations")).check(ViewAssertions.matches(isDisplayed()));
+        onView(withText("Lessons")).check(ViewAssertions.matches(isDisplayed()));
+        onView(withText("I wake up at")).check(ViewAssertions.matches(isDisplayed()));
+        onView(withText("I go to sleep at")).check(ViewAssertions.matches(isDisplayed()));
+    }
 
     @Test
     public void testBadInputs() {
@@ -53,5 +72,40 @@ public class CreateAccountActivityTest {
         onView(withId(R.id.createAccountButton)).perform(click());
         onView(withId(R.id.editConfirmPassword))
                 .check(matches(hasErrorText("Your passwords do not match")));
+    }
+
+    @Test
+    public void testMeditationsButton() {
+        onView(withId(R.id.meditationRow)).check(matches(notNullValue()));
+        onView(withId(R.id.meditationTimeText)).check(matches(withText("Meditations")));
+        onView(withId(R.id.meditationRow)).perform(click());
+    }
+
+    @Test
+    public void testLessonsButton() {
+        onView(withId(R.id.lessonRow)).check(matches(notNullValue()));
+        onView(withId(R.id.lessonTimeText)).check(matches(withText("Lessons")));
+        onView(withId(R.id.lessonRow)).perform(click());
+    }
+
+    @Test
+    public void testWakeUpButton() {
+        onView(withId(R.id.wakeUpRow)).check(matches(notNullValue()));
+        onView(withId(R.id.wakeUpText)).check(matches(withText("I wake up at")));
+        onView(withId(R.id.wakeUpRow)).perform(click());
+    }
+
+    @Test
+    public void testGoToSleepButton() {
+        onView(withId(R.id.goToSleepRow)).check(matches(notNullValue()));
+        onView(withId(R.id.goToSleepText)).check(matches(withText("I go to sleep at")));
+        onView(withId(R.id.goToSleepRow)).perform(click());
+    }
+
+    @Test
+    public void testCreateAccountButton(){
+        onView(withId(R.id.createAccountButton)).check(matches(notNullValue()));
+        onView(withId(R.id.createAccountButton)).check(matches(withText("Create Account")));
+        onView(withId(R.id.createAccountButton)).perform(click());
     }
 }
