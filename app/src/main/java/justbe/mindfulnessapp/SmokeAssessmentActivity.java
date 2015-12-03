@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.test.suitebuilder.annotation.Smoke;
 import android.view.View;
 
 public class SmokeAssessmentActivity extends AppCompatActivity {
@@ -34,6 +35,7 @@ public class SmokeAssessmentActivity extends AppCompatActivity {
         // TODO: Save the result
 
         Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
@@ -45,7 +47,9 @@ public class SmokeAssessmentActivity extends AppCompatActivity {
     public void noButtonPressed(View view) {
         // TODO: Save the result
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(SmokeAssessmentActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
+        finish();
     }
 }

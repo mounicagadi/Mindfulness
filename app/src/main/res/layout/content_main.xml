@@ -16,16 +16,30 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Assessment Tmp Button"
-        android:id="@+id/assessmentButton"
-        android:onClick="assessmentButtonPressed" />
+        android:text="Smoke"
+        android:id="@+id/smokeAssessmentButton"
+        android:onClick="smokeAssessmentButtonPressed" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sleep"
+        android:id="@+id/sleepAssessmentButton"
+        android:onClick="sleepAssessmentButtonPressed"
+        android:layout_toRightOf="@id/smokeAssessmentButton"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stress"
+        android:id="@+id/stressAssessmentButton"
+        android:onClick="stressAssessmentButtonPressed"
+        android:layout_toRightOf="@id/sleepAssessmentButton"/>
         <LinearLayout
             android:id="@+id/weekdaysLayout"
             android:baselineAligned="false"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:orientation="horizontal"
-            android:layout_below="@+id/assessmentButton"
+            android:layout_below="@+id/smokeAssessmentButton"
             android:gravity="center_vertical">
             <LinearLayout
                 android:id="@+id/suMeditation"

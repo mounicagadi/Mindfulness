@@ -132,7 +132,8 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
      * @param view The view
      */
     public void changePassword(View view) {
-        Intent intent = new Intent(this, ChangePasswordActivity.class);
+        Intent intent = new Intent(PreferencesActivity.this, ChangePasswordActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
@@ -144,7 +145,9 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
     public void logout(View view) {
         if (App.getSession().invalidate()) {
             Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+            finish();
         } else {
             new UserPresentableException(
                     getString(R.string.cannot_logout),

@@ -36,6 +36,16 @@ import justbe.mindfulnessapp.models.User;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    /**
+     * Fields
+     */
+    private PopupWindow popupWindow;
+    private User user;
+
+    // su, m, t, w, th, f, s
+    private String selectedDay;
+
     // audio player variables
     private MediaPlayer mediaPlayer;
     private SeekBar volumeBar;
@@ -45,15 +55,6 @@ public class MainActivity extends AppCompatActivity {
     private double currentTime;
     private double totalTime;
 
-
-    /**
-     * Fields
-     */
-    private PopupWindow popupWindow;
-    private User user;
-    // su, m, t, w, th, f, s
-    private String selectedDay;
-
     /**
      * Called when the view is created
      * @param savedInstanceState Saved Instance State
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        user = App.getSession().getUser();
 
         // Create toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -74,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
         View customToolbarView = li.inflate(R.layout.custom_main_toolbar, null);
         getSupportActionBar().setCustomView(customToolbarView);
 
+        // Create media player
         mediaPlayer = MediaPlayer.create(this, R.raw.sample);
-        user = App.getSession().getUser();
 
         // Set the lesson button's text to the current week
         TextView lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
@@ -212,7 +215,8 @@ public class MainActivity extends AppCompatActivity {
      * @param view The View
      */
     public void preferencesButtonPressed(View view) {
-        Intent intent = new Intent(this, PreferencesActivity.class);
+        Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
@@ -282,14 +286,26 @@ public class MainActivity extends AppCompatActivity {
      * @param view The view
      */
     public void lessonButtonPressed(View view) {
-        Intent intent = new Intent(this, LessonActivity.class);
+        Intent intent = new Intent(MainActivity.this, LessonActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
     // TODO: Remove this after assessment acitivies are done
     // THIS IS A TEMP BUTTON USED TO TEST ASSESSMENT ACTIVITIES
-    public void assessmentButtonPressed(View view) {
-        Intent intent = new Intent(this, SmokeAssessmentActivity.class);
+    public void smokeAssessmentButtonPressed(View view) {
+        Intent intent = new Intent(MainActivity.this, SmokeAssessmentActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
+    public void sleepAssessmentButtonPressed(View view) {
+        Intent intent = new Intent(MainActivity.this, SleepAssessmentActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
+    public void stressAssessmentButtonPressed(View view) {
+        Intent intent = new Intent(MainActivity.this, StressAssessmentActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 

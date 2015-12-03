@@ -69,7 +69,9 @@ public class StressAssessmentActivity extends AppCompatActivity
     public void submitPressed(View view) {
         // TODO: Save assessment here
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(StressAssessmentActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
+        finish();
     }
 }

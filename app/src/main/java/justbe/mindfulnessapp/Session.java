@@ -313,6 +313,7 @@ public class Session {
         if (RestUtil.checkResponse(response) && response.getBody() != null && response.getBody().getSuccess()) {
             this.removeSessionId();
             this.removeCsrfToken();
+            App.getSession().setUser(null);
             return true;
         } else {
             return false;
