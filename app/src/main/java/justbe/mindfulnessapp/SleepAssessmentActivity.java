@@ -16,8 +16,16 @@ public class SleepAssessmentActivity extends AppCompatActivity
      * Fields
      */
     private Spinner spinner;
-    private static final String[]paths = {"Did Not Sleep", "1 Hour", "2 Hours", "3 Hours", "4 Hours",
-                                          "5 Hours", "6 Hours", "7 Hours", "8 Hours", "9 Or More Hours"};
+    private static final String[]paths = {"Did Not Sleep", "Half an Hour",
+                                          "1 Hour", "1.5 Hours",
+                                          "2 Hours", "2.5 Hours",
+                                          "3 Hours", "3.5 Hours",
+                                          "4 Hours", "4.5 Hours",
+                                          "5 Hours", "5.5 Hours",
+                                          "6 Hours", "6.5 Hours",
+                                          "7 Hours", "7.5 Hours",
+                                          "8 Hours", "8.5 Hours",
+                                          "9 Or More Hours"};
 
     /**
      * Called when the view is created
