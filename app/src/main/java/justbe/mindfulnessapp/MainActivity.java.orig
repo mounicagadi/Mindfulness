@@ -4,23 +4,30 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+<<<<<<< HEAD
 import android.util.Log;
+import android.view.Display;
+=======
 import android.util.DisplayMetrics;
+>>>>>>> master
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+<<<<<<< HEAD
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.SeekBar;
+=======
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+>>>>>>> master
 import android.widget.TextView;
 import android.media.MediaPlayer;
 
@@ -29,12 +36,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import android.os.Handler;
-import org.w3c.dom.Text;
-import java.util.Calendar;
 
-import justbe.mindfulnessapp.models.User;
-
-
+<<<<<<< HEAD
 public class MainActivity extends AppCompatActivity {
     // audio player variables
     private MediaPlayer mediaPlayer;
@@ -44,7 +47,15 @@ public class MainActivity extends AppCompatActivity {
     private Handler audioInfoUpdater;
     private double currentTime;
     private double totalTime;
+=======
+import org.w3c.dom.Text;
 
+import java.util.Calendar;
+>>>>>>> master
+
+import justbe.mindfulnessapp.models.User;
+
+public class MainActivity extends AppCompatActivity {
 
     /**
      * Fields
@@ -74,7 +85,11 @@ public class MainActivity extends AppCompatActivity {
         View customToolbarView = li.inflate(R.layout.custom_main_toolbar, null);
         getSupportActionBar().setCustomView(customToolbarView);
 
+<<<<<<< HEAD
         mediaPlayer = MediaPlayer.create(this, R.raw.sample);
+        // TODO: initialize as current day of the week
+        selectedDay = "th";
+=======
         user = App.getSession().getUser();
 
         // Set the lesson button's text to the current week
@@ -83,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         lessonButtonText.setText(String.format("Week %d Exercise", user.getProgramWeek()));
 
         selectedDay = getCurrentDayOfTheWeek();
+>>>>>>> master
         updateSelectedDay(selectedDay);
     }
 
@@ -167,6 +183,13 @@ public class MainActivity extends AppCompatActivity {
      * @param newDay the newly selected day
      */
     private void updateSelectedDay(String newDay){
+<<<<<<< HEAD
+=======
+        int currentMeditationId = getResources().getIdentifier(
+                selectedDay + "Meditation" , "id", getPackageName());
+        int newMeditationId = getResources().getIdentifier(
+                newDay + "Meditation" , "id", getPackageName());
+>>>>>>> master
         int currentTextViewId = getResources().getIdentifier(
                 selectedDay + "MeditationText" , "id", getPackageName());
         int newTextViewId = getResources().getIdentifier(

@@ -96,7 +96,9 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
      */
     private User createDefaultNewUser() {
         User u = new User();
+        u.setProgramWeek(1);
 
+        // Set up default times
         Date currentTime = new Date();
         u.setMeditation_time(formatTime(currentTime));
         u.setExercise_time(formatTime(currentTime));
