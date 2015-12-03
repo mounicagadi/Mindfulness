@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by eddiehurtig on 11/20/15.
  */
-public class User extends BaseModel<User> {
+public class User extends PlainOldDBO<User> {
 
     public enum Gender {
         MALE(0), FEMALE(1), OTHER(2);
@@ -24,13 +24,10 @@ public class User extends BaseModel<User> {
 
     private String email;
     private String first_name;
-    private Integer id;
     private String last_name;
     private String username;
     private String raw_password;
     private String birthday;
-    private String created_at;
-    private String updated_at;
     private String start_date;
     private Integer exercise_day_of_week;
     private Date exercise_time;
@@ -54,14 +51,6 @@ public class User extends BaseModel<User> {
 
     public void setFirst_name(String first_name) {
         this.first_name = first_name;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getLast_name() {
@@ -102,22 +91,6 @@ public class User extends BaseModel<User> {
 
     public void setBirthday(String birthday) {
         this.birthday = birthday;
-    }
-
-    public String getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
-    }
-
-    public String getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(String updated_at) {
-        this.updated_at = updated_at;
     }
 
     public String getStart_date() {
