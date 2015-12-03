@@ -1,31 +1,50 @@
 package justbe.mindfulnessapp;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.media.MediaPlayer;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import android.os.Handler;
 import org.w3c.dom.Text;
-
 import java.util.Calendar;
 
 import justbe.mindfulnessapp.models.User;
 
+
 public class MainActivity extends AppCompatActivity {
+    // audio player variables
+    private MediaPlayer mediaPlayer;
+    private SeekBar volumeBar;
+    private TextView currentAudioTimeText, totalAudioTimeText;
+    private Button playButton, pauseButton;
+    private Handler audioInfoUpdater;
+    private double currentTime;
+    private double totalTime;
+
 
     /**
      * Fields
@@ -55,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         View customToolbarView = li.inflate(R.layout.custom_main_toolbar, null);
         getSupportActionBar().setCustomView(customToolbarView);
 
+        mediaPlayer = MediaPlayer.create(this, R.raw.sample);
         user = App.getSession().getUser();
 
         // Set the lesson button's text to the current week
@@ -67,15 +87,86 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Colors the currently selected day and updates selectedDay
+     * Set up mediaPlayer and related visuals
+     */
+    public void initializeAudioPlayer() {
+        mediaPlayer.release();
+        // TODO: change the meditation file based on day selected
+        mediaPlayer = MediaPlayer.create(this, R.raw.sample);
+
+        // Initialize parts from view
+        volumeBar =(SeekBar)findViewById(R.id.volumeBar);
+        currentAudioTimeText = (TextView)findViewById(R.id.currentTime);
+        totalAudioTimeText = (TextView)findViewById(R.id.totalTime);
+        playButton = (Button)findViewById(R.id.playButton);
+        pauseButton = (Button)findViewById(R.id.pauseButton);
+
+        currentTime = mediaPlayer.getCurrentPosition();
+        totalTime = mediaPlayer.getDuration();
+
+        // Set up progress bar and make it usable
+        volumeBar.setMax((int) totalTime);
+        volumeBar.setProgress((int)currentTime);
+        volumeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            // Update to position in song user seeks to
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+                if (fromUser) {
+                    mediaPlayer.seekTo(progress);
+                    setTextViewToTime(currentAudioTimeText, progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        // Initialize time indicators
+        setTextViewToTime(currentAudioTimeText, currentTime);
+        setTextViewToTime(totalAudioTimeText, totalTime);
+
+        audioInfoUpdater = new Handler();
+        audioInfoUpdater.postDelayed(UpdateCurrentTime,100);
+
+        playButton.setEnabled(true);
+        pauseButton.setEnabled(false);
+    }
+
+    /**
+     * Update the text of a text view to a given time
+     * @param tv text view to update information of
+     * @param time new time to display
+     */
+    private void setTextViewToTime(TextView tv, double time) {
+        Date date = new Date((int)time);
+        DateFormat formatter = new SimpleDateFormat("mm:ss");
+        tv.setText(formatter.format(date));
+    }
+
+    // Updates the song time info every second
+    private Runnable UpdateCurrentTime = new Runnable() {
+        public void run() {
+            currentTime = mediaPlayer.getCurrentPosition();
+            setTextViewToTime(currentAudioTimeText, currentTime);
+
+            volumeBar.setProgress((int)currentTime);
+            audioInfoUpdater.postDelayed(this, 100);
+        }
+    };
+
+    /**
+     * Colors the currently selected day, updates selectedDay and audio file
      * @param newDay the newly selected day
      */
-    @SuppressLint("NewApi")
     private void updateSelectedDay(String newDay){
-        int currentMeditationId = getResources().getIdentifier(
-                selectedDay + "Meditation" , "id", getPackageName());
-        int newMeditationId = getResources().getIdentifier(
-                newDay + "Meditation" , "id", getPackageName());
         int currentTextViewId = getResources().getIdentifier(
                 selectedDay + "MeditationText" , "id", getPackageName());
         int newTextViewId = getResources().getIdentifier(
@@ -84,19 +175,36 @@ public class MainActivity extends AppCompatActivity {
         // remove styling from current day
         TextView currentDayTextView = (TextView) findViewById(currentTextViewId);
         currentDayTextView.setTextColor(ContextCompat.getColor(this, R.color.transparentLightGreen));
-
-        View currentDayLayout = findViewById(currentMeditationId);
-        // Note: lint incorrectly marks setForeground as requiring api level 23 (https://code.google.com/p/android/issues/detail?id=186273)
-        currentDayLayout.setForeground(null);
+        currentDayTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.bpTransparent)) ;
 
         // add styling to new day
         TextView newDayTextView = (TextView) findViewById(newTextViewId);
         newDayTextView.setTextColor(ContextCompat.getColor(this, R.color.bpWhite));
-
-        View newDayLayout = findViewById(newMeditationId);
-        newDayLayout.setForeground(ContextCompat.getDrawable(this, R.drawable.selected_day_border));
+        newDayTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.transparentOrange));
 
         selectedDay = newDay;
+
+        initializeAudioPlayer();
+    }
+
+    /**
+     * Callback for when the audio play button is pressed
+     * @param view The View
+     */
+    public void playButtonPressed(View view) {
+        mediaPlayer.start();
+        playButton.setEnabled(false);
+        pauseButton.setEnabled(true);
+    }
+
+    /**
+     * Callback for when the audio pause button is pressed
+     * @param view The View
+     */
+    public void pauseButtonPressed(View view) {
+        mediaPlayer.pause();
+        playButton.setEnabled(true);
+        pauseButton.setEnabled(false);
     }
 
     /**
