@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.intent.Intents.intended;
@@ -21,6 +22,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static justbe.mindfulnessapp.ErrorTextMatcher.hasErrorText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.Matchers.not;
@@ -85,6 +87,7 @@ public class PreferencesActivityTest {
         onView(withId(R.id.goToSleepRow)).perform(click());
     }
 
+    //cahnge password activity test
     @Test
     public void testChangePassword() {
         onView(withId(R.id.changePasswordText)).check(matches(notNullValue()));
@@ -95,6 +98,67 @@ public class PreferencesActivityTest {
         pressBack();
         onView(withHint("New Password")).check(doesNotExist());
     }
+
+
+    //change error password activity test
+    //original password does not match
+    @Test
+    public void testOrigionNotMatch() {
+        onView(withId(R.id.changePasswordText)).check(matches(notNullValue()));
+        onView(withId(R.id.changePasswordText)).check(matches(withText("Change Password")));
+        onView(withId(R.id.changePasswordText)).perform(click());
+        intended(hasComponent(ChangePasswordActivity.class.getName()));
+        onView(withHint("New Password")).check(ViewAssertions.matches(isDisplayed()));
+
+        onView(withId(R.id.editCurrentPassword)).perform(typeText("3"));
+        onView(withId(R.id.createAccountButton)).perform(click());
+        onView(withId(R.id.editCurrentPassword))
+                .check(matches(hasErrorText("Incorrect Password")));
+        onView(withId(R.id.editNewPassword))
+                .check(matches(hasErrorText("Your password must be at least 6 characters")));
+
+    }
+
+
+    @Test
+    public void testNewPasswordEmpty() {
+        onView(withId(R.id.changePasswordText)).check(matches(notNullValue()));
+        onView(withId(R.id.changePasswordText)).check(matches(withText("Change Password")));
+        onView(withId(R.id.changePasswordText)).perform(click());
+        intended(hasComponent(ChangePasswordActivity.class.getName()));
+        onView(withHint("New Password")).check(ViewAssertions.matches(isDisplayed()));
+
+        onView(withId(R.id.editCurrentPassword)).perform(typeText("testtest"));
+        onView(withId(R.id.createAccountButton)).perform(click());
+        onView(withId(R.id.editCurrentPassword))
+                .check(matches(hasErrorText("Incorrect Password")));
+        onView(withId(R.id.editNewPassword))
+                .check(matches(hasErrorText("Your password must be at least 6 characters")));
+
+    }
+
+    //password do not match
+    @Test
+    public void testPasswordNotMatch() {
+        onView(withId(R.id.changePasswordText)).check(matches(notNullValue()));
+        onView(withId(R.id.changePasswordText)).check(matches(withText("Change Password")));
+        onView(withId(R.id.changePasswordText)).perform(click());
+        intended(hasComponent(ChangePasswordActivity.class.getName()));
+        onView(withHint("New Password")).check(ViewAssertions.matches(isDisplayed()));
+
+        onView(withId(R.id.editCurrentPassword)).perform(typeText("testtest"));
+        onView(withId(R.id.editNewPassword)).perform(typeText("444444"));
+        onView(withId(R.id.editConfirmNewPassword)).perform(typeText("555555"));
+
+        onView(withId(R.id.createAccountButton)).perform(click());
+        onView(withId(R.id.editCurrentPassword))
+                .check(matches(hasErrorText("Incorrect Password")));
+        onView(withId(R.id.editConfirmNewPassword))
+                .check(matches(hasErrorText("Your passwords do not match")));
+
+    }
+
+
 
     @Test
     public void testLogout() {
