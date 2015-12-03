@@ -16,7 +16,7 @@ public class RestUtil {
      * Checks whether the given Response was successfully fulfilled, if not then a
      * UserPresentableException is thrown
      * @param response The response from the server
-     * @param <T> The type of the object in the {@link ResponseWrapper}
+     * @param <T> The type of the object
      */
     public static <T> void checkResponseHazardously(ResponseEntity<? extends BaseModel> response)
             throws UserDataError, RestClientException {
@@ -35,7 +35,7 @@ public class RestUtil {
      * Checks whether the given Response was successfully fulfilled
      *
      * @param response The Response from the server
-     * @param <T> The type of the object in the {@link ResponseWrapper}
+     * @param <T> The type of the object
      * @return True if the response is deemed successful, otherwise false
      *
      */

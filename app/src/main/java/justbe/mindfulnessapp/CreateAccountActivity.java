@@ -12,19 +12,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 
 import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
-import justbe.mindfulnessapp.rest.ResponseWrapper;
 import justbe.mindfulnessapp.rest.RestUtil;
 import justbe.mindfulnessapp.rest.UserPresentableException;
 

@@ -12,8 +12,6 @@ import justbe.mindfulnessapp.R;
  * <code>
  *     {"error": {"message": "That email is already used.", "code": "duplicate_exception"}}
  * </code>
- *
- * This Class is expected to be a member of the {@link ResponseWrapper} class
  * </p>
  *
  * @author edhurtig
