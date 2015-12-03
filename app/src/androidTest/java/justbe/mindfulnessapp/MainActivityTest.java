@@ -65,43 +65,4 @@ public class MainActivityTest {
         onView(withText("Weekly Lesson")).check(doesNotExist());
         onView(withText("Meditation")).check(ViewAssertions.matches(isDisplayed()));
     }
-
-    //test AssessmentTmpButton on the main page
-    @Test
-    public void AssessmentTmpButton() {
-        onView(withId(R.id.assessmentButton)).check(matches(isDisplayed()));
-        onView(withId(R.id.assessmentButton)).perform(click());
-        intended(hasComponent(SmokeAssessmentActivity.class.getName()));
-        onView(withText("Assessment")).check(ViewAssertions.matches(isDisplayed()));
-        pressBack();
-        onView(withText("Assessment")).check(doesNotExist());
-        onView(withText("Meditation")).check(ViewAssertions.matches(isDisplayed()));
-    }
-
-    //test AssessemntTmp on Assessment page
-    @Test
-    public void AssessmentPageYesTest() {
-        onView(withId(R.id.assessmentButton)).check(matches(isDisplayed()));
-        onView(withId(R.id.assessmentButton)).perform(click());
-        intended(hasComponent(SmokeAssessmentActivity.class.getName()));
-        onView(withText("Assessment")).check(ViewAssertions.matches(isDisplayed()));
-        //press yes
-        onView(withId(R.id.yesButton)).perform(click());
-        onView(withText("Assessment")).check(doesNotExist());
-        onView(withText("Meditation")).check(ViewAssertions.matches(isDisplayed()));
-    }
-    //test AssessemntTmp on Assessment page
-
-    @Test
-    public void AssessmentPageNoTest() {
-        onView(withId(R.id.assessmentButton)).check(matches(isDisplayed()));
-        onView(withId(R.id.assessmentButton)).perform(click());
-        intended(hasComponent(SmokeAssessmentActivity.class.getName()));
-        onView(withText("Assessment")).check(ViewAssertions.matches(isDisplayed()));
-        //press yes
-        onView(withId(R.id.noButton)).perform(click());
-        onView(withText("Assessment")).check(doesNotExist());
-        onView(withText("Meditation")).check(ViewAssertions.matches(isDisplayed()));
-    }
-
 }
