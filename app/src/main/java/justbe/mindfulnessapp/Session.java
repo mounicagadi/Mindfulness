@@ -10,13 +10,11 @@ import org.springframework.http.ResponseEntity;
 import com.google.gson.*;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import justbe.mindfulnessapp.models.Success;
 import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
-import justbe.mindfulnessapp.rest.ResponseWrapper;
 import justbe.mindfulnessapp.rest.RestUtil;
 
 /**
