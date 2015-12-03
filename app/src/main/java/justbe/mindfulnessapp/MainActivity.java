@@ -87,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
 
         selectedDay = getCurrentDayOfTheWeek();
         updateSelectedDay(selectedDay);
+
+        PebbleCommunicator comms = PebbleCommunicator.getInstance();
+        comms.sendPebbleMessage("Mindfulness", "Pebble testing");
     }
 
     /**
