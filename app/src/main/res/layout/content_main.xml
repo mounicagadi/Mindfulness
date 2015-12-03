@@ -256,7 +256,8 @@
             android:background="@drawable/audio_button_shape"
             android:text="Pause"
             android:layout_toLeftOf="@+id/audioCenter"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"/>
         <TextView
             android:id="@+id/audioCenter"
             android:layout_width="0dp"
@@ -272,7 +273,8 @@
             android:background="@drawable/audio_button_shape"
             android:text="Play"
             android:layout_toRightOf="@+id/audioCenter"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"/>
         <SeekBar
             android:id="@+id/volumeBar"
             android:layout_width="fill_parent"
