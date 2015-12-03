@@ -23,7 +23,7 @@
             android:id="@+id/weekdaysLayout"
             android:baselineAligned="false"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:orientation="horizontal"
             android:layout_below="@+id/assessmentButton"
             android:gravity="center_vertical">
@@ -240,8 +240,66 @@
         android:layout_below="@+id/weekdaysLayout"
         android:layout_marginTop="50dp"
         android:layout_above="@+id/meditationText"
-        android:layout_marginBottom="10dp"
         android:background="@color/orange">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/small_text_size"
+            android:text="Meditation"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"/>
+        <Button
+            android:id="@+id/pauseButton"
+            android:onClick="pauseButtonPressed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/audio_button_shape"
+            android:text="Pause"
+            android:layout_toLeftOf="@+id/audioCenter"
+            android:layout_alignParentBottom="true" />
+        <TextView
+            android:id="@+id/audioCenter"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"/>
+        <Button
+            android:id="@+id/playButton"
+            android:onClick="playButtonPressed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/audio_button_shape"
+            android:text="Play"
+            android:layout_toRightOf="@+id/audioCenter"
+            android:layout_alignParentBottom="true" />
+        <SeekBar
+            android:id="@+id/volumeBar"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="25dp"
+            android:progress="30"
+            android:layout_above="@+id/pauseButton"/>
+        <TextView
+            android:id="@+id/currentTime"
+            android:layout_above="@+id/volumeBar"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Start"/>
+        <TextView
+            android:id="@+id/totalTime"
+            android:layout_above="@+id/volumeBar"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="End" />
+
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/meditationText"
@@ -249,14 +307,7 @@
         android:layout_height="25dp"
         android:layout_above="@+id/weeklyLessonButton"
         android:layout_marginBottom="50dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/bpWhite"
-            android:textSize="@dimen/small_text_size"
-            android:text="Meditation"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="15dp"/>
+
     </RelativeLayout>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
