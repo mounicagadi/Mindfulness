@@ -1,12 +1,5 @@
 package justbe.mindfulnessapp;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -14,13 +7,18 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-public class StressAssessmentActivity extends AppCompatActivity
+import justbe.mindfulnessapp.models.AssessmentFlowManager;
+import justbe.mindfulnessapp.models.SliderQuestion;
+
+public class SliderAssessmentActivity extends AppCompatActivity
         implements SeekBar.OnSeekBarChangeListener {
 
     /**
      * Fields
      */
     private SeekBar seekBar;
+    private AssessmentFlowManager flowManager;
+    private SliderQuestion sliderQuestion;
 
     /**
      * Called when the view is created
@@ -29,19 +27,35 @@ public class StressAssessmentActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stress_assessment);
+        setContentView(R.layout.activity_slider_assessment);
 
         // Create the toolbar
         Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Assessment");
 
+        // Get the current question through the manager
+        flowManager = AssessmentFlowManager.getInstance(this);
+        sliderQuestion = (SliderQuestion) flowManager.getCurrentAssessment();
+
+        // Set the question text
+        TextView questionText = (TextView) findViewById(R.id.textView);
+        questionText.setText(sliderQuestion.getQuestionText());
+
         // Draw scale onto seek bar
+        Integer maxSeek = sliderQuestion.getMaxSliderVal();
+        Integer middleSeek = maxSeek / 2;
+
         seekBar = (SeekBar)findViewById(R.id.stressSeekBar);
-        seekBar.setProgress(4);
-        seekBar.incrementProgressBy(1);
-        seekBar.setMax(10);
+        seekBar.setProgress(middleSeek);
+        seekBar.setMax(maxSeek);
         seekBar.setOnSeekBarChangeListener(this);
+
+        // Set text on min/max text fields
+        TextView minText = (TextView) findViewById(R.id.minText);
+        minText.setText(sliderQuestion.getMinSliderText());
+        TextView maxText = (TextView) findViewById(R.id.maxText);
+        maxText.setText(sliderQuestion.getMaxSliderText());
     }
 
     @Override
@@ -67,11 +81,6 @@ public class StressAssessmentActivity extends AppCompatActivity
      * @param view The view
      */
     public void submitPressed(View view) {
-        // TODO: Save assessment here
-
-        Intent intent = new Intent(StressAssessmentActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
-        finish();
+        flowManager.startNextAssessmentQuestion();
     }
 }

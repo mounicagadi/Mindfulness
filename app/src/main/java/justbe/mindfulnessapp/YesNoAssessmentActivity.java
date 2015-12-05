@@ -2,14 +2,11 @@ package justbe.mindfulnessapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.test.suitebuilder.annotation.Smoke;
 import android.view.View;
 
-public class SmokeAssessmentActivity extends AppCompatActivity {
+public class YesNoAssessmentActivity extends AppCompatActivity {
 
     /**
      * Called when the view is created
@@ -18,7 +15,7 @@ public class SmokeAssessmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_smoke_assessment);
+        setContentView(R.layout.activity_yes_no_assessment);
 
         // Create the toolbar
         Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -47,7 +44,7 @@ public class SmokeAssessmentActivity extends AppCompatActivity {
     public void noButtonPressed(View view) {
         // TODO: Save the result
 
-        Intent intent = new Intent(SmokeAssessmentActivity.this, MainActivity.class);
+        Intent intent = new Intent(YesNoAssessmentActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
         finish();

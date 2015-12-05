@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.support.v7.widget.Toolbar;
 
+import justbe.mindfulnessapp.models.AssessmentFlowManager;
+import justbe.mindfulnessapp.models.SliderQuestion;
+
 public class LoginActivity extends AppCompatActivity {
 
     /**
@@ -81,7 +84,6 @@ public class LoginActivity extends AppCompatActivity {
     private void login(String username, String password) {
         if(App.getSession().authenticate(username, password)) {
             Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
         } else {

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="justbe.mindfulnessapp.SmokeAssessmentActivity">
+    tools:context=".YesNoAssessmentActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -15,6 +15,6 @@
         android:elevation="4dp"
         android:theme="@style/ToolbarStyle.Event" />
 
-    <include layout="@layout/content_smoke_assessment" />
+    <include layout="@layout/content_yes_no_assessment" />
 
 </android.support.design.widget.CoordinatorLayout>

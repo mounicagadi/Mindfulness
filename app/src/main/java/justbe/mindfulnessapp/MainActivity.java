@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -25,9 +24,12 @@ import android.media.MediaPlayer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import android.os.Handler;
+
 import java.util.Calendar;
 
+import justbe.mindfulnessapp.models.AssessmentFlowManager;
 import justbe.mindfulnessapp.models.User;
 
 
@@ -230,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
         // Attempt to create  and display the weekly progress popup
         try {
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View pw_view = inflater.inflate(R.layout.activity_check_progress_popup,
+            View pw_view = inflater.inflate(R.layout.check_progress_popup,
                     (ViewGroup) findViewById(R.id.checkProgressPopup));
             popupWindow = new PopupWindow(pw_view,  width, height, true);
             popupWindow.setBackgroundDrawable(new ColorDrawable());
@@ -289,21 +291,20 @@ public class MainActivity extends AppCompatActivity {
 
     // TODO: Remove this after assessment acitivies are done
     // THIS IS A TEMP BUTTON USED TO TEST ASSESSMENT ACTIVITIES
-    public void smokeAssessmentButtonPressed(View view) {
-        Intent intent = new Intent(MainActivity.this, SmokeAssessmentActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
+    public void morningAssessmentButtonPressed(View view) {
+        // Create the morning AssessmentQuestionFlowManagers
+        AssessmentFlowManagerFactory managerFactory = new AssessmentFlowManagerFactory(this);
+        managerFactory.addMorningAssessmentQuestions();
+        AssessmentFlowManager morningAssessmentFlowManager = AssessmentFlowManager.getInstance(this);
+        morningAssessmentFlowManager.startNextAssessmentQuestion();
     }
-    public void sleepAssessmentButtonPressed(View view) {
-        Intent intent = new Intent(MainActivity.this, SleepAssessmentActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
+    public void dayAssessmentButtonPressed(View view) {
+        AssessmentFlowManagerFactory managerFactory = new AssessmentFlowManagerFactory(this);
+        managerFactory.addDayAssessmentQuestions();
+        AssessmentFlowManager dayAssessmentFlowManager = AssessmentFlowManager.getInstance(this);
+        dayAssessmentFlowManager.startNextAssessmentQuestion();
     }
-    public void stressAssessmentButtonPressed(View view) {
-        Intent intent = new Intent(MainActivity.this, StressAssessmentActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
-    }
+
 
     /**
      * Callback for when any weekday is pressed
@@ -429,5 +430,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return weekImageView;
+    }
+
+    private AssessmentFlowManager createDayAssessmentFlowManager() {
+        AssessmentFlowManager dayAssessmentFlowManager = new AssessmentFlowManager(this);
+
+        return dayAssessmentFlowManager;
     }
 }

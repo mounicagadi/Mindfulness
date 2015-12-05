@@ -15,53 +15,64 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CreateAccountActivity"
             android:label="@string/title_activity_create_account"
             android:parentActivityName=".LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PreferencesActivity"
             android:label="Preferences"
+            android:launchMode="singleTask"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTask"/>/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        />
         <activity
             android:name=".LessonActivity"
             android:label="@string/title_activity_lesson"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".StressAssessmentActivity"
+            android:name=".SliderAssessmentActivity"
             android:label="@string/title_activity_assessment"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SleepAssessmentActivity"
+            android:name=".DropdownAssessmentActivity"
             android:label="@string/title_activity_assessment"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ChangePasswordActivity"
             android:label="@string/title_activity_change_password"
             android:parentActivityName=".PreferencesActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SmokeAssessmentActivity"
+            android:name=".YesNoAssessmentActivity"
             android:label="@string/title_activity_smoke_assessment"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".MultiChoiceAssessmentActivity"
+            android:label="@string/title_activity_multi_choice_assessment"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="justbe.mindfulnessapp.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
