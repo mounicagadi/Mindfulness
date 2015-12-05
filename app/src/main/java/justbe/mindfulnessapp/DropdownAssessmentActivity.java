@@ -1,6 +1,5 @@
 package justbe.mindfulnessapp;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -8,24 +7,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-public class SleepAssessmentActivity extends AppCompatActivity
+import justbe.mindfulnessapp.models.AssessmentFlowManager;
+import justbe.mindfulnessapp.models.DropdownQuestion;
+
+public class DropdownAssessmentActivity extends AppCompatActivity
         implements AdapterView.OnItemSelectedListener {
 
     /**
      * Fields
      */
     private Spinner spinner;
-    private static final String[]paths = {"Did Not Sleep", "Half an Hour",
-                                          "1 Hour", "1.5 Hours",
-                                          "2 Hours", "2.5 Hours",
-                                          "3 Hours", "3.5 Hours",
-                                          "4 Hours", "4.5 Hours",
-                                          "5 Hours", "5.5 Hours",
-                                          "6 Hours", "6.5 Hours",
-                                          "7 Hours", "7.5 Hours",
-                                          "8 Hours", "8.5 Hours",
-                                          "9 Or More Hours"};
+    private AssessmentFlowManager flowManager;
+    private DropdownQuestion dropdownQuestion;
 
     /**
      * Called when the view is created
@@ -34,16 +29,24 @@ public class SleepAssessmentActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sleep_assessment);
+        setContentView(R.layout.activity_dropdown_assessment);
 
         Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Assessment");
 
+        // Get the current question through the manager
+        flowManager = AssessmentFlowManager.getInstance(this);
+        dropdownQuestion = (DropdownQuestion) flowManager.getCurrentAssessment();
+
+        // Set the question text
+        TextView questionText = (TextView) findViewById(R.id.textView);
+        questionText.setText(dropdownQuestion.getQuestionText());
+
         // Create dropdown menu
         spinner = (Spinner)findViewById(R.id.sleep_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.spinner_init_item,paths);
+                R.layout.spinner_init_item, dropdownQuestion.getDropdownOptions());
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
@@ -74,11 +77,6 @@ public class SleepAssessmentActivity extends AppCompatActivity
      * @param view The view
      */
     public void submitPressed(View view) {
-        // TODO: Save assessment here
-
-        Intent intent = new Intent(SleepAssessmentActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
-        finish();
+        flowManager.startNextAssessmentQuestion();
     }
 }

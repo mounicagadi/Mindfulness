@@ -58,10 +58,6 @@ public class Session {
             editor.putString("username", this.username);
         }
 
-        if (this.user != null) {
-            editor.putString("user", this.user);
-        }
-
         if (this.sessionId != null) {
             editor.putString("sessionId", this.sessionId);
         }
