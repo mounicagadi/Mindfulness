@@ -80,4 +80,131 @@
         <item>Female</item>
         <item>Other</item>
     </string-array>
+    <string name="title_activity_multi_choice_assessment">MultiChoiceAssessment</string>
+
+    <string name="lifeQuestion">Yesterday, I was satisfied with my life.</string>
+    <string name="leisureQuestion">Yesterday, I spent ___ hours on my leisure activities.</string>
+    <string name="sleepQuestion1">Last night, I slept ___ hours.</string>
+    <string name="sleepQuestion2">Today, after my sleep, I feel ___.</string>
+    <string name="sleepQuestion3">Last night, my dreams were bad.</string>
+    <string name="drinkingQuestion">Yesterday, I had ___ alcoholic drinks.</string>
+    <string name="smokingQuestion">Yesterday, I had ___ cigarettes.</string>
+    <string name="physicalQuestion1">Yesterday, I walked ___ minutes.</string>
+    <string name="physicalQuestion2">Yesterday, I exercised for ___ minutes.</string>
+    <string name="physicalQuestion3">Yesterday, I used  TV/Computer/Videogame for ____ minutes.</string>
+    <string name="symptomsQuestion1">Yesterday, I had physical pain ___.</string>
+    <string name="symptomsQuestion2">This pain bothered me ___.</string>
+    <string name="socialConnectednessQuestion1">Yesterday, I spent ___ hours with my friends or family.</string>
+    <string name="socialConnectednessQuestion2">During my social interactions yesterday, I was able to relate to the person/s around me.</string>
+    <string name="socialConnectednessQuestion3">During my social interactions yesterday, I felt isolated from others.</string>
+    <string name="stressManagementQuestion">Yesterday, I used this techniques to deal with my stress:</string>
+
+    <string-array name="stressManagementChoices">
+        <item>Took deep breaths</item>
+        <item>Checked in with my body</item>
+        <item>Took a moment to slow down</item>
+        <item>Paid deliberate attention to my actions</item>
+        <item>Distracted myself with TV, computer, or social media</item>
+        <item>Procrastinated or denied dealing with things</item>
+        <item>Used drugs or alcohol to deal with stress</item>
+        <item>Used food to improve my mood</item>
+        <item>Talked to people I trust to feel better</item>
+    </string-array>
+
+    <string name="notAtAll">Not At All</string>
+    <string name="extremely">Extremely</string>
+    <string name="veryRested">Very Rested</string>
+    <string name="veryTired">Very Tired</string>
+    <string name="veryMuch">Very Much</string>
+
+    <string name="zero">0</string>
+    <string name="threeHundred">300</string>
+    <string-array name="HRS16">
+        <item>0 Hours</item>
+        <item>1 Hours</item>
+        <item>2 Hours</item>
+        <item>3 Hours</item>
+        <item>4 Hours</item>
+        <item>5 Hours</item>
+        <item>6 Hours</item>
+        <item>7 Hours</item>
+        <item>8 Hours</item>
+        <item>9 Hours</item>
+        <item>10 Hours</item>
+        <item>11 Hours</item>
+        <item>12 Hours</item>
+        <item>13 Hours</item>
+        <item>14 Hours</item>
+        <item>15 Hours</item>
+        <item>16 Hours</item>
+    </string-array>
+
+    <string-array name="HRS15">
+        <item>0 Hours</item>
+        <item>1 Hours</item>
+        <item>2 Hours</item>
+        <item>3 Hours</item>
+        <item>4 Hours</item>
+        <item>5 Hours</item>
+        <item>6 Hours</item>
+        <item>7 Hours</item>
+        <item>8 Hours</item>
+        <item>9 Hours</item>
+        <item>10 Hours</item>
+        <item>11 Hours</item>
+        <item>12 Hours</item>
+        <item>13 Hours</item>
+        <item>14 Hours</item>
+        <item>15 Hours</item>
+    </string-array>
+
+    <string-array name="HRS12">
+        <item>0 Hours</item>
+        <item>1 Hours</item>
+        <item>2 Hours</item>
+        <item>3 Hours</item>
+        <item>4 Hours</item>
+        <item>5 Hours</item>
+        <item>6 Hours</item>
+        <item>7 Hours</item>
+        <item>8 Hours</item>
+        <item>9 Hours</item>
+        <item>10 Hours</item>
+        <item>11 Hours</item>
+        <item>12 Hours</item>
+    </string-array>
+
+    <string-array name="HALF5">
+        <item>0 Hours</item>
+        <item>Half an Hour</item>
+        <item>1 Hours</item>
+        <item>1.5 hours</item>
+        <item>2 Hours</item>
+        <item>2.5 Hours</item>
+        <item>3 Hours</item>
+        <item>3.5 Hours</item>
+        <item>4 Hours</item>
+        <item>4.5 Hours</item>
+        <item>5 Hours</item>
+    </string-array>
+
+    <string-array name="N16">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+    </string-array>
 </resources>
