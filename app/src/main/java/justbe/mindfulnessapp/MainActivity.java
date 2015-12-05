@@ -4,12 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,9 +15,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.media.MediaPlayer;
@@ -27,9 +25,7 @@ import android.media.MediaPlayer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import android.os.Handler;
-import org.w3c.dom.Text;
 import java.util.Calendar;
 
 import justbe.mindfulnessapp.models.User;
@@ -48,9 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
     // audio player variables
     private MediaPlayer mediaPlayer;
+    private boolean audioPlaying;
     private SeekBar volumeBar;
     private TextView currentAudioTimeText, totalAudioTimeText;
-    private Button playButton, pauseButton;
+    private ImageButton audioButton;
     private Handler audioInfoUpdater;
     private double currentTime;
     private double totalTime;
@@ -104,8 +101,7 @@ public class MainActivity extends AppCompatActivity {
         volumeBar =(SeekBar)findViewById(R.id.volumeBar);
         currentAudioTimeText = (TextView)findViewById(R.id.currentTime);
         totalAudioTimeText = (TextView)findViewById(R.id.totalTime);
-        playButton = (Button)findViewById(R.id.playButton);
-        pauseButton = (Button)findViewById(R.id.pauseButton);
+        audioButton = (ImageButton)findViewById(R.id.audioButton);
 
         currentTime = mediaPlayer.getCurrentPosition();
         totalTime = mediaPlayer.getDuration();
@@ -142,8 +138,8 @@ public class MainActivity extends AppCompatActivity {
         audioInfoUpdater = new Handler();
         audioInfoUpdater.postDelayed(UpdateCurrentTime,100);
 
-        playButton.setEnabled(true);
-        pauseButton.setEnabled(false);
+        audioPlaying = false;
+        audioButton.setImageResource(R.drawable.play);
     }
 
     /**
@@ -194,23 +190,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Callback for when the audio play button is pressed
+     * Callback for when the audio button is pressed
      * @param view The View
      */
-    public void playButtonPressed(View view) {
-        mediaPlayer.start();
-        playButton.setEnabled(false);
-        pauseButton.setEnabled(true);
-    }
-
-    /**
-     * Callback for when the audio pause button is pressed
-     * @param view The View
-     */
-    public void pauseButtonPressed(View view) {
-        mediaPlayer.pause();
-        playButton.setEnabled(true);
-        pauseButton.setEnabled(false);
+    public void audioButtonPressed(View view) {
+        if(audioPlaying) {
+            mediaPlayer.stop();
+            audioButton.setImageResource(R.drawable.play);
+            audioPlaying = false;
+        }
+        else {
+            mediaPlayer.start();
+            audioButton.setImageResource(R.drawable.pause);
+            audioPlaying = true;
+        }
     }
 
     /**
