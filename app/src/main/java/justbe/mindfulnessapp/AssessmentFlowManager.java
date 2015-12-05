@@ -1,4 +1,4 @@
-package justbe.mindfulnessapp.models;
+package justbe.mindfulnessapp;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.content.Intent;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import justbe.mindfulnessapp.MainActivity;
+import justbe.mindfulnessapp.models.AssessmentQuestion;
 
 public final class AssessmentFlowManager {
 

@@ -5,7 +5,6 @@ import android.content.Context;
 
 import java.util.Arrays;
 
-import justbe.mindfulnessapp.models.AssessmentFlowManager;
 import justbe.mindfulnessapp.models.DropdownQuestion;
 import justbe.mindfulnessapp.models.MultiChoiceQuestion;
 import justbe.mindfulnessapp.models.SliderQuestion;

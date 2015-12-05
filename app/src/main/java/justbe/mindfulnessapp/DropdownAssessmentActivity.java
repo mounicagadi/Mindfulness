@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import justbe.mindfulnessapp.models.AssessmentFlowManager;
 import justbe.mindfulnessapp.models.DropdownQuestion;
 
 public class DropdownAssessmentActivity extends AppCompatActivity

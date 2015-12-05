@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import justbe.mindfulnessapp.models.AssessmentFlowManager;
 import justbe.mindfulnessapp.models.SliderQuestion;
 
 public class SliderAssessmentActivity extends AppCompatActivity

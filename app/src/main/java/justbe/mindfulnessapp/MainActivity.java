@@ -29,7 +29,6 @@ import android.os.Handler;
 
 import java.util.Calendar;
 
-import justbe.mindfulnessapp.models.AssessmentFlowManager;
 import justbe.mindfulnessapp.models.User;
 
 
