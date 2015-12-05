@@ -85,8 +85,6 @@ public class LoginActivityTest {
         intended(hasComponent(MainActivity.class.getName()));
         //login in button disappear
         onView(withText("Login")).check(doesNotExist());
-        //when user reach main page the text Meditation will show
-        onView(withText("Meditation")).check(ViewAssertions.matches(isDisplayed()));
 
     }
 }
