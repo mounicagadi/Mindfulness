@@ -10,13 +10,11 @@ import org.springframework.http.ResponseEntity;
 import com.google.gson.*;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import justbe.mindfulnessapp.models.Success;
 import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
-import justbe.mindfulnessapp.rest.ResponseWrapper;
 import justbe.mindfulnessapp.rest.RestUtil;
 
 /**
@@ -58,10 +56,6 @@ public class Session {
 
         if (this.username != null) {
             editor.putString("username", this.username);
-        }
-
-        if (this.user != null) {
-            editor.putString("user", this.user);
         }
 
         if (this.sessionId != null) {
@@ -313,6 +307,7 @@ public class Session {
         if (RestUtil.checkResponse(response) && response.getBody() != null && response.getBody().getSuccess()) {
             this.removeSessionId();
             this.removeCsrfToken();
+            App.getSession().setUser(null);
             return true;
         } else {
             return false;

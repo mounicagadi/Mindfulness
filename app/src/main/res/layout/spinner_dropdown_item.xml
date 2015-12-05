@@ -9,5 +9,4 @@
     style="?android:attr/spinnerItemStyle"
     android:singleLine="true"
     android:textColor="@color/bpDark_gray"
-    android:textSize="@dimen/normal_text_size"
-    android:background="@drawable/dropdown_item_background"/>
+    android:textSize="@dimen/normal_text_size"/>

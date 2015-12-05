@@ -65,8 +65,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
             // TODO: Change password here
 
             // Go to the getting stated activity
-            Intent intent = new Intent(this, PreferencesActivity.class);
+            Intent intent = new Intent(ChangePasswordActivity.this, PreferencesActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
+            finish();
         } else {
             current_password_field.setError("Incorrect Password");
         }

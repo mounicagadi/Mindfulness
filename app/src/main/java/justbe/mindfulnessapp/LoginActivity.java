@@ -68,7 +68,8 @@ public class LoginActivity extends AppCompatActivity {
      * @param view The View
      */
     public void createAccountPressed(View view) {
-        Intent intent = new Intent(this, CreateAccountActivity.class);
+        Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
@@ -81,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         if(App.getSession().authenticate(username, password)) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
         } else {
             password_field = (EditText) findViewById(R.id.editPassword);
             password_field.setError("Password and username didn't match an account");
