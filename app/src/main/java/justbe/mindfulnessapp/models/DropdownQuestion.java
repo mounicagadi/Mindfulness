@@ -2,6 +2,9 @@ package justbe.mindfulnessapp.models;
 
 import justbe.mindfulnessapp.DropdownAssessmentActivity;
 
+/**
+ * Holds metadata for the DropdownAssessmentActivity
+ */
 public class DropdownQuestion extends AssessmentQuestion  {
     /**
      * Fields
@@ -21,7 +24,7 @@ public class DropdownQuestion extends AssessmentQuestion  {
     }
 
     /**
-     * Get the question activity class
+     * Gets this question's activity
      * @return The DropdownAssessmentActivity class
      */
     public Class getQuestionActivity() { return DropdownAssessmentActivity.class; }

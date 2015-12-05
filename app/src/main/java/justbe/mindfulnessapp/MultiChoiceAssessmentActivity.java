@@ -13,7 +13,7 @@ import android.widget.TextView;
 import justbe.mindfulnessapp.models.AssessmentFlowManager;
 import justbe.mindfulnessapp.models.MultiChoiceQuestion;
 
-public class MultiChoiceAssessment extends AppCompatActivity{
+public class MultiChoiceAssessmentActivity extends AppCompatActivity{
 
     /**
      * Fields
@@ -68,7 +68,7 @@ public class MultiChoiceAssessment extends AppCompatActivity{
             }
         }
 
-        Intent intent = new Intent(MultiChoiceAssessment.this, MainActivity.class);
+        Intent intent = new Intent(MultiChoiceAssessmentActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
         finish();

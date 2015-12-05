@@ -65,7 +65,7 @@
             android:label="@string/title_activity_smoke_assessment"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MultiChoiceAssessment"
+            android:name=".MultiChoiceAssessmentActivity"
             android:label="@string/title_activity_multi_choice_assessment"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

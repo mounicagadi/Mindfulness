@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -24,7 +23,6 @@ import android.media.MediaPlayer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 
 import android.os.Handler;
@@ -32,9 +30,6 @@ import android.os.Handler;
 import java.util.Calendar;
 
 import justbe.mindfulnessapp.models.AssessmentFlowManager;
-import justbe.mindfulnessapp.models.DropdownQuestion;
-import justbe.mindfulnessapp.models.MultiChoiceQuestion;
-import justbe.mindfulnessapp.models.SliderQuestion;
 import justbe.mindfulnessapp.models.User;
 
 
@@ -297,12 +292,17 @@ public class MainActivity extends AppCompatActivity {
     // TODO: Remove this after assessment acitivies are done
     // THIS IS A TEMP BUTTON USED TO TEST ASSESSMENT ACTIVITIES
     public void morningAssessmentButtonPressed(View view) {
-        // Create the morning and day AssessmentQuestionFlowManagers
-        AssessmentFlowManager morningAssessmentFlowManager = createMorningAssessmentFlowManager();
+        // Create the morning AssessmentQuestionFlowManagers
+        AssessmentFlowManagerFactory managerFactory = new AssessmentFlowManagerFactory(this);
+        managerFactory.addMorningAssessmentQuestions();
+        AssessmentFlowManager morningAssessmentFlowManager = AssessmentFlowManager.getInstance(this);
         morningAssessmentFlowManager.startNextAssessmentQuestion();
     }
     public void dayAssessmentButtonPressed(View view) {
-
+        AssessmentFlowManagerFactory managerFactory = new AssessmentFlowManagerFactory(this);
+        managerFactory.addDayAssessmentQuestions();
+        AssessmentFlowManager dayAssessmentFlowManager = AssessmentFlowManager.getInstance(this);
+        dayAssessmentFlowManager.startNextAssessmentQuestion();
     }
 
 
@@ -430,88 +430,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return weekImageView;
-    }
-
-    private AssessmentFlowManager createMorningAssessmentFlowManager() {
-        AssessmentFlowManager morningAssessmentFlowManager = AssessmentFlowManager.getInstance(this);
-
-        // Life Satisfaction
-        SliderQuestion lifeAssessment = new SliderQuestion(this.getString(R.string.lifeQuestion),
-                0, this.getString(R.string.notAtAll), 10, this.getString(R.string.extremely));
-        morningAssessmentFlowManager.addAssessment(lifeAssessment);
-
-        // Leisure
-        DropdownQuestion leisureAssessment = new DropdownQuestion(this.getString(R.string.leisureQuestion),
-                getResources().getStringArray(R.array.HRS16));
-        morningAssessmentFlowManager.addAssessment(leisureAssessment);
-
-        // Sleep
-        DropdownQuestion sleepAssessment1 = new DropdownQuestion(this.getString(R.string.sleepQuestion1),
-                getResources().getStringArray(R.array.HRS16));
-        morningAssessmentFlowManager.addAssessment(sleepAssessment1);
-
-        SliderQuestion sleepAssessment2 = new SliderQuestion(this.getString(R.string.sleepQuestion2),
-                0, this.getString(R.string.veryTired), 10, this.getString(R.string.veryRested));
-        morningAssessmentFlowManager.addAssessment(sleepAssessment2);
-
-        SliderQuestion sleepAssessment3 = new SliderQuestion(this.getString(R.string.sleepQuestion3),
-                0, this.getString(R.string.notAtAll), 10, this.getString(R.string.extremely));
-        morningAssessmentFlowManager.addAssessment(sleepAssessment3);
-
-        // Drinking
-        DropdownQuestion drinkingAssessment = new DropdownQuestion(this.getString(R.string.drinkingQuestion),
-                getResources().getStringArray(R.array.N16));
-        morningAssessmentFlowManager.addAssessment(drinkingAssessment);
-
-        // Smoking
-        int[] nums = new int[41];
-        for (int i = 0; i <= 40; i++) { nums[i] = i; }
-        String[] H40 = Arrays.toString(nums).split("[\\[\\]]")[1].split(", ");
-        DropdownQuestion smokingAssessment = new DropdownQuestion(this.getString(R.string.smokingQuestion),
-                H40);
-        morningAssessmentFlowManager.addAssessment(smokingAssessment);
-
-        // Physical Activity
-        DropdownQuestion physicalQuestion1 = new DropdownQuestion(this.getString(R.string.physicalQuestion1),
-                getResources().getStringArray(R.array.HALF5));
-        morningAssessmentFlowManager.addAssessment(physicalQuestion1);
-
-        DropdownQuestion physicalQuestion2 = new DropdownQuestion(this.getString(R.string.physicalQuestion2),
-                getResources().getStringArray(R.array.HALF5));
-        morningAssessmentFlowManager.addAssessment(physicalQuestion2);
-
-        DropdownQuestion phsyicalQuestion3 = new DropdownQuestion(this.getString(R.string.physicalQuestion3),
-                getResources().getStringArray(R.array.HALF5));
-        morningAssessmentFlowManager.addAssessment(phsyicalQuestion3);
-
-        // Symptoms
-        SliderQuestion symptomsQuestion1 = new SliderQuestion(this.getString(R.string.symptomsQuestion1),
-                0, this.getString(R.string.notAtAll), 10, this.getString(R.string.veryMuch));
-        morningAssessmentFlowManager.addAssessment(symptomsQuestion1);
-
-        SliderQuestion symptomsQuestion2 = new SliderQuestion(this.getString(R.string.symptomsQuestion2),
-                0, this.getString(R.string.notAtAll), 10, this.getString(R.string.veryMuch));
-        morningAssessmentFlowManager.addAssessment(symptomsQuestion2);
-
-        // Social
-        DropdownQuestion socialQuestion1 = new DropdownQuestion(this.getString(R.string.socialConnectednessQuestion1),
-                getResources().getStringArray(R.array.HRS12));
-        morningAssessmentFlowManager.addAssessment(socialQuestion1);
-
-        SliderQuestion socialQuestion2 = new SliderQuestion(this.getString(R.string.socialConnectednessQuestion2),
-                0, this.getString(R.string.notAtAll), 10,this.getString(R.string.veryMuch));
-        morningAssessmentFlowManager.addAssessment(socialQuestion2);
-
-        SliderQuestion socialQuesition3 = new SliderQuestion(this.getString(R.string.socialConnectednessQuestion3),
-                0, this.getString(R.string.notAtAll), 10, this.getString(R.string.veryMuch));
-        morningAssessmentFlowManager.addAssessment(socialQuesition3);
-
-        // Stress Management
-        MultiChoiceQuestion stressManagmentQuestion = new MultiChoiceQuestion(this.getString(R.string.stressManagementQuestion),
-                getResources().getStringArray(R.array.stressManagementChoices));
-        morningAssessmentFlowManager.addAssessment(stressManagmentQuestion);
-
-        return morningAssessmentFlowManager;
     }
 
     private AssessmentFlowManager createDayAssessmentFlowManager() {
