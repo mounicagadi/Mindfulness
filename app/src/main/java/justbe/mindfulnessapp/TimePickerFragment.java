@@ -8,9 +8,14 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.TimePicker;
 
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+
 import java.util.Date;
 
 import justbe.mindfulnessapp.models.User;
+import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
+import justbe.mindfulnessapp.rest.RestUtil;
 
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
@@ -70,6 +75,19 @@ public class TimePickerFragment extends DialogFragment
     @Override
     public void onDismiss(DialogInterface frag) {
         super.onDismiss(frag);
+
+        // Save the new values on the server
+        // Create an HTTPRequestTask that sends a User Object and Returns a User Object
+        GenericHttpRequestTask<User, User> task = new GenericHttpRequestTask(User.class, User.class);
+        task.execute("/api/v1/user_profile/", HttpMethod.PUT, user);
+
+        try {
+            ResponseEntity<User> result = task.waitForResponse();
+            RestUtil.checkResponseHazardously(result);
+        } catch (Exception e) {
+            //new UserPresentableException(e).alert(this);
+        }
+
         // Reload the time fields with the new values
         listener.refreshView();
     }
