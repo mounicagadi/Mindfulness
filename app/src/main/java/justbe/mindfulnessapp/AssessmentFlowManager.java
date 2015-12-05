@@ -52,6 +52,12 @@ public final class AssessmentFlowManager {
     public AssessmentQuestion getCurrentAssessment() { return this.currentAssessment; }
 
     /**
+     * Gets the assessments
+     * @return Assessments currently added to the flow
+     */
+    public Queue<AssessmentQuestion> getAssessments() { return this.assessments; }
+
+    /**
      * Adds a assessment to the queue
      * @param newAssessment the new assessment
      */
