@@ -29,7 +29,9 @@
 
             <TextView
                 android:id="@+id/currentUsername"
-                android:padding="10dip"
+                android:padding="10dp"
+                android:layout_width="fill_parent"
+                android:width="0dp"
                 android:layout_marginRight="5dp"
                 android:background="@color/bpTransparent"
                 android:gravity="right"
