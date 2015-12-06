@@ -56,11 +56,6 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ChangePasswordActivity"
-            android:label="@string/title_activity_change_password"
-            android:parentActivityName=".PreferencesActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".YesNoAssessmentActivity"
             android:label="@string/title_activity_smoke_assessment"
             android:theme="@style/AppTheme.NoActionBar" />

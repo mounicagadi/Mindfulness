@@ -156,26 +156,6 @@
         </LinearLayout>
 
         <TableRow
-            android:clickable="true"
-            android:onClick="changePassword"
-            android:background="@drawable/clickable_table_row_selector">
-            <TextView
-                android:id="@+id/changePasswordText"
-                android:padding="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_gravity="left"
-                android:text="@string/change_password_text"
-                android:textSize="@dimen/normal_text_size"
-                android:textColor="@color/orange"/>
-        </TableRow>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="2dp" >
-            <View style="@style/Divider" />
-        </LinearLayout>
-
-        <TableRow
             android:id="@+id/logOutRow"
             android:clickable="true"
             android:onClick="logout"

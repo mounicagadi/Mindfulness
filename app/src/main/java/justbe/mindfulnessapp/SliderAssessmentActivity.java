@@ -45,7 +45,7 @@ public class SliderAssessmentActivity extends AppCompatActivity
         Integer maxSeek = sliderQuestion.getMaxSliderVal();
         Integer middleSeek = maxSeek / 2;
 
-        seekBar = (SeekBar)findViewById(R.id.stressSeekBar);
+        seekBar = (SeekBar)findViewById(R.id.seekBar);
         seekBar.setProgress(middleSeek);
         seekBar.setMax(maxSeek);
         seekBar.setOnSeekBarChangeListener(this);

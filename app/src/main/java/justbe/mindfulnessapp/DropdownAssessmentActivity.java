@@ -43,7 +43,7 @@ public class DropdownAssessmentActivity extends AppCompatActivity
         questionText.setText(dropdownQuestion.getQuestionText());
 
         // Create dropdown menu
-        spinner = (Spinner)findViewById(R.id.sleep_spinner);
+        spinner = (Spinner)findViewById(R.id.dropdown_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 R.layout.spinner_init_item, dropdownQuestion.getDropdownOptions());
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
@@ -75,7 +75,7 @@ public class DropdownAssessmentActivity extends AppCompatActivity
      * Saves the results from the assessment
      * @param view The view
      */
-    public void submitPressed(View view) {
+    public void nextPressed(View view) {
         flowManager.startNextAssessmentQuestion();
     }
 }

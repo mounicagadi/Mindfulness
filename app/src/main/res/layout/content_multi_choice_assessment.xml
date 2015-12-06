@@ -29,11 +29,11 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/submitButton"
+        android:id="@+id/nextButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:text="@string/submit_button"
+        android:text="@string/next"
         android:textSize="@dimen/normal_text_size"
         android:onClick="submitPressed"/>
 </RelativeLayout>

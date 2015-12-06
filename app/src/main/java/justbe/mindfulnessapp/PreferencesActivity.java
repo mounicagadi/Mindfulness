@@ -128,16 +128,6 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
     }
 
     /**
-     * Callback for when the change password button is pressed
-     * @param view The view
-     */
-    public void changePassword(View view) {
-        Intent intent = new Intent(PreferencesActivity.this, ChangePasswordActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
-    }
-
-    /**
      * Callback for when the logout button is pressed
      * Logs the current user out of the app and sends them to the login activity
      * @param view The view

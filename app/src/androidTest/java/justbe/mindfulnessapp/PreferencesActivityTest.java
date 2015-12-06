@@ -30,7 +30,6 @@ import static org.hamcrest.Matchers.not;
 @RunWith(AndroidJUnit4.class)
 public class PreferencesActivityTest {
 
-
     @Rule
     public IntentsTestRule prefActivityRule = new IntentsTestRule(PreferencesActivity.class);
 
@@ -48,7 +47,6 @@ public class PreferencesActivityTest {
         onView(allOf(withId(R.id.wakeUpTime), withText(""))).check(ViewAssertions.matches(isDisplayed()));
         onView(withText("I go to sleep at")).check(ViewAssertions.matches(isDisplayed()));
         onView(allOf(withId(R.id.goToSleepTime), withText(""))).check(ViewAssertions.matches(isDisplayed()));
-        onView(withText("Change Password")).check(ViewAssertions.matches(isDisplayed()));
         onView(withText("Log Out")).check(ViewAssertions.matches(isDisplayed()));
     }
 
@@ -78,59 +76,6 @@ public class PreferencesActivityTest {
         onView(withId(R.id.goToSleepRow)).check(matches(notNullValue()));
         onView(withId(R.id.goToSleepText)).check(matches(withText("I go to sleep at")));
         onView(withId(R.id.goToSleepRow)).perform(click());
-    }
-
-    //cahnge password activity test
-    @Test
-    public void testChangePassword() {
-        onView(withId(R.id.changePasswordText)).check(matches(notNullValue()));
-        onView(withId(R.id.changePasswordText)).check(matches(withText("Change Password")));
-        onView(withId(R.id.changePasswordText)).perform(click());
-        intended(hasComponent(ChangePasswordActivity.class.getName()));
-        onView(withHint("New Password")).check(ViewAssertions.matches(isDisplayed()));
-        pressBack();
-        onView(withHint("New Password")).check(doesNotExist());
-    }
-
-
-    //change error password activity test
-    //original password does not match
-    @Test
-    public void testOriginNotMatch() {
-        onView(withId(R.id.changePasswordText)).check(matches(notNullValue()));
-        onView(withId(R.id.changePasswordText)).check(matches(withText("Change Password")));
-        onView(withId(R.id.changePasswordText)).perform(click());
-        intended(hasComponent(ChangePasswordActivity.class.getName()));
-        onView(withHint("New Password")).check(ViewAssertions.matches(isDisplayed()));
-
-        onView(withId(R.id.editCurrentPassword)).perform(typeText("3"));
-        onView(withId(R.id.createAccountButton)).perform(click());
-        onView(withId(R.id.editCurrentPassword))
-                .check(matches(hasErrorText("Incorrect Password")));
-        onView(withId(R.id.editNewPassword))
-                .check(matches(hasErrorText("Your password must be at least 6 characters")));
-
-    }
-
-    //password do not match
-    @Test
-    public void testPasswordNotMatch() {
-        onView(withId(R.id.changePasswordText)).check(matches(notNullValue()));
-        onView(withId(R.id.changePasswordText)).check(matches(withText("Change Password")));
-        onView(withId(R.id.changePasswordText)).perform(click());
-        intended(hasComponent(ChangePasswordActivity.class.getName()));
-        onView(withHint("New Password")).check(ViewAssertions.matches(isDisplayed()));
-
-        onView(withId(R.id.editCurrentPassword)).perform(typeText("testtest"));
-        onView(withId(R.id.editNewPassword)).perform(typeText("444444"));
-        onView(withId(R.id.editConfirmNewPassword)).perform(typeText("555555"));
-
-        onView(withId(R.id.createAccountButton)).perform(click());
-        onView(withId(R.id.editCurrentPassword))
-                .check(matches(hasErrorText("Incorrect Password")));
-        onView(withId(R.id.editConfirmNewPassword))
-                .check(matches(hasErrorText("Your passwords do not match")));
-
     }
 
     @Test

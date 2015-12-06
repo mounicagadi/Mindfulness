@@ -239,6 +239,8 @@ public class Session {
 
         User u = new User();
 
+        Log.v("username", username);
+        Log.v("password", raw_password);
         u.setUsername(username);
         u.setPassword(raw_password);
         task.execute("/api/v1/user/login/", HttpMethod.POST, u);

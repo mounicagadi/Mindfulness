@@ -26,7 +26,7 @@
             android:layout_below="@+id/textView"
             android:layout_marginTop="20dp">
             <SeekBar
-                android:id="@+id/stressSeekBar"
+                android:id="@+id/seekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -36,7 +36,7 @@
                 android:id="@+id/minText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/stressSeekBar"
+                android:layout_below="@id/seekBar"
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="-10dp"
                 android:layout_marginLeft="10dp"
@@ -45,7 +45,7 @@
                 android:id="@+id/maxText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/stressSeekBar"
+                android:layout_below="@id/seekBar"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="-10dp"
                 android:layout_marginRight="10dp"
@@ -53,11 +53,11 @@
         </RelativeLayout>
     </RelativeLayout>
     <Button
-        android:id="@+id/submitButton"
+        android:id="@+id/nextButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:text="@string/submit_button"
+        android:text="@string/next"
         android:textSize="@dimen/normal_text_size"
         android:onClick="submitPressed"/>
 </RelativeLayout>

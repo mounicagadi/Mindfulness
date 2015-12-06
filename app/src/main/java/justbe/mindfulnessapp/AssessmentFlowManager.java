@@ -52,6 +52,13 @@ public final class AssessmentFlowManager {
     public AssessmentQuestion getCurrentAssessment() { return this.currentAssessment; }
 
     /**
+     * Sets the current assessment question
+     * DO NOT USE OTHER THAN IN TESTS
+     * @param assessment The new assessment question
+     */
+    public void setCurrentAssessment(AssessmentQuestion assessment) { this.currentAssessment = assessment; }
+
+    /**
      * Gets the assessments
      * @return Assessments currently added to the flow
      */
