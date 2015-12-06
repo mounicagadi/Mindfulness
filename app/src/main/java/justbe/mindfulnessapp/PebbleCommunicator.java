@@ -12,9 +12,6 @@ import java.util.Map;
 
 import justbe.mindfulnessapp.App;
 
-/**
- * Created by Sanders on 11/29/2015.
- */
 public class PebbleCommunicator {
     private static PebbleCommunicator instance = null;
 

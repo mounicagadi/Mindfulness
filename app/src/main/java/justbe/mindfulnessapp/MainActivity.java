@@ -1,10 +1,13 @@
 package justbe.mindfulnessapp;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.os.Handler;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -87,8 +91,64 @@ public class MainActivity extends AppCompatActivity {
         selectedDay = getCurrentDayOfTheWeek();
         updateSelectedDay(selectedDay);
 
-        PebbleCommunicator comms = PebbleCommunicator.getInstance();
-        comms.sendPebbleMessage("Mindfulness", "Pebble testing");
+        setUpAssessmentAlarms();
+    }
+
+    private void setUpAssessmentAlarms() {
+        Date userAwakeTime = user.getWake_up_time();
+        Date userSleepTime = user.getGo_to_sleep_time();
+        if (userAwakeTime == null || userSleepTime == null) {
+            Toast toast = Toast.makeText(App.context(), "You need to set an awake time and a sleep time!", Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
+        AlarmManager alarmManager = (AlarmManager)App.context().getSystemService(Context.ALARM_SERVICE);
+        PendingIntent cancelIntent = PendingIntent.getBroadcast(App.context(), 0,
+                new Intent(App.context(), AlarmReceiver.class), 0);
+        alarmManager.cancel(cancelIntent);
+        Calendar awakeCal = Calendar.getInstance();
+        awakeCal.setTime(userAwakeTime);
+        Calendar sleepCal = Calendar.getInstance();
+        sleepCal.setTime(userSleepTime);
+        long diff = sleepCal.getTimeInMillis() - awakeCal.getTimeInMillis();
+        long period = diff / 4;
+        long[] times = new long[4];
+        times[0] = randomWithRange(0, period);
+        for (int i = 1; i < times.length; i++) {
+            times[i] = 0;
+            do {
+                times[i] = randomWithRange(times[i - 1], times[i - 1] + period);
+                if (times[i] - times[i - 1] < 1800000) {
+                    times[i] = 0;
+                }
+            }
+            while(times[i] == 0);
+        }
+        Calendar[] alarmCals = new Calendar[4];
+        for (int i = 0; i < alarmCals.length; i++) {
+            alarmCals[i] = Calendar.getInstance();
+            alarmCals[i].setTimeInMillis(awakeCal.getTimeInMillis() + times[i]);
+            Intent intent = new Intent(App.context(), AlarmReceiver.class);
+            intent.setAction(String.valueOf(alarmCals[i].getTimeInMillis()));
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(App.context(),
+                    0,
+                    intent,
+                    0);
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                    alarmCals[i].getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY,
+                    alarmIntent);
+        }
+    }
+
+    private int randomWithRange(int min, int max) {
+        int range = (max - min) + 1;
+        return (int)(Math.random() * range) + min;
+    }
+
+    private long randomWithRange(long min, long max) {
+        long range = (max - min) + 1;
+        return (long)(Math.random() * range) + min;
     }
 
     /**
