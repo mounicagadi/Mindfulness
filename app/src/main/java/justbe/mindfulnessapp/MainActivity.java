@@ -1,10 +1,13 @@
 package justbe.mindfulnessapp;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,6 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.os.Handler;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -87,8 +91,50 @@ public class MainActivity extends AppCompatActivity {
         updateSelectedDay(selectedDay);
 
         PebbleCommunicator comms = PebbleCommunicator.getInstance();
-        comms.sendPebbleMessage("Mindfulness", "Pebble testing");
+        if (!comms.checkPebbleConnection()) {
+            Toast.makeText(App.context(), "No Pebble connection detected!", Toast.LENGTH_LONG).show();
+        }
+
+        setUpAlarms("assessment", 4, true);
+        setUpAlarms("pebble", 5, false);
     }
+
+    /**
+     * Sets up alarms to go of once a day
+     * @param action The action that should be performed once the alarm goes off
+     * @param count The amount of alarms that should be generated
+     * @param deleteOldAlarms If old alarms should be deleted first
+     */
+    private void setUpAlarms(String action, int count, boolean deleteOldAlarms) {
+        Date userAwakeTime = user.getWake_up_time();
+        Date userSleepTime = user.getGo_to_sleep_time();
+        if (userAwakeTime == null || userSleepTime == null) {
+            Toast toast = Toast.makeText(App.context(), "You need to set an awake time and a sleep time!", Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
+        AlarmManager alarmManager = (AlarmManager)App.context().getSystemService(Context.ALARM_SERVICE);
+        if (deleteOldAlarms) {
+            PendingIntent cancelIntent = PendingIntent.getBroadcast(App.context(), 0,
+                    new Intent(App.context(), AlarmReceiver.class), 0);
+            alarmManager.cancel(cancelIntent);
+        }
+        Calendar[] alarmCals = CalenderGenerator.generateAwakeCalendars(count);
+        for (int i = 0; i < alarmCals.length; i++) {
+            Intent intent = new Intent(App.context(), AlarmReceiver.class);
+            intent.setAction(action + "|" + String.valueOf(alarmCals[i].getTimeInMillis()));
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(App.context(),
+                    0,
+                    intent,
+                    0);
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+                    alarmCals[i].getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY,
+                    alarmIntent);
+        }
+    }
+
+
 
     /**
      * Set up mediaPlayer and related visuals
