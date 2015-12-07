@@ -32,11 +32,11 @@ public class UserProfile extends PlainOldDBO<User> {
         setProgram_week(0);
 
         // Set up default times
-        Date currentTime = new Date();
-        setMeditation_time(Util.dateToUserProfileString(currentTime));
-        setExercise_time(Util.dateToUserProfileString(currentTime));
-        setWake_up_time(Util.dateToUserProfileString(currentTime));
-        setGo_to_sleep_time(Util.dateToUserProfileString(currentTime));
+        String currentTime = Util.dateToUserProfileString(new Date());
+        setMeditation_time(currentTime);
+        setExercise_time(currentTime);
+        setWake_up_time(currentTime);
+        setGo_to_sleep_time(currentTime);
     }
 
     /**
@@ -87,29 +87,4 @@ public class UserProfile extends PlainOldDBO<User> {
     public Integer getProgram_week() { return program_week; }
 
     public void setProgram_week(Integer program_week) { this.program_week = program_week; }
-
-    /**
-     * Saves the user profile data to the database and sets its data to the current user
-     * @param user The User to add the data to
-     * @return True if success, else false
-     */
-    public boolean updateUserWithUserProfile(User user) {
-        // Create an HTTPRequestTask that sends a UserProfile Object and Returns a UserProfile Object
-        GenericHttpRequestTask<UserProfile, UserProfile> task = new GenericHttpRequestTask(UserProfile.class, UserProfile.class);
-
-        task.execute("/api/v1/user_profile/", HttpMethod.PATCH, this);
-
-        try {
-            ResponseEntity<UserProfile> result = task.waitForResponse();
-
-            // Add the data to the User now that it is saved on the server
-            RestUtil.checkResponseHazardously(result);
-            user.addUserProfileData(result.getBody());
-            App.getSession().setUser(user);
-
-            return true;
-        } catch (Exception e) {
-           return false;
-        }
-    }
 }

@@ -6,7 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+/**
+ * Activity that displays all Yes/No questions
+ */
 public class YesNoAssessmentActivity extends AppCompatActivity {
+
+    /***********************************************************************************************
+     * YesNoAssessmentActivity Life Cycle Functions
+     **********************************************************************************************/
 
     /**
      * Called when the view is created
@@ -22,6 +29,10 @@ public class YesNoAssessmentActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Assessment");
     }
+
+    /***********************************************************************************************
+     * YesNoAssessmentActivity Life Cycle Functions
+     **********************************************************************************************/
 
     /**
      * Callback for when the yes button is pressed

@@ -3,21 +3,22 @@ package justbe.mindfulnessapp;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.support.v7.widget.Toolbar;
-
-import java.util.concurrent.Callable;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.RunnableFuture;
-import java.util.concurrent.atomic.AtomicBoolean;
+import android.os.Handler;
 
 import justbe.mindfulnessapp.rest.UserPresentableException;
 
-public class LoginActivity extends AppCompatActivity {
+/**
+ * Activity that controls logging in
+ * First Activity in the app
+ */
+public class LoginActivity extends AppCompatActivity  {
 
     /**
      * Fields
@@ -26,7 +27,11 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password_field;
 
     private ProgressDialog progressDialog;
+    private static Handler loginHandler;
 
+    /***********************************************************************************************
+     * LoginActivity Life Cycle Functions
+     **********************************************************************************************/
     /**
      * Called when the view is created
      * @param savedInstanceState Saved Instance State
@@ -41,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.title_activity_login));
 
-        // Create logging in progress spinner
+        // Create 'logging in' progress spinner
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle(getString(R.string.loggingIn));
         progressDialog.setMessage(getString(R.string.pleaseWait));
@@ -69,6 +74,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /***********************************************************************************************
+     * LoginActivity Button Handlers
+     **********************************************************************************************/
+
     /**
      * Callback for when the login button is pressed
      * @param view The View
@@ -78,35 +87,43 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.show();
 
         // Run login within a thread
-        final AtomicBoolean success = new AtomicBoolean();
         Thread logInThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 // Get the username and password from their respective fields
                 String username = username_field.getText().toString();
                 String password = password_field.getText().toString();
-                success.set(login(username, password));
-                progressDialog.dismiss();
+
+                // Attempt to login and save the result
+                if(login(username, password)) {
+                    loginHandler.sendEmptyMessage(0);
+                } else {
+                    loginHandler.sendEmptyMessage(1);
+                }
             }
         });
 
         // Start the thread and wait till its done
         logInThread.start();
-        try {
-            logInThread.join();
-        } catch (InterruptedException e) {
-            // Thread was interrupted
-        }
 
-        // Check the result from login and take the appropriate actions
-        if (success.get()) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            password_field = (EditText) findViewById(R.id.editPassword);
-            password_field.setError("Password and username didn't match an account");
-        }
+        // Handler to deal with the result of the login thread
+        loginHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                // Log in succeeded
+                if(msg.what == 0) {
+                    Intent intent = new Intent(getApplicationContext() , MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    progressDialog.dismiss();
+                    finish();
+                } else { // Log in failed
+                    password_field = (EditText) findViewById(R.id.editPassword);
+                    password_field.setError("Password and username didn't match an account");
+                    progressDialog.dismiss();
+                }
+            }
+        };
     }
 
     /**
@@ -119,6 +136,10 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /***********************************************************************************************
+     * LoginActivity Specific Helpers
+     **********************************************************************************************/
+
     /**
      * Checks the username and password and moves on
      * @param username The Username
@@ -126,13 +147,13 @@ public class LoginActivity extends AppCompatActivity {
      * @return If the login was successful or not
      */
     private Boolean login(String username, String password) {
+        Boolean success = false;
         try {
-            return App.getSession().authenticate(username, password);
+            success = App.getSession().authenticate(username, password);
         } catch (Exception e) {
             new UserPresentableException(e).alert(this);
-        } finally {
-            return false;
         }
+        return success;
     }
 }
 

@@ -7,8 +7,12 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+
 import justbe.mindfulnessapp.models.SliderQuestion;
 
+/**
+ * Activity that displays all Slider questions
+ */
 public class SliderAssessmentActivity extends AppCompatActivity
         implements SeekBar.OnSeekBarChangeListener {
 
@@ -18,6 +22,10 @@ public class SliderAssessmentActivity extends AppCompatActivity
     private SeekBar seekBar;
     private AssessmentFlowManager flowManager;
     private SliderQuestion sliderQuestion;
+
+    /***********************************************************************************************
+     * SliderAssessmentActivity Life Cycle Functions
+     **********************************************************************************************/
 
     /**
      * Called when the view is created
@@ -45,10 +53,11 @@ public class SliderAssessmentActivity extends AppCompatActivity
         Integer maxSeek = sliderQuestion.getMaxSliderVal();
         Integer middleSeek = maxSeek / 2;
 
+        // start with seek bar at the middle
         seekBar = (SeekBar)findViewById(R.id.seekBar);
         seekBar.setProgress(middleSeek);
         seekBar.setMax(maxSeek);
-        seekBar.setOnSeekBarChangeListener(this);
+        seekBar.setOnSeekBarChangeListener(SliderAssessmentActivity.this);
 
         // Set text on min/max text fields
         TextView minText = (TextView) findViewById(R.id.minText);
@@ -56,6 +65,10 @@ public class SliderAssessmentActivity extends AppCompatActivity
         TextView maxText = (TextView) findViewById(R.id.maxText);
         maxText.setText(sliderQuestion.getMaxSliderText());
     }
+
+    /***********************************************************************************************
+     * SeekBar.OnSeekBarChangeListener Functions
+     **********************************************************************************************/
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
@@ -74,12 +87,17 @@ public class SliderAssessmentActivity extends AppCompatActivity
 
     }
 
+    /***********************************************************************************************
+     * PreferencesActivity Button Handlers
+     **********************************************************************************************/
+
     /**
-     * Callback for when the submit button is pressed
+     * Callback for when the next button is pressed
      * Saves the results from the assessment
      * @param view The view
      */
-    public void submitPressed(View view) {
+    public void nextPressed(View view) {
+
         flowManager.startNextAssessmentQuestion();
     }
 }

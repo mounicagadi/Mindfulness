@@ -249,11 +249,9 @@ public class Session {
         u.setPassword(raw_password);
         task.execute("/api/v1/user/login/", HttpMethod.POST, u);
 
-
         ResponseEntity<User> response;
 
         response = task.waitForResponse();
-
 
         if (RestUtil.checkResponse(response)) {
             for (String s : response.getHeaders().get("Set-Cookie")) {

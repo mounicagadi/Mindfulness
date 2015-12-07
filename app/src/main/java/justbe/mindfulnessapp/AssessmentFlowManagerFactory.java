@@ -9,6 +9,11 @@ import justbe.mindfulnessapp.models.DropdownQuestion;
 import justbe.mindfulnessapp.models.MultiChoiceQuestion;
 import justbe.mindfulnessapp.models.SliderQuestion;
 
+/**
+ * Factory class used to add assessments to the AssessmentFlowManager
+ * Contains a number of methods to make adding assessments easier
+ * Currently contains the hardcoded surveys
+ */
 public class AssessmentFlowManagerFactory {
     /**
      * Fields

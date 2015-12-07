@@ -9,6 +9,12 @@ import java.util.Queue;
 
 import justbe.mindfulnessapp.models.AssessmentQuestion;
 
+/**
+ * Singleton that contains and runs the assessments
+ * Assessments are added to the manager via the AssessmentFlowManagerFactory
+ * Flow is started by calling startNextAssessmentQuestion() for the first time
+ * The manager will continue to display assessments till there are no more
+ */
 public final class AssessmentFlowManager {
 
     /**
@@ -75,7 +81,7 @@ public final class AssessmentFlowManager {
      * Otherwise goes back to the MainActivity
      */
     public void startNextAssessmentQuestion() {
-        // If there are more assessments fo the the next one
+        // If there are more assessments then the next one
         if ( !assessments.isEmpty() ) {
             currentAssessment = assessments.remove();
 

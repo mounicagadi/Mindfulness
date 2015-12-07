@@ -18,6 +18,11 @@ import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
 import justbe.mindfulnessapp.rest.RestUtil;
 
+/**
+ * Time Picker used to choose times for the user preferences
+ * Determines what field to update using the pressed button's ID
+ * To use this the class must implement RefreshViewListener to handle saving and updating
+ */
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
@@ -28,6 +33,9 @@ public class TimePickerFragment extends DialogFragment
     private RefreshViewListener listener;
     private User user;
 
+    /***********************************************************************************************
+     * TimePickerFragment Life Cycle Functions
+     **********************************************************************************************/
     /**
      * Called when the dialog is created
      * @param savedInstanceState Saved Instance State
@@ -69,6 +77,10 @@ public class TimePickerFragment extends DialogFragment
                 android.text.format.DateFormat.is24HourFormat(getActivity()));
     }
 
+    /***********************************************************************************************
+     * TimePickerDialog.OnTimeSetListener Functions
+     **********************************************************************************************/
+
     /**
      * Called when TimePicker is dismissed
      * @param frag The TimePicker
@@ -101,6 +113,7 @@ public class TimePickerFragment extends DialogFragment
      * @param hourOfDay The hour selected on the Time picker
      * @param minute The minute selected on the Time picker
      */
+    @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, hourOfDay);

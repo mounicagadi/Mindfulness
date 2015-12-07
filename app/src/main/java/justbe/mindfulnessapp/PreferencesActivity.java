@@ -1,21 +1,25 @@
 package justbe.mindfulnessapp;
 
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.models.UserProfile;
 import justbe.mindfulnessapp.rest.UserPresentableException;
 
+/**
+ * Activity that allows the user to change their settings and log out
+ */
 public class PreferencesActivity extends AppCompatActivity implements RefreshViewListener {
 
     /**
@@ -34,6 +38,13 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
     private String wakeUpTime;
     private String goToSleepTime;
 
+    private ProgressDialog progressDialog;
+    private static Handler logoutHandler;
+
+    /***********************************************************************************************
+     * PreferencesActivity Life Cycle Functions
+     **********************************************************************************************/
+
     /**
      * Called when the view is created
      * @param savedInstanceState Saved Instance State
@@ -49,6 +60,12 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
         getSupportActionBar().setTitle(getString(R.string.title_activity_preferences));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        // Create 'logging out' progress spinner
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle(getString(R.string.loggingOut));
+        progressDialog.setMessage(getString(R.string.pleaseWait));
+        progressDialog.setCancelable(true);
 
         // Set variables to their Text Views
         currentUsername = (TextView) findViewById(R.id.currentUsername);
@@ -69,6 +86,10 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
         goToSleepTime = Util.dateToDisplayString(user.getGo_to_sleep_time());
         setTimeFields();
     }
+
+    /***********************************************************************************************
+     * RefreshViewListener Functions
+     **********************************************************************************************/
 
     /**
      * Sets time fields on view, callable from anywhere
@@ -102,7 +123,7 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
             default:
                 throw new RuntimeException("Attempted to set time for unknown field");
         }
-        userProfile.updateUserWithUserProfile(user);
+        ServerRequests.updateUserWithUserProfile(user, userProfile, getApplicationContext());
         user = App.getSession().getUser();
     }
 
@@ -115,6 +136,10 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
         wakeUpTimeText.setText(wakeUpTime);
         goToSleepTimeText.setText(goToSleepTime);
     }
+
+    /***********************************************************************************************
+     * PreferencesActivity Button Handlers
+     **********************************************************************************************/
 
     /**
      * Callback for when the wake up, go to sleep, lesson, or meditation button is pressed
@@ -139,20 +164,49 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
      * @param view The view
      */
     public void logout(View view) {
-        try {
-            boolean success = App.getSession().invalidate();
-            if (success) {
-                Intent intent = new Intent(this, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-            } else {
-                new UserPresentableException(
-                        getString(R.string.cannot_logout),
-                        getString(R.string.cannot_logout_message)).alert(this);
+        // Display the logging in spinner
+        progressDialog.show();
+
+        // Run logout within a thread
+        Thread logoutThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Boolean success = false;
+                try {
+                    success = App.getSession().invalidate();
+                } catch (Exception e) {
+                    new UserPresentableException(e).alert(getApplicationContext());
+                }
+
+                // Attempt to logout
+                if(success) {
+                    logoutHandler.sendEmptyMessage(0);
+                } else {
+                    logoutHandler.sendEmptyMessage(1);
+                }
             }
-        } catch (Exception e) {
-            new UserPresentableException(e).alert(this);
-        }
+        });
+
+        // Start the thread and wait till its done
+        logoutThread.start();
+
+        // Handler to deal with the result of the login thread
+        logoutHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                // Logout succeeded
+                if(msg.what == 0) {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    progressDialog.dismiss();
+                    finish();
+                } else { // Logout failed
+                    new UserPresentableException(
+                            getString(R.string.cannot_logout),
+                            getString(R.string.cannot_logout_message)).alert(getApplicationContext());
+                }
+            }
+        };
     }
 }
