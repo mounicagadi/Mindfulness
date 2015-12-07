@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Date;
 
+import justbe.mindfulnessapp.models.MeditationSession;
 import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.models.UserProfile;
 import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
@@ -187,6 +188,15 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
         try {
             ResponseEntity<User> result = task.waitForResponse();
             RestUtil.checkResponseHazardously(result);
+
+            // Create meditation sessions for first week
+            MeditationSession.populateDatabaseForWeek(1);
+
+            // Go to the getting stated activity
+            Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
 
             // Authenticate with the server, store session (i.e. login)
             if ( ! App.getSession().authenticate(user.getUsername(), user.getRaw_password()) ) {

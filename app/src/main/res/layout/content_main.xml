@@ -35,14 +35,14 @@
             android:layout_below="@+id/morningAssessmentButton"
             android:gravity="center_vertical">
             <LinearLayout
-                android:id="@+id/suMeditation"
+                android:id="@+id/Meditation6"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:onClick="changeWeekdayButtonPressed">
                 <TextView
-                    android:id="@+id/suMeditationText"
+                    android:id="@+id/MeditationText6"
                     android:layout_weight=".8"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -57,21 +57,21 @@
                     android:gravity="center"
                     android:background="@color/transparentLightGreen">
                     <ImageView
-                        android:id="@+id/suMeditationImage"
+                        android:id="@+id/MeditationImage6"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@drawable/check_gray_2x"/>
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/mMeditation"
+                android:id="@+id/Meditation0"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:onClick="changeWeekdayButtonPressed">
                 <TextView
-                    android:id="@+id/mMeditationText"
+                    android:id="@+id/MeditationText0"
                     android:layout_weight=".8"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -86,21 +86,21 @@
                     android:gravity="center"
                     android:background="@color/transparentLightGreen">
                     <ImageView
-                        android:id="@+id/mMeditationImage"
+                        android:id="@+id/MeditationImage0"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@drawable/check_gray_2x"/>
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/tMeditation"
+                android:id="@+id/Meditation1"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:onClick="changeWeekdayButtonPressed">
                 <TextView
-                    android:id="@+id/tMeditationText"
+                    android:id="@+id/MeditationText1"
                     android:layout_weight=".8"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -115,21 +115,21 @@
                     android:gravity="center"
                     android:background="@color/transparentLightGreen">
                     <ImageView
-                        android:id="@+id/tMeditationImage"
+                        android:id="@+id/MeditationImage1"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@drawable/check_gray_2x"/>
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/wMeditation"
+                android:id="@+id/Meditation2"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:onClick="changeWeekdayButtonPressed">
                 <TextView
-                    android:id="@+id/wMeditationText"
+                    android:id="@+id/MeditationText2"
                     android:layout_weight=".8"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -144,21 +144,21 @@
                     android:gravity="center"
                     android:background="@color/transparentLightGreen">
                     <ImageView
-                        android:id="@+id/wMeditationImage"
+                        android:id="@+id/MeditationImage2"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@drawable/check_gray_2x"/>
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/thMeditation"
+                android:id="@+id/Meditation3"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:onClick="changeWeekdayButtonPressed">
                 <TextView
-                    android:id="@+id/thMeditationText"
+                    android:id="@+id/MeditationText3"
                     android:layout_weight=".8"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -173,21 +173,21 @@
                     android:gravity="center"
                     android:background="@color/transparentLightGreen">
                     <ImageView
-                        android:id="@+id/thMeditationImage"
+                        android:id="@+id/MeditationImage3"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@drawable/check_gray_2x"/>
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/fMeditation"
+                android:id="@+id/Meditation4"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:onClick="changeWeekdayButtonPressed">
                 <TextView
-                    android:id="@+id/fMeditationText"
+                    android:id="@+id/MeditationText4"
                     android:layout_weight=".8"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -202,21 +202,21 @@
                     android:gravity="center"
                     android:background="@color/transparentLightGreen">
                     <ImageView
-                        android:id="@+id/fMeditationImage"
+                        android:id="@+id/MeditationImage4"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@drawable/check_gray_2x"/>
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/sMeditation"
+                android:id="@+id/Meditation5"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:onClick="changeWeekdayButtonPressed">
                 <TextView
-                    android:id="@+id/sMeditationText"
+                    android:id="@+id/MeditationText5"
                     android:layout_weight=".8"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -231,7 +231,7 @@
                     android:gravity="center"
                     android:background="@color/transparentLightGreen">
                     <ImageView
-                        android:id="@+id/sMeditationImage"
+                        android:id="@+id/MeditationImage5"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@drawable/check_gray_2x"/>

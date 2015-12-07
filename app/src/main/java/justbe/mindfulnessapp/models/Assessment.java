@@ -34,12 +34,12 @@ public class Assessment extends PlainOldDBO<Assessment> {
      */
      public ArrayList<Response> getResponses() { return responses; }
 
+
     /**
      * Sets the responses
      * @param responses The new responses
      */
     public void setResponses(ArrayList<Response> responses) { this.responses = responses; }
-
 
     /**
      * The time the assessment was started at

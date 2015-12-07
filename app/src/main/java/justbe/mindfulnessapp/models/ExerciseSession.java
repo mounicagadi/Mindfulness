@@ -1,7 +1,7 @@
 package justbe.mindfulnessapp.models;
 
 /**
- * Model for representing Exercise Sessions.
+ * Model for representing weekly Exercise Sessions.
  * API: exercise_session
  */
 public class ExerciseSession extends PlainOldDBO<ExerciseSession> {
