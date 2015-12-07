@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -38,11 +37,10 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
     private TextView wakeUpTimeText;
     private TextView goToSleepTimeText;
 
-    String meditationTime;
-    String lessonTime;
-    String wakeUpTime;
-    String goToSleepTime;
-
+    private String meditationTime;
+    private String lessonTime;
+    private String wakeUpTime;
+    private String goToSleepTime;
 
     /**
      * Called when the view is created
@@ -62,7 +60,7 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
 
         // Create new user object and corresponding user profile object
         user = new User();
-        userProfile = createDefaultNewUserProfile();
+        userProfile = new UserProfile();
 
         // Set variables to their Text Views
         username_field = (EditText) findViewById(R.id.editUsername);
@@ -91,20 +89,6 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
             public void afterTextChanged(Editable s) {
             }
         });
-    }
-
-    private UserProfile createDefaultNewUserProfile() {
-        UserProfile userProfile = new UserProfile();
-        userProfile.setProgram_week(1);
-
-        // Set up default times
-        Date currentTime = new Date();
-        userProfile.setMeditation_time(Util.dateToUserProfileString(currentTime));
-        userProfile.setExercise_time(Util.dateToUserProfileString(currentTime));
-        userProfile.setWake_up_time(Util.dateToUserProfileString(currentTime));
-        userProfile.setGo_to_sleep_time(Util.dateToUserProfileString(currentTime));
-
-        return userProfile;
     }
 
     /**
@@ -177,7 +161,7 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
             user.setUsername(username_field.getText().toString());
             user.setRaw_password(password_field.getText().toString());
 
-            createUser();
+            createUser(user);
             userProfile.updateUserWithUserProfile(user);
 
             // Go to the main activity
@@ -189,7 +173,12 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
         }
     }
 
-    private void createUser() {
+    /**
+     * Sends the API request to create a new User from a given user object
+     * @param user The user object to send to the database
+     * @return If the call worked then true, else false
+     */
+    private Boolean createUser(User user) {
         // Create an HTTPRequestTask that sends a User Object and Returns a User Object
         GenericHttpRequestTask<User, User> task = new GenericHttpRequestTask(User.class, User.class);
 
@@ -199,14 +188,17 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
             ResponseEntity<User> result = task.waitForResponse();
             RestUtil.checkResponseHazardously(result);
 
-            // Authenticate with the server, store session
+            // Authenticate with the server, store session (i.e. login)
             if ( ! App.getSession().authenticate(user.getUsername(), user.getRaw_password()) ) {
                 throw new UserPresentableException(
                         getString(R.string.auth_failed),
                         getString(R.string.cant_login_to_new_account));
             }
+            return true;
         } catch (Exception e) {
             new UserPresentableException(e).alert(this);
+        } finally {
+            return false;
         }
     }
 

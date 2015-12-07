@@ -1,13 +1,12 @@
 package justbe.mindfulnessapp;
 
-import android.app.DialogFragment;
-import android.os.Bundle;
-import android.view.View;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Holds various utilities used by the app
+ */
 public final class Util {
 
     /**

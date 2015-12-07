@@ -24,9 +24,20 @@ public class UserProfile extends PlainOldDBO<User> {
     private Integer program_week;
 
     /**
-     * Empty UserProfile Constructor
+     * UserProfile Constructor that creates a default UserProfile object with default values
+     * The times are set to the current time and the current program week to 0 (Not started)
      */
-    public UserProfile() { }
+    public UserProfile() {
+        // Set the program week to 0 (Not Started)
+        setProgram_week(0);
+
+        // Set up default times
+        Date currentTime = new Date();
+        setMeditation_time(Util.dateToUserProfileString(currentTime));
+        setExercise_time(Util.dateToUserProfileString(currentTime));
+        setWake_up_time(Util.dateToUserProfileString(currentTime));
+        setGo_to_sleep_time(Util.dateToUserProfileString(currentTime));
+    }
 
     /**
      * UserProfile Constructor that populates it with values from a given User
@@ -42,7 +53,6 @@ public class UserProfile extends PlainOldDBO<User> {
         setGender(user.getGender());
         setProgram_week(user.getProgram_week());
     }
-
 
     public String getBirthday() { return birthday; }
 
