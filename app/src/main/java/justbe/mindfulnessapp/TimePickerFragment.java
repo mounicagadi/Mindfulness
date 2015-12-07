@@ -11,6 +11,7 @@ import android.widget.TimePicker;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import justbe.mindfulnessapp.models.User;
@@ -76,18 +77,6 @@ public class TimePickerFragment extends DialogFragment
     public void onDismiss(DialogInterface frag) {
         super.onDismiss(frag);
 
-        // Save the new values on the server
-        // Create an HTTPRequestTask that sends a User Object and Returns a User Object
-        GenericHttpRequestTask<User, User> task = new GenericHttpRequestTask(User.class, User.class);
-        task.execute("/api/v1/user_profile/", HttpMethod.PUT, user);
-
-        try {
-            ResponseEntity<User> result = task.waitForResponse();
-            RestUtil.checkResponseHazardously(result);
-        } catch (Exception e) {
-            //new UserPresentableException(e).alert(this);
-        }
-
         // Reload the time fields with the new values
         listener.refreshView();
     }
@@ -113,13 +102,10 @@ public class TimePickerFragment extends DialogFragment
      * @param minute The minute selected on the Time picker
      */
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        // Build new time string
-        StringBuilder sb = new StringBuilder();
-        sb.append(hourOfDay);
-        sb.append(":");
-        sb.append(minute);
-        sb.append(":00");
-        String time = sb.toString();
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        cal.set(Calendar.MINUTE, minute);
+        Date time = cal.getTime();
 
         // Call parent activity's save time method
         listener.saveTimes(buttonID, time);

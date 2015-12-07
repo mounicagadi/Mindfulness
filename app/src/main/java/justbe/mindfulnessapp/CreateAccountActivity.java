@@ -14,11 +14,10 @@ import android.widget.TextView;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import justbe.mindfulnessapp.models.User;
+import justbe.mindfulnessapp.models.UserProfile;
 import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
 import justbe.mindfulnessapp.rest.RestUtil;
 import justbe.mindfulnessapp.rest.UserPresentableException;
@@ -29,6 +28,7 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
      * Fields
      */
     private User user;
+    private UserProfile userProfile;
     private EditText username_field;
     private EditText password_field;
     private EditText confirm_password_field;
@@ -36,6 +36,12 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
     private TextView lessonTimeText;
     private TextView wakeUpTimeText;
     private TextView goToSleepTimeText;
+
+    String meditationTime;
+    String lessonTime;
+    String wakeUpTime;
+    String goToSleepTime;
+
 
     /**
      * Called when the view is created
@@ -53,8 +59,9 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Create new user object
-        user = createDefaultNewUser();
+        // Create new user object and corresponding user profile object
+        user = new User();
+        userProfile = createDefaultNewUserProfile();
 
         // Set variables to their Text Views
         username_field = (EditText) findViewById(R.id.editUsername);
@@ -85,22 +92,18 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
         });
     }
 
-    /**
-     * Creates a default user with the current time set as the default times
-     * @return the default user
-     */
-    private User createDefaultNewUser() {
-        User u = new User();
-        u.setProgramWeek(1);
+    private UserProfile createDefaultNewUserProfile() {
+        UserProfile userProfile = new UserProfile();
+        userProfile.setProgram_week(1);
 
         // Set up default times
         Date currentTime = new Date();
-        u.setMeditation_time(formatTime(currentTime));
-        u.setExercise_time(formatTime(currentTime));
-        u.setWake_up_time(formatTime(currentTime));
-        u.setGo_to_sleep_time(formatTime(currentTime));
+        userProfile.setMeditation_time(Util.dateToUserProfileString(currentTime));
+        userProfile.setExercise_time(Util.dateToUserProfileString(currentTime));
+        userProfile.setWake_up_time(Util.dateToUserProfileString(currentTime));
+        userProfile.setGo_to_sleep_time(Util.dateToUserProfileString(currentTime));
 
-        return u;
+        return userProfile;
     }
 
     /**
@@ -113,20 +116,24 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
     /**
      * Saves the time from the Time Picker
      */
-    public void saveTimes(int buttonID, String time) {
+    public void saveTimes(int buttonID, Date time) {
         // Check to see what field we are editing
         switch (buttonID) {
             case R.id.meditationRow:
-                user.setMeditation_time(time);
+                meditationTime = Util.dateToDisplayString(time);
+                userProfile.setMeditation_time(Util.dateToUserProfileString(time));
                 break;
             case R.id.lessonRow:
-                user.setExercise_time(time);
+                lessonTime = Util.dateToDisplayString(time);
+                userProfile.setExercise_time(Util.dateToUserProfileString(time));
                 break;
             case R.id.wakeUpRow:
-                user.setWake_up_time(time);
+                wakeUpTime = Util.dateToDisplayString(time);
+                userProfile.setWake_up_time(Util.dateToUserProfileString(time));
                 break;
             case R.id.goToSleepRow:
-                user.setGo_to_sleep_time(time);
+                goToSleepTime = Util.dateToDisplayString(time);
+                userProfile.setGo_to_sleep_time(Util.dateToUserProfileString(time));
                 break;
             default:
                 throw new RuntimeException("Attempted to set time for unknown field");
@@ -137,28 +144,10 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
      * Sets time fields on view
      */
     private void setTimeFields() {
-        // Get times from user
-        Date meditationTime = user.getMeditation_time();
-        Date lessonTime = user.getExercise_time();
-        Date wakeUpTime = user.getWake_up_time();
-        Date goToSleepTime = user.getGo_to_sleep_time();
-
-        meditationTimeText.setText(formatTime(meditationTime));
-        lessonTimeText.setText(formatTime(lessonTime));
-        wakeUpTimeText.setText(formatTime(wakeUpTime));
-        goToSleepTimeText.setText(formatTime(goToSleepTime));
-    }
-
-    /**
-     * Formats the given Date into a string or the current Date if the given Date is null
-     * @param time The Date to format
-     * @return String representation of the given Date or the current Date
-     */
-    private String formatTime(Date time) {
-        DateFormat sdf = new SimpleDateFormat("hh:mm a");
-        if(time == null)
-            time = new Date();
-        return sdf.format(time);
+        meditationTimeText.setText(meditationTime);
+        lessonTimeText.setText(lessonTime);
+        wakeUpTimeText.setText(wakeUpTime);
+        goToSleepTimeText.setText(goToSleepTime);
     }
 
     /**
@@ -187,32 +176,36 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
             user.setUsername(username_field.getText().toString());
             user.setRaw_password(password_field.getText().toString());
 
-            // Create an HTTPRequestTask that sends a User Object and Returns a User Object
-            GenericHttpRequestTask<User, User> task = new GenericHttpRequestTask(User.class, User.class);
+            createUser();
+            userProfile.updateUserWithUserProfile(user);
 
-            task.execute("/api/v1/create_user/", HttpMethod.POST, user);
+            // Go to the main activity
+            Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
 
-            try {
-                ResponseEntity<User> result = task.waitForResponse();
+        }
+    }
 
-                RestUtil.checkResponseHazardously(result);
+    private void createUser() {
+        // Create an HTTPRequestTask that sends a User Object and Returns a User Object
+        GenericHttpRequestTask<User, User> task = new GenericHttpRequestTask(User.class, User.class);
 
-                // Authenticate with the server, store session
-                if ( ! App.getSession().authenticate(user.getUsername(), user.getRaw_password()) ) {
-                    throw new UserPresentableException(
-                            getString(R.string.auth_failed),
-                            getString(R.string.cant_login_to_new_account));
-                }
+        task.execute("/api/v1/create_user/", HttpMethod.POST, user);
 
-                // Go to the getting stated activity
-                Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+        try {
+            ResponseEntity<User> result = task.waitForResponse();
+            RestUtil.checkResponseHazardously(result);
 
-            } catch (Exception e) {
-                new UserPresentableException(e).alert(this);
+            // Authenticate with the server, store session
+            if ( ! App.getSession().authenticate(user.getUsername(), user.getRaw_password()) ) {
+                throw new UserPresentableException(
+                        getString(R.string.auth_failed),
+                        getString(R.string.cant_login_to_new_account));
             }
+        } catch (Exception e) {
+            new UserPresentableException(e).alert(this);
         }
     }
 

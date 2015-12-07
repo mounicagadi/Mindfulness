@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the lesson button's text to the current week
         TextView lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
-        user.setProgramWeek(3);
-        lessonButtonText.setText(String.format("Week %d Exercise", user.getProgramWeek()));
+        user.setProgram_week(3);
+        lessonButtonText.setText(String.format("Week %d Exercise", user.getProgram_week()));
 
         selectedDay = getCurrentDayOfTheWeek();
         updateSelectedDay(selectedDay);
@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
      * @param pw_view The popup view that the fields are on
      */
     private void setupPopupTextFields(View pw_view) {
-        int currentWeek = user.getProgramWeek();
+        int currentWeek = user.getProgram_week();
 
         // Go through each week of the program and sets the correct UI
         for(int i = 1; i <= 8; i++) {
