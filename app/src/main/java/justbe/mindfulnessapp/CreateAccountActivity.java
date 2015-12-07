@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -156,7 +157,7 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
      * @return String representation of the given Date or the current Date
      */
     private String formatTime(Date time) {
-        DateFormat sdf = new SimpleDateFormat("hh:mm a");
+        DateFormat sdf = new SimpleDateFormat("hh:mm");
         if(time == null)
             time = new Date();
         return sdf.format(time);
@@ -187,6 +188,8 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
         if ( validateActivity() ) {
             user.setUsername(username_field.getText().toString());
             user.setRaw_password(password_field.getText().toString());
+
+            Log.v("CreateAccount:", formatTime(user.getMeditation_time()));
 
             // Create an HTTPRequestTask that sends a User Object and Returns a User Object
             GenericHttpRequestTask<User, User> task = new GenericHttpRequestTask(User.class, User.class);

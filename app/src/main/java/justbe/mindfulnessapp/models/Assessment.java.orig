@@ -31,15 +31,29 @@ public class Assessment extends PlainOldDBO<Assessment> {
     /**
      * Get the list of responses
      * @return The current responses
+<<<<<<< HEAD
 
+    public ArrayList<Response> getResponses() {
+        return responses;
+    }
+=======
+     */
     //public ArrayList<Response> getResponses() { return responses; }
+>>>>>>> refs/remotes/origin/master
 
     /**
      * Sets the responses
      * @param responses The new responses
+<<<<<<< HEAD
 
-    //public void setResponses(ArrayList<Response> responses) { this.responses = responses; }
+    public void setResponses(ArrayList<Response> responses) {
+        this.responses = responses;
+    }
     */
+=======
+     */
+    //public void setResponses(ArrayList<Response> responses) { this.responses = responses; }
+>>>>>>> refs/remotes/origin/master
 
     /**
      * The time the assessment was started at
