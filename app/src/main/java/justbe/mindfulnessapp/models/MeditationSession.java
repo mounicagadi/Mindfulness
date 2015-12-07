@@ -1,11 +1,11 @@
 package justbe.mindfulnessapp.models;
 
-import android.content.Intent;
+
+import android.util.Log;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
-import justbe.mindfulnessapp.App;
 import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
 import justbe.mindfulnessapp.rest.RestUtil;
 import justbe.mindfulnessapp.rest.UserPresentableException;
@@ -22,9 +22,13 @@ public class MeditationSession extends PlainOldDBO<MeditationSession> {
         return meditation_id;
     }
 
-    // id is in form of week followed by day i.e. week 2 day 5, id = 25
     public void setMeditation_id(Integer week, Integer day) {
-        this.meditation_id = week * 10 + day;
+        this.meditation_id = convertToMeditationId(week, day);
+    }
+
+    // id is in form of week followed by day i.e. week 2 day 5, id = 25
+    public Integer convertToMeditationId(Integer week, Integer day) {
+        return week * 10 + day;
     }
 
     public Double getPercent_completed() {
@@ -33,6 +37,26 @@ public class MeditationSession extends PlainOldDBO<MeditationSession> {
 
     public void setPercent_completed(Double percent_completed) {
         this.percent_completed = percent_completed;
+    }
+
+    /**
+     *  Updates a meditation session in the database
+     */
+    public void update() {
+        // Create an HTTPRequestTask that sends a MeditationSession Object and Returns a MeditationSession Object
+        GenericHttpRequestTask<MeditationSession, MeditationSession> task
+                = new GenericHttpRequestTask(MeditationSession.class, MeditationSession.class);
+
+        task.execute("/api/v1/meditation_session/" + this.getMeditation_id() + "/", HttpMethod.PATCH, this);
+
+        try {
+            ResponseEntity<MeditationSession> result = task.waitForResponse();
+
+            RestUtil.checkResponseHazardously(result);
+
+        } catch (Exception e) {
+            new UserPresentableException(e);
+        }
     }
 
     /**

@@ -8,7 +8,7 @@ public class Assessment extends PlainOldDBO<Assessment> {
      * Fields
      */
     private Date complete_time;
-    private ArrayList<Response> responses; // No idea if this is correct
+    //private ArrayList<Response> responses; // No idea if this is correct
     private Date start_time;
     private String user;
 
@@ -31,7 +31,7 @@ public class Assessment extends PlainOldDBO<Assessment> {
     /**
      * Get the list of responses
      * @return The current responses
-     */
+
     public ArrayList<Response> getResponses() {
         return responses;
     }
@@ -39,10 +39,11 @@ public class Assessment extends PlainOldDBO<Assessment> {
     /**
      * Sets the responses
      * @param responses The new responses
-     */
+
     public void setResponses(ArrayList<Response> responses) {
         this.responses = responses;
     }
+    */
 
     /**
      * The time the assessment was started at

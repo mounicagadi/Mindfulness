@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     // 0 Monday -> 6 Sunday
     private Integer selectedDay;
     private MeditationSession meditationSession = new MeditationSession();
+    private Integer selectedWeek;
 
     // audio player variables
     private MediaPlayer mediaPlayer;
@@ -88,14 +89,16 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the lesson button's text to the current week
         TextView lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
-        user.setProgramWeek(1);
-        lessonButtonText.setText(String.format("Week %d Exercise", user.getProgramWeek()));
+        user.setProgram_week(1);
+        // TODO: allow changing the current week
+        selectedWeek = user.getProgram_week();
+        lessonButtonText.setText(String.format("Week %d Exercise", selectedWeek));
 
+        // Set up daily meditation
+        meditationSession.setPercent_completed(1.0);
         selectedDay = getCurrentDayOfTheWeek();
         updateSelectedDay(selectedDay);
-
-        PebbleCommunicator comms = PebbleCommunicator.getInstance();
-        comms.sendPebbleMessage("Mindfulness", "Pebble testing");
+        setMeditationCompletion();
     }
 
     /**
@@ -183,13 +186,24 @@ public class MainActivity extends AppCompatActivity {
             new MediaPlayer.OnCompletionListener(){
 
         public void onCompletion(MediaPlayer mp){
-            int currentImageViewId = getResources().getIdentifier(
-                     "MeditationImage" + selectedDay, "id", getPackageName());
-            ImageView currentDayImageView = (ImageView) findViewById(currentImageViewId);
-
-            currentDayImageView.setImageResource(R.drawable.check_green_2x);
+            completeMeditation(selectedDay);
+            meditationSession.setMeditation_id(selectedWeek, selectedDay);
+            meditationSession.update();
         }
     };
+
+    /**
+     * Mark meditation as complete by changing the check to green for a day
+     * @param day 0 Monday -> 6 Sunday to mark as complete
+     */
+    private void completeMeditation(Integer day){
+        int currentImageViewId = getResources().getIdentifier(
+                "MeditationImage" + day, "id", getPackageName());
+        ImageView currentDayImageView = (ImageView) findViewById(currentImageViewId);
+
+        currentDayImageView.setImageResource(R.drawable.check_green_2x);
+    }
+
 
     /**
      * Colors the currently selected day, updates selectedDay and audio file
@@ -216,6 +230,33 @@ public class MainActivity extends AppCompatActivity {
         initializeAudioPlayer();
     }
 
+    /**
+     *  Set the completion check mark color for all days of the week
+     */
+    private void setMeditationCompletion() {
+        Integer mid, day;
+        // Create an HTTPRequestTask that sends a MeditationSession Object and Returns a MeditationSession Object
+        GenericHttpRequestTask<MeditationSession, MeditationSession> task
+                = new GenericHttpRequestTask(MeditationSession.class, MeditationSession.class);
+
+        task.execute("/api/v1/meditation_session/", HttpMethod.GET, null);
+
+        try {
+            ResponseEntity<MeditationSession> result = task.waitForResponse();
+            RestUtil.checkResponseHazardously(result);
+
+            for(MeditationSession m : result.getBody().getObjects()) {
+                if(m.getPercent_completed() == 1.0){
+                    day = m.getMeditation_id() % 10;
+
+                    completeMeditation(day);
+                }
+            }
+
+        } catch (Exception e) {
+            new UserPresentableException(e);
+        }
+    }
 
     /**
      * Callback for when the audio button is pressed
@@ -284,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
      * @param pw_view The popup view that the fields are on
      */
     private void setupPopupTextFields(View pw_view) {
-        int currentWeek = user.getProgramWeek();
+        int currentWeek = user.getProgram_week();
 
         // Go through each week of the program and sets the correct UI
         for(int i = 1; i <= 8; i++) {
