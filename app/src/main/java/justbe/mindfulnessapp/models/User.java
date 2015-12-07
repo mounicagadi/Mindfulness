@@ -35,7 +35,7 @@ public class User extends PlainOldDBO<User> {
     private Date wake_up_time;
     private Date go_to_sleep_time;
     private Integer gender;
-    private Integer programWeek;
+    private Integer program_week;
 
     public String getEmail() {
         return email;
@@ -157,7 +157,7 @@ public class User extends PlainOldDBO<User> {
         this.gender = gender;
     }
 
-    public Integer getProgramWeek() { return programWeek; }
+    public Integer getProgram_week() { return program_week; }
 
-    public void setProgramWeek(Integer programWeek) { this.programWeek = programWeek; }
+    public void setProgram_week(Integer program_week) { this.program_week = program_week; }
 }
