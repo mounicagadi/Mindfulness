@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.support.v7.widget.Toolbar;
 
+import justbe.mindfulnessapp.rest.UserPresentableException;
+
 public class LoginActivity extends AppCompatActivity {
 
     /**
@@ -79,13 +81,19 @@ public class LoginActivity extends AppCompatActivity {
      * @param password The Password
      */
     private void login(String username, String password) {
-        if(App.getSession().authenticate(username, password)) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            password_field = (EditText) findViewById(R.id.editPassword);
-            password_field.setError("Password and username didn't match an account");
+        try {
+            boolean success = App.getSession().authenticate(username, password);
+
+            if (success) {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                password_field = (EditText) findViewById(R.id.editPassword);
+                password_field.setError("Password and username didn't match an account");
+            }
+        } catch (Exception e) {
+            new UserPresentableException(e).alert(this);
         }
     }
 }
