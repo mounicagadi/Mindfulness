@@ -103,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
         selectedDay = getCurrentDayOfTheWeek();
         updateSelectedDay(selectedDay);
         setMeditationCompletion();
+
+        PebbleCommunicator comms = PebbleCommunicator.getInstance();
         if (!comms.checkPebbleConnection()) {
             Toast.makeText(App.context(), "No Pebble connection detected!", Toast.LENGTH_LONG).show();
         }
