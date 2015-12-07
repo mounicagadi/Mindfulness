@@ -18,6 +18,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import justbe.mindfulnessapp.models.MeditationSession;
 import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
 import justbe.mindfulnessapp.rest.RestUtil;
@@ -203,6 +204,9 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
                             getString(R.string.auth_failed),
                             getString(R.string.cant_login_to_new_account));
                 }
+
+                // Create meditation sessions for first week
+                MeditationSession.populateDatabaseForWeek(1);
 
                 // Go to the getting stated activity
                 Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);

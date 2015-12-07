@@ -27,9 +27,16 @@ import java.util.Date;
 
 import android.os.Handler;
 
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+
 import java.util.Calendar;
 
+import justbe.mindfulnessapp.models.MeditationSession;
 import justbe.mindfulnessapp.models.User;
+import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
+import justbe.mindfulnessapp.rest.RestUtil;
+import justbe.mindfulnessapp.rest.UserPresentableException;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,8 +47,9 @@ public class MainActivity extends AppCompatActivity {
     private PopupWindow popupWindow;
     private User user;
 
-    // su, m, t, w, th, f, s
-    private String selectedDay;
+    // 0 Monday -> 6 Sunday
+    private Integer selectedDay;
+    private MeditationSession meditationSession = new MeditationSession();
 
     // audio player variables
     private MediaPlayer mediaPlayer;
@@ -80,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set the lesson button's text to the current week
         TextView lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
-        user.setProgramWeek(3);
+        user.setProgramWeek(1);
         lessonButtonText.setText(String.format("Week %d Exercise", user.getProgramWeek()));
 
         selectedDay = getCurrentDayOfTheWeek();
@@ -97,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer.release();
         // TODO: change the meditation file based on day selected
         mediaPlayer = MediaPlayer.create(this, R.raw.sample);
+        mediaPlayer.setOnCompletionListener(endOfMeditationListener);
 
         // Initialize parts from view
         volumeBar =(SeekBar)findViewById(R.id.volumeBar);
@@ -110,27 +119,7 @@ public class MainActivity extends AppCompatActivity {
         // Set up progress bar and make it usable
         volumeBar.setMax((int) totalTime);
         volumeBar.setProgress((int)currentTime);
-        volumeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            @Override
-            // Update to position in song user seeks to
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-                if (fromUser) {
-                    mediaPlayer.seekTo(progress);
-                    setTextViewToTime(currentAudioTimeText, progress);
-                }
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
-            }
-        });
+        volumeBar.setOnSeekBarChangeListener(seekBarListener);
 
         // Initialize time indicators
         setTextViewToTime(currentAudioTimeText, currentTime);
@@ -165,15 +154,52 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    // Called when the seekbar is interacted with
+    private final SeekBar.OnSeekBarChangeListener seekBarListener =
+            new SeekBar.OnSeekBarChangeListener() {
+
+        @Override
+        // Update to position in song user seeks to
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+            if (fromUser) {
+                mediaPlayer.seekTo(progress);
+                setTextViewToTime(currentAudioTimeText, progress);
+            }
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+            // TODO Auto-generated method stub
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            // TODO Auto-generated method stub
+        }
+    };
+
+    // Called when the audioPlayer reaches the end of a meditation
+    private final MediaPlayer.OnCompletionListener endOfMeditationListener =
+            new MediaPlayer.OnCompletionListener(){
+
+        public void onCompletion(MediaPlayer mp){
+            int currentImageViewId = getResources().getIdentifier(
+                     "MeditationImage" + selectedDay, "id", getPackageName());
+            ImageView currentDayImageView = (ImageView) findViewById(currentImageViewId);
+
+            currentDayImageView.setImageResource(R.drawable.check_green_2x);
+        }
+    };
+
     /**
      * Colors the currently selected day, updates selectedDay and audio file
      * @param newDay the newly selected day
      */
-    private void updateSelectedDay(String newDay){
+    private void updateSelectedDay(Integer newDay){
         int currentTextViewId = getResources().getIdentifier(
-                selectedDay + "MeditationText" , "id", getPackageName());
+                 "MeditationText" + selectedDay, "id", getPackageName());
         int newTextViewId = getResources().getIdentifier(
-                newDay + "MeditationText" , "id", getPackageName());
+                 "MeditationText" + newDay, "id", getPackageName());
 
         // remove styling from current day
         TextView currentDayTextView = (TextView) findViewById(currentTextViewId);
@@ -189,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
 
         initializeAudioPlayer();
     }
+
 
     /**
      * Callback for when the audio button is pressed
@@ -310,40 +337,40 @@ public class MainActivity extends AppCompatActivity {
      * @param view The view
      */
     public void changeWeekdayButtonPressed (View view) {
-        // Get the abbreviated weekday from beginning of the id set in layout
+        // Get the number id for weekday from end of view id
         String stringId = view.getResources().getResourceName(view.getId());
-        stringId = stringId.substring(0, stringId.length() - "Meditation".length());
+        stringId = stringId.substring(stringId.length() - 1);
 
-        updateSelectedDay(stringId);
+        updateSelectedDay(Integer.valueOf(stringId));
     }
 
     /**
      * Returns the day of the week in the string format used by the day selector
      * @return The day of the week in the following format: su, m, t, w, th, f, s
      */
-    private String getCurrentDayOfTheWeek() {
-        String day = "";
+    private Integer getCurrentDayOfTheWeek() {
+        Integer day = 0;
         switch(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
             case Calendar.SUNDAY:
-                day = "su";
+                day = 6;
                 break;
             case Calendar.MONDAY:
-                day = "m";
+                day = 0;
                 break;
             case Calendar.TUESDAY:
-                day = "t";
+                day = 1;
                 break;
             case Calendar.WEDNESDAY:
-                day = "w";
+                day = 2;
                 break;
             case Calendar.THURSDAY:
-                day = "th";
+                day = 3;
                 break;
             case Calendar.FRIDAY:
-                day = "f";
+                day = 4;
                 break;
             case Calendar.SATURDAY:
-                day = "s";
+                day = 5;
                 break;
             default:
                 // impossible to get here
