@@ -234,7 +234,7 @@ public class Session {
      * @param raw_password The Password
      * @return True if the authentication was successful, otherwise false
      */
-    public boolean authenticate(String username, String raw_password) {
+    public boolean authenticate(String username, String raw_password) throws InterruptedException, ExecutionException, TimeoutException {
         GenericHttpRequestTask<User, User> task = new GenericHttpRequestTask(User.class, User.class);
 
         User u = new User();
@@ -247,18 +247,9 @@ public class Session {
 
 
         ResponseEntity<User> response;
-        try {
-            response = task.waitForResponse();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return false;
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-            return false;
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-            return false;
-        }
+
+        response = task.waitForResponse();
+
 
         if (RestUtil.checkResponse(response)) {
             for (String s : response.getHeaders().get("Set-Cookie")) {
@@ -286,25 +277,14 @@ public class Session {
         }
     }
 
-    public boolean invalidate() {
+    public boolean invalidate() throws InterruptedException, ExecutionException, TimeoutException {
         GenericHttpRequestTask<User, Success> task = new GenericHttpRequestTask(User.class, Success.class);
 
         task.execute("/api/v1/user/logout/", HttpMethod.GET);
 
 
         ResponseEntity<Success> response;
-        try {
-            response = task.waitForResponse();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return false;
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-            return false;
-        } catch (TimeoutException e) {
-            e.printStackTrace();
-            return false;
-        }
+        response = task.waitForResponse();
 
         if (RestUtil.checkResponse(response) && response.getBody() != null && response.getBody().getSuccess()) {
             this.removeSessionId();
