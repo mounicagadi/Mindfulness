@@ -69,11 +69,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="justbe.mindfulnessapp.MainActivity" />
         </activity>
-        <receiver android:name=".AlarmReceiver" android:enabled="true">
+
+        <receiver
+            android:name=".AlarmReceiver"
+            android:enabled="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".StartAssessmentActivity"
+            android:label="@string/title_activity_start_assessment"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

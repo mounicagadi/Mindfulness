@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import java.util.Calendar;
 
 public class AlarmReceiver extends BroadcastReceiver {
+
     /**
      * Performs an action after receiving an alarm
      * @param context The app context
@@ -19,45 +20,53 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        if (action != null && action.equals("android.intent.action.BOOT_COMPLETED")) {
 
-        }
-        else {
-            if (action != null) {
-                String[] actionInfo = action.split("|");
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(Long.parseLong(actionInfo[1]));
-                if (actionInfo[0] == "assessment") {
-                    if (calendar.get(Calendar.HOUR_OF_DAY) < 12) {
-                        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
-                                .setSmallIcon(R.drawable.lotus_2x)
-                                .setContentTitle("Mindfulness")
-                                .setContentText("Pending morning assessment");
-                        // TODO: go to the correct morning assessment
-                        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-                                new Intent(context, MainActivity.class), 0);
-                        notificationBuilder.setContentIntent(contentIntent);
-                        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-                        notificationManager.notify(001, notificationBuilder.build());
-                    }
-                    else {
-                        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
-                                .setSmallIcon(R.drawable.lotus_2x)
-                                .setContentTitle("Mindfulness")
-                                .setContentText("Pending afternoon assessment");
-                        // TODO: go to the correct afternoon assessment
-                        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
-                                new Intent(context, MainActivity.class), 0);
-                        notificationBuilder.setContentIntent(contentIntent);
-                        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-                        notificationManager.notify(001, notificationBuilder.build());
-                    }
+        // Make sure we have a action and it is not a boot message
+        if (action != null && !action.equals("android.intent.action.BOOT_COMPLETED")) {
+            String[] actionInfo = action.split("|");
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(Long.parseLong(actionInfo[1]));
+
+            // Assessment notification
+            if (actionInfo[0] == "assessment") {
+                if (calendar.get(Calendar.HOUR_OF_DAY) < 12) {
+                    createAssessmentNotification(true, context);
                 }
-                else if (actionInfo[0] == "pebble") {
-                    PebbleCommunicator comms = PebbleCommunicator.getInstance();
-                    comms.sendPebbleMessage("Mindfulness", "It's time for a momentary evaluation.");
+                else {
+                    createAssessmentNotification(false, context);
                 }
+            } else if (actionInfo[0] == "pebble") { // Pebble Notification
+                PebbleCommunicator comms = PebbleCommunicator.getInstance();
+                comms.sendPebbleMessage(context.getString(R.string.app_name), context.getString(R.string.timeForAssessment));
+            } else {
+                // Got an action that we don't care about so throw it away
             }
         }
+    }
+
+    private void createAssessmentNotification(Boolean isMorningAssessment, Context context) {
+        int notificationID = 001;
+
+        // Set assessment specific variables
+        int pendingIntentID = isMorningAssessment ? 0 : 1;
+        String notificationMessage = isMorningAssessment ?
+                context.getString(R.string.pendingMorning) :
+                context.getString(R.string.pendingAfternoon);
+
+        // Build notification
+        Intent startAssessmentIntent = new Intent(context, StartAssessmentActivity.class);
+        startAssessmentIntent.putExtra("isMorningAssessment", isMorningAssessment);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context);
+        notificationBuilder.setSmallIcon(R.drawable.lotus_2x);
+        notificationBuilder.setContentTitle(context.getString(R.string.app_name));
+        notificationBuilder.setContentText(notificationMessage);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, pendingIntentID,
+               startAssessmentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        notificationBuilder.setContentIntent(contentIntent);
+
+        // Display the notification
+        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(notificationID, notificationBuilder.build());
     }
 }

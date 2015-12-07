@@ -5,6 +5,7 @@ import android.content.Context;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
+import justbe.mindfulnessapp.models.Assessment;
 import justbe.mindfulnessapp.models.MeditationSession;
 import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.models.UserProfile;
@@ -85,6 +86,29 @@ public class ServerRequests {
     /***********************************************************************************************
      * Assessment API Calls
      **********************************************************************************************/
+
+    /**
+     *  Creates a assessment in the database
+     *  @param context The view that calls this, used to present specific errors
+     */
+    public static Assessment createAssessment(Context context) {
+        Assessment assessment = new Assessment();
+
+        // Create an HTTPRequestTask that sends a MeditationSession Object and Returns a MeditationSession Object
+        GenericHttpRequestTask<Assessment, Assessment> task
+                = new GenericHttpRequestTask(MeditationSession.class, MeditationSession.class);
+
+        task.execute("/api/v1/assessment/", HttpMethod.POST, null);
+
+        try {
+            ResponseEntity<Assessment> result = task.waitForResponse();
+            RestUtil.checkResponseHazardously(result);
+            assessment = result.getBody();
+        } catch (Exception e) {
+            new UserPresentableException(e).alert(context);
+        }
+        return assessment;
+    }
 
     /***********************************************************************************************
      * Meditation API Calls
