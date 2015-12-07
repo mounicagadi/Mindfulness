@@ -139,15 +139,20 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
      * @param view The view
      */
     public void logout(View view) {
-        if (App.getSession().invalidate()) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
-        } else {
-            new UserPresentableException(
-                    getString(R.string.cannot_logout),
-                    getString(R.string.cannot_logout_message)).alert(this);
+        try {
+            boolean success = App.getSession().invalidate();
+            if (success) {
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            } else {
+                new UserPresentableException(
+                        getString(R.string.cannot_logout),
+                        getString(R.string.cannot_logout_message)).alert(this);
+            }
+        } catch (Exception e) {
+            new UserPresentableException(e).alert(this);
         }
     }
 }

@@ -29,6 +29,10 @@
     <string name="go_to_sleep_text">I go to sleep at </string>
     <string name="change_password_text">Change Password</string>
     <string name="log_out_text">Log Out</string>
+    <string name="loggingIn">Logging In</string>
+    <string name="creatingAccount">Creating Account</string>
+    <string name="loggingOut">Logging Out</string>
+    <string name="pleaseWait">Please wait...</string>
 
     <string name="title_activity_preferences">Preferences</string>
     <string name="meditations_text">Meditations</string>

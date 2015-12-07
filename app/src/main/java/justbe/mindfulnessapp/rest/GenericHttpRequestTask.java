@@ -7,6 +7,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpMethod;
@@ -86,14 +87,14 @@ public class GenericHttpRequestTask<S, T extends BaseModel> extends AsyncTask<Ob
             body = (S) params[2];
         }
 
-        if (params.length >= 4) {
-            if (params[3] instanceof String && params[3] == "DEBUG") {
-                url = "https://api.hurtigtechnologies.com/dump/";
-            }
+        RestTemplate restTemplate = new RestTemplate();
+
+        if (String.class == this.yields) {
+            restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
+        } else {
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         }
 
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
         restTemplate.setErrorHandler(new SuppressHttpErrorHandler());
         List<MediaType> acceptableMediaTypes = new ArrayList();
         acceptableMediaTypes.add(MediaType.APPLICATION_JSON);
