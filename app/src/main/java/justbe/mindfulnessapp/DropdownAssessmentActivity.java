@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import justbe.mindfulnessapp.models.DropdownQuestion;
 
+/**
+ * Activity that displays all dropdown questions
+ */
 public class DropdownAssessmentActivity extends AppCompatActivity
         implements AdapterView.OnItemSelectedListener {
 
@@ -20,6 +23,10 @@ public class DropdownAssessmentActivity extends AppCompatActivity
     private Spinner spinner;
     private AssessmentFlowManager flowManager;
     private DropdownQuestion dropdownQuestion;
+
+    /***********************************************************************************************
+     * DropdownAssessmentActivity Life Cycle Functions
+     **********************************************************************************************/
 
     /**
      * Called when the view is created
@@ -44,12 +51,17 @@ public class DropdownAssessmentActivity extends AppCompatActivity
 
         // Create dropdown menu
         spinner = (Spinner)findViewById(R.id.dropdown_spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
                 R.layout.spinner_init_item, dropdownQuestion.getDropdownOptions());
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        spinner.setOnItemSelectedListener(DropdownAssessmentActivity.this);
+
     }
+
+    /***********************************************************************************************
+     * AdapterView.OnItemSelectedListener Functions
+     **********************************************************************************************/
 
     /**
      * Controls dropdown menu when a item is selected
@@ -71,7 +83,7 @@ public class DropdownAssessmentActivity extends AppCompatActivity
     }
 
     /**
-     * Callback for when the submit button is pressed
+     * Callback for when the next button is pressed
      * Saves the results from the assessment
      * @param view The view
      */

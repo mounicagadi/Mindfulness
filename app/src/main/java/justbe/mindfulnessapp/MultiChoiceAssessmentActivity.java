@@ -1,6 +1,5 @@
 package justbe.mindfulnessapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +11,10 @@ import android.widget.TextView;
 
 import justbe.mindfulnessapp.models.MultiChoiceQuestion;
 
-public class MultiChoiceAssessmentActivity extends AppCompatActivity{
+/**
+ * Activity that displays all MultiChoice questions
+ */
+public class MultiChoiceAssessmentActivity extends AppCompatActivity {
 
     /**
      * Fields
@@ -20,6 +22,10 @@ public class MultiChoiceAssessmentActivity extends AppCompatActivity{
     private ListView listView;
     private AssessmentFlowManager flowManager;
     private MultiChoiceQuestion multiChoiceQuestion;
+
+    /***********************************************************************************************
+     * MultiChoiceAssessmentActivity Life Cycle Functions
+     **********************************************************************************************/
 
     /**
      * Called when the view is created
@@ -42,21 +48,24 @@ public class MultiChoiceAssessmentActivity extends AppCompatActivity{
         // Set the question text
         TextView questionText = (TextView) findViewById(R.id.textView);
         questionText.setText(multiChoiceQuestion.getQuestionText());
-
         // Setup the list choice view
         listView = (ListView) findViewById(R.id.choiceList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
                 android.R.layout.simple_list_item_multiple_choice, multiChoiceQuestion.getChoices());
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setAdapter(adapter);
     }
 
+    /***********************************************************************************************
+     * MultiChoiceAssessmentActivity Button Handlers
+     **********************************************************************************************/
+
     /**
-     * Callback for when the submit button is pressed
+     * Callback for when the next button is pressed
      * Saves the results from the assessment
      * @param view The view
      */
-    public void submitPressed(View view) {
+    public void nextPressed(View view) {
         String selected = "";
         int cntChoice = listView.getCount();
         SparseBooleanArray sparseBooleanArray = listView.getCheckedItemPositions();
@@ -66,11 +75,7 @@ public class MultiChoiceAssessmentActivity extends AppCompatActivity{
                 selected += listView.getItemAtPosition(i).toString() + "\n";
             }
         }
-
-        Intent intent = new Intent(MultiChoiceAssessmentActivity.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
-        finish();
+        flowManager.startNextAssessmentQuestion();
     }
 
 }

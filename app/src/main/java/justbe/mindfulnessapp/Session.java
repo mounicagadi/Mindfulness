@@ -4,11 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import com.google.gson.*;
 
+import java.net.URI;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
@@ -245,11 +249,9 @@ public class Session {
         u.setPassword(raw_password);
         task.execute("/api/v1/user/login/", HttpMethod.POST, u);
 
-
         ResponseEntity<User> response;
 
         response = task.waitForResponse();
-
 
         if (RestUtil.checkResponse(response)) {
             for (String s : response.getHeaders().get("Set-Cookie")) {

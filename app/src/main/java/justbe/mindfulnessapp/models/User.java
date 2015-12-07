@@ -22,6 +22,15 @@ public class User extends PlainOldDBO<User> {
         }
     }
 
+    public enum DayOfWeek {
+        MO(0), TU(1), WE(2), TH(3), FR(4), SA(5), SU(6);
+
+        private final int value;
+        private DayOfWeek(int value) { this.value = value; }
+
+        public int getValue() { return value; }
+    }
+
     private String email;
     private String first_name;
     private String last_name;
@@ -160,4 +169,19 @@ public class User extends PlainOldDBO<User> {
     public Integer getProgram_week() { return program_week; }
 
     public void setProgram_week(Integer program_week) { this.program_week = program_week; }
+
+    /**
+     * Sets the data from a UserProfile to this user's data
+     * @param userProfile
+     */
+    public void addUserProfileData(UserProfile userProfile) {
+        setBirthday(userProfile.getBirthday());
+        setExercise_day_of_week(userProfile.getExercise_day_of_week());
+        setExercise_time(userProfile.getExercise_time());
+        setMeditation_time(userProfile.getMeditation_time());
+        setWake_up_time(userProfile.getWake_up_time());
+        setGo_to_sleep_time(userProfile.getGo_to_sleep_time());
+        setGender(userProfile.getGender());
+        setProgram_week(userProfile.getProgram_week());
+    }
 }

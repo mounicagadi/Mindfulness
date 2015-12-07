@@ -11,12 +11,18 @@ import android.widget.TimePicker;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
 import justbe.mindfulnessapp.rest.RestUtil;
 
+/**
+ * Time Picker used to choose times for the user preferences
+ * Determines what field to update using the pressed button's ID
+ * To use this the class must implement RefreshViewListener to handle saving and updating
+ */
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
@@ -27,6 +33,9 @@ public class TimePickerFragment extends DialogFragment
     private RefreshViewListener listener;
     private User user;
 
+    /***********************************************************************************************
+     * TimePickerFragment Life Cycle Functions
+     **********************************************************************************************/
     /**
      * Called when the dialog is created
      * @param savedInstanceState Saved Instance State
@@ -68,6 +77,10 @@ public class TimePickerFragment extends DialogFragment
                 android.text.format.DateFormat.is24HourFormat(getActivity()));
     }
 
+    /***********************************************************************************************
+     * TimePickerDialog.OnTimeSetListener Functions
+     **********************************************************************************************/
+
     /**
      * Called when TimePicker is dismissed
      * @param frag The TimePicker
@@ -75,18 +88,6 @@ public class TimePickerFragment extends DialogFragment
     @Override
     public void onDismiss(DialogInterface frag) {
         super.onDismiss(frag);
-
-        // Save the new values on the server
-        // Create an HTTPRequestTask that sends a User Object and Returns a User Object
-        GenericHttpRequestTask<User, User> task = new GenericHttpRequestTask(User.class, User.class);
-        task.execute("/api/v1/user_profile/", HttpMethod.PUT, user);
-
-        try {
-            ResponseEntity<User> result = task.waitForResponse();
-            RestUtil.checkResponseHazardously(result);
-        } catch (Exception e) {
-            //new UserPresentableException(e).alert(this);
-        }
 
         // Reload the time fields with the new values
         listener.refreshView();
@@ -112,14 +113,12 @@ public class TimePickerFragment extends DialogFragment
      * @param hourOfDay The hour selected on the Time picker
      * @param minute The minute selected on the Time picker
      */
+    @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        // Build new time string
-        StringBuilder sb = new StringBuilder();
-        sb.append(hourOfDay);
-        sb.append(":");
-        sb.append(minute);
-        sb.append(":00");
-        String time = sb.toString();
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        cal.set(Calendar.MINUTE, minute);
+        Date time = cal.getTime();
 
         // Call parent activity's save time method
         listener.saveTimes(buttonID, time);

@@ -1,28 +1,24 @@
 package justbe.mindfulnessapp;
 
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import justbe.mindfulnessapp.models.MeditationSession;
 import justbe.mindfulnessapp.models.User;
-import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
-import justbe.mindfulnessapp.rest.RestUtil;
+import justbe.mindfulnessapp.models.UserProfile;
 import justbe.mindfulnessapp.rest.UserPresentableException;
 
 public class CreateAccountActivity extends AppCompatActivity implements RefreshViewListener {
@@ -31,6 +27,7 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
      * Fields
      */
     private User user;
+    private UserProfile userProfile;
     private EditText username_field;
     private EditText password_field;
     private EditText confirm_password_field;
@@ -38,6 +35,18 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
     private TextView lessonTimeText;
     private TextView wakeUpTimeText;
     private TextView goToSleepTimeText;
+
+    private String meditationTime;
+    private String lessonTime;
+    private String wakeUpTime;
+    private String goToSleepTime;
+
+    private ProgressDialog progressDialog;
+    private static Handler createAccountHandler;
+
+    /***********************************************************************************************
+     * CreateAccountActivity Life Cycle Functions
+     **********************************************************************************************/
 
     /**
      * Called when the view is created
@@ -55,8 +64,15 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // Create new user object
-        user = createDefaultNewUser();
+        // Create 'Creating Account' progress spinner
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle(getString(R.string.creatingAccount));
+        progressDialog.setMessage(getString(R.string.pleaseWait));
+        progressDialog.setCancelable(false);
+
+        // Create new user object and corresponding user profile object
+        user = new User();
+        userProfile = new UserProfile();
 
         // Set variables to their Text Views
         username_field = (EditText) findViewById(R.id.editUsername);
@@ -68,6 +84,11 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
         goToSleepTimeText = (TextView) findViewById(R.id.goToSleepTime);
 
         // Set the fields to the user's values
+        String currentTime = Util.dateToDisplayString(new Date());
+        meditationTime = currentTime;
+        lessonTime = currentTime;
+        wakeUpTime = currentTime;
+        goToSleepTime = currentTime;
         setTimeFields();
 
         // TextChangedListener to handle error dismissal
@@ -87,23 +108,9 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
         });
     }
 
-    /**
-     * Creates a default user with the current time set as the default times
-     * @return the default user
-     */
-    private User createDefaultNewUser() {
-        User u = new User();
-        u.setProgram_week(0);
-
-        // Set up default times
-        Date currentTime = new Date();
-        u.setMeditation_time(formatTime(currentTime));
-        u.setExercise_time(formatTime(currentTime));
-        u.setWake_up_time(formatTime(currentTime));
-        u.setGo_to_sleep_time(formatTime(currentTime));
-
-        return u;
-    }
+    /***********************************************************************************************
+     * RefreshViewListener Functions
+     **********************************************************************************************/
 
     /**
      * Sets time fields on view, callable from anywhere
@@ -115,53 +122,33 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
     /**
      * Saves the time from the Time Picker
      */
-    public void saveTimes(int buttonID, String time) {
+    public void saveTimes(int buttonID, Date time) {
         // Check to see what field we are editing
         switch (buttonID) {
             case R.id.meditationRow:
-                user.setMeditation_time(time);
+                meditationTime = Util.dateToDisplayString(time);
+                userProfile.setMeditation_time(Util.dateToUserProfileString(time));
                 break;
             case R.id.lessonRow:
-                user.setExercise_time(time);
+                lessonTime = Util.dateToDisplayString(time);
+                userProfile.setExercise_time(Util.dateToUserProfileString(time));
                 break;
             case R.id.wakeUpRow:
-                user.setWake_up_time(time);
+                wakeUpTime = Util.dateToDisplayString(time);
+                userProfile.setWake_up_time(Util.dateToUserProfileString(time));
                 break;
             case R.id.goToSleepRow:
-                user.setGo_to_sleep_time(time);
+                goToSleepTime = Util.dateToDisplayString(time);
+                userProfile.setGo_to_sleep_time(Util.dateToUserProfileString(time));
                 break;
             default:
                 throw new RuntimeException("Attempted to set time for unknown field");
         }
     }
 
-    /**
-     * Sets time fields on view
-     */
-    private void setTimeFields() {
-        // Get times from user
-        Date meditationTime = user.getMeditation_time();
-        Date lessonTime = user.getExercise_time();
-        Date wakeUpTime = user.getWake_up_time();
-        Date goToSleepTime = user.getGo_to_sleep_time();
-
-        meditationTimeText.setText(formatTime(meditationTime));
-        lessonTimeText.setText(formatTime(lessonTime));
-        wakeUpTimeText.setText(formatTime(wakeUpTime));
-        goToSleepTimeText.setText(formatTime(goToSleepTime));
-    }
-
-    /**
-     * Formats the given Date into a string or the current Date if the given Date is null
-     * @param time The Date to format
-     * @return String representation of the given Date or the current Date
-     */
-    private String formatTime(Date time) {
-        DateFormat sdf = new SimpleDateFormat("hh:mm");
-        if(time == null)
-            time = new Date();
-        return sdf.format(time);
-    }
+    /***********************************************************************************************
+     * CreateAccountActivity Button Handlers
+     **********************************************************************************************/
 
     /**
      * Callback for when the wake up, go to sleep, lesson, or meditation button is pressed
@@ -186,51 +173,69 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
      */
     public void createAccountPressed(View view) {
         if ( validateActivity() ) {
-            user.setUsername(username_field.getText().toString());
-            user.setRaw_password(password_field.getText().toString());
+            progressDialog.show();
 
-            Log.v("CreateAccount:", formatTime(user.getMeditation_time()));
+            // Run createAccount in its own thread
+            Thread createAccountThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    user.setUsername(username_field.getText().toString());
+                    user.setRaw_password(password_field.getText().toString());
 
-            // Create an HTTPRequestTask that sends a User Object and Returns a User Object
-            GenericHttpRequestTask<User, User> task = new GenericHttpRequestTask(User.class, User.class);
+                    // Run all the server requests to create an account
+                    Context context = getApplicationContext();
+                    Boolean createAccountSuccess = (ServerRequests.createUser(user, context) &&
+                            ServerRequests.updateUserWithUserProfile(user, userProfile, context) &&
+                            // Create meditation sessions for first week
+                            ServerRequests.populateDatabaseForWeek(1, context));
 
-            task.execute("/api/v1/create_user/", HttpMethod.POST, user);
-
-            try {
-                ResponseEntity<User> result = task.waitForResponse();
-
-                RestUtil.checkResponseHazardously(result);
-
-                // Authenticate with the server, store session
-                if ( ! App.getSession().authenticate(user.getUsername(), user.getRaw_password()) ) {
-                    throw new UserPresentableException(
-                            getString(R.string.auth_failed),
-                            getString(R.string.cant_login_to_new_account));
+                    // Attempt to login and save the result
+                    if(createAccountSuccess) {
+                        createAccountHandler.sendEmptyMessage(0);
+                    } else {
+                        createAccountHandler.sendEmptyMessage(1);
+                    }
                 }
+            });
 
-                // Create meditation sessions for first week
-                MeditationSession.populateDatabaseForWeek(1);
+            // Start the thread and wait till its done
+            createAccountThread.start();
 
-                // Go to the getting stated activity
-                Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-
-            } catch (Exception e) {
-                new UserPresentableException(e).alert(this);
-            }
+            // Handler to deal with the result of the create account thread
+            createAccountHandler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    // Log in succeeded
+                    if(msg.what == 0) {
+                        Intent intent = new Intent(getApplicationContext() , MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        progressDialog.dismiss();
+                        finish();
+                    } else { // Create account failed
+                        progressDialog.dismiss();
+                        throw new UserPresentableException(
+                                getString(R.string.auth_failed),
+                                getString(R.string.cant_login_to_new_account));
+                    }
+                }
+            };
         }
     }
 
-    /**
-     * Checks to make sure that the two password fields are the same
-     * @return whether the password fields are the same
-     */
-    private boolean samePassword() {
-        return password_field.getText().toString().equals(confirm_password_field.getText().toString());
-    }
+    /***********************************************************************************************
+     * CreateAccountActivity Specific Helpers
+     **********************************************************************************************/
 
+    /**
+     * Sets time fields on view
+     */
+    private void setTimeFields() {
+        meditationTimeText.setText(meditationTime);
+        lessonTimeText.setText(lessonTime);
+        wakeUpTimeText.setText(wakeUpTime);
+        goToSleepTimeText.setText(goToSleepTime);
+    }
 
     /**
      * Validates all fields in the add user form and sets an error on the first invalid input
@@ -245,7 +250,7 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
             return false;
         }
 
-        if ( ! samePassword() ) {
+        if ( ! Util.samePassword(password_field, confirm_password_field) ) {
             confirm_password_field.setError("Your passwords do not match");
             return false;
         } else if ( password_field.getText().length() < 6 ) {

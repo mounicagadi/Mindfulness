@@ -35,5 +35,5 @@
         android:layout_alignParentBottom="true"
         android:text="@string/next"
         android:textSize="@dimen/normal_text_size"
-        android:onClick="submitPressed"/>
+        android:onClick="nextPressed"/>
 </RelativeLayout>
