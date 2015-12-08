@@ -68,17 +68,17 @@ public class MainActivityTest {
 
 
 
-    @Test
-    public void WeekButton() {
-        onView(withId(R.id.suMeditation)).perform(click());
-        onView(withId(R.id.mMeditation)).perform(click());
-        onView(withId(R.id.tMeditation)).perform(click());
-        onView(withId(R.id.wMeditation)).perform(click());
-        onView(withId(R.id.thMeditation)).perform(click());
-        onView(withId(R.id.fMeditation)).perform(click());
-        onView(withId(R.id.sMeditation)).perform(click());
-
-    }
+//    @Test
+//    public void WeekButton() {
+//        onView(withId(R.id.suMeditation)).perform(click());
+//        onView(withId(R.id.mMeditation)).perform(click());
+//        onView(withId(R.id.tMeditation)).perform(click());
+//        onView(withId(R.id.wMeditation)).perform(click());
+//        onView(withId(R.id.thMeditation)).perform(click());
+//        onView(withId(R.id.fMeditation)).perform(click());
+//        onView(withId(R.id.sMeditation)).perform(click());
+//
+//    }
 
     @Test
     public void AudioButton() {
