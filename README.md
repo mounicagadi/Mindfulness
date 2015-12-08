@@ -1,7 +1,48 @@
 # JustBe-Android
-Android version of the JustBe app, also known as the Mindfulness app. 
-Probably advisable to use Android Studios while editing the code.
+The JustBe application, also known as the Mindfulness application, developed for Prof. Mariya Shiyko as semester long project in C4500. For a overview of the components within this Android App, see **__Overview of JustBe Exosystem ~ JustBe-Android__**.
 
+# Development
+While you are welcome to use other IDEs while continuing development on this, we highly recommend using Andorid Studio ver >= 2.0. The application is currently stored as a Android Studio App so if you want to use a different IDE there will be more work for you to do. That plus the fact that Android Studio is a fantastic IDE should be enough to deter you.
+
+## Future Development ~ (12/8/2015)
+Most of the andorid app has already been completed and the few things that need to be done requrire more specifications from Prof. Shiyko along with rework of the database and django API calls. This is a brief list of things that still need to be done before the App can be used for Prof. Shiyko's Research.
+
+* Save Assesments and Responses: Requires modifications to the database and api calls as the responses have changed significantly since the database was created.
+* Give Prof. Shiyko the ability to add questions, lessons, and mediations to the app remotely.
+
+## Bugs 
+Please see the Github Issues associated with this repository for all bugs that we know of at this time. NOTE: There are no feature tickets in GitHub Issues as the design specifications are likely to change. 
+
+# Overview of JustBe Ecosystem
+
+## JustBe-Android
+The andorid verison of the JustBe application consists of the following modules (in no particular order):
+* **Activities** Control the user interactions with the UI
+* **Layouts:** XML Files defining the UI of the Activities and other view we use
+* **Models Dir:** Contains all the models that we use. The variable names on the objects we use to interact with the API have to be named as they are to ensure their data is correctly pulled from the responses from the database.
+* **Rest Dir:** Contains all utilities needed to interact with the database.
+* **ServerRequests**: Holds all API alls to the database, abstracted so all classes can use them as they please.
+* **Session/SessonManager:** Holds the App's current sesson, i.e. User and cookeis, and manages the sharedPreferences. Could be refactored into a single class in the future.
+* **PebbleComunicator:** Talks to the Pebble applciation.
+* **AlarmReceiver:** Receives the alarms defined earlier in the day when they occuer and push the approprate notificaiton to the user, via either their phone or pebble.
+* **AssessmentFlowManager:** Holds and displays all the questions for a assessment session. Saves the responses from each question as it goes through them. Then pushes the results to the database
+* **AssessmentFlowManagerFactory:** Facotry used to help create the assessment questions and add them to the AssessmentFlowManager.
+
+## JustBe-iOS
+The iOS version of the JustBe applciation. The iOS app shares the same basic UI design as our android app with a few caveats due to the differences in Android and iOS development guidelines. The only major difference in implementations (as of 12/8/2015) is that the iOS app uses a cron job on the database to push notificatons down to the iOS devices using apns keys while on Andorid they are handled locally. 
+
+## JustBe-Django
+The database for both the iOS and Andorid apps can be found in this repo. The database itself is hosted on Herkou, please see logins doc from Prof. Shiyko for access. All calls to the database are done through a sereis of RESTFUL API calls. Be careful if you edit the Django app the indentation is very odd and can cause problems within python if you are not careful.
+
+DO NOT TRUST [apiusage.txt]( https://github.com/justbeneu/JustBe-Django/blob/master/apiusage.txt#L46-L110)! When implementing API calls to the database use curl extensivly to test the calls and their output. As of this moment the apiusage.txt doc contains misinformation that has the potential to cause alot of headaches unless you run all the commands through curl before implementing them. 
+
+For more information on using API calls within the Andorid Application please see the **__API Interacitons__** section below.
+
+## JustBe-Pebble
+The Pebble application to be used in tandem with the iOS/Android App.
+
+## JustBe-Assets
+Contains all images, design docs, and other miscellaneous files used during the development of the app. If you add any assest to the app please place them here so all teams can have access to them.
 
 # API Interactions
 
@@ -45,3 +86,4 @@ try {
     // Something bad happened, generate an alert dialog to show to the user
     new UserPresentableException(e).alert(this);
 }
+```
