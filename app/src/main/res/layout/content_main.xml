@@ -26,6 +26,13 @@
         android:id="@+id/dayAssessmentButton"
         android:onClick="dayAssessmentButtonPressed"
         android:layout_toRightOf="@id/morningAssessmentButton"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Assessment"
+        android:id="@+id/startAssessmentButton"
+        android:onClick="startAssessmentButtonPressed"
+        android:layout_toRightOf="@id/dayAssessmentButton"/>
         <LinearLayout
             android:id="@+id/weekdaysLayout"
             android:baselineAligned="false"

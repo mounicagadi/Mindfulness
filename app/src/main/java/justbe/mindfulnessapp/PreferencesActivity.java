@@ -196,8 +196,13 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
             public void handleMessage(Message msg) {
                 // Logout succeeded
                 if(msg.what == 0) {
+                    // clear data from shared preferences
+                    SessionManager sessionManager = new SessionManager(getApplicationContext());
+                    sessionManager.logoutUser();
+
+                    // Go to Login
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     progressDialog.dismiss();
                     finish();

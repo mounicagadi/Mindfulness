@@ -10,6 +10,9 @@ import android.support.v4.app.NotificationCompat;
 
 import java.util.Calendar;
 
+/**
+ * Receives assessment and pebble alarms
+ */
 public class AlarmReceiver extends BroadcastReceiver {
 
     /**

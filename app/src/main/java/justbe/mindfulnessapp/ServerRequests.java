@@ -147,7 +147,7 @@ public class ServerRequests {
      *  @param meditationSession The meditationSession to update on the database
      *  @param context The view that calls this, used to present specific errors
      */
-    public static Boolean update(MeditationSession meditationSession, Context context) {
+    public static Boolean updateMeditationSession(MeditationSession meditationSession, Context context) {
         // Create an HTTPRequestTask that sends a MeditationSession Object and Returns a MeditationSession Object
         GenericHttpRequestTask<MeditationSession, MeditationSession> task
                 = new GenericHttpRequestTask(MeditationSession.class, MeditationSession.class);

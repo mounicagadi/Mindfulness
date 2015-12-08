@@ -51,7 +51,7 @@ public class UserProfile extends PlainOldDBO<User> {
         setWake_up_time(Util.dateToUserProfileString(user.getWake_up_time()));
         setGo_to_sleep_time(Util.dateToUserProfileString(user.getGo_to_sleep_time()));
         setGender(user.getGender());
-        setProgram_week(user.getProgram_week());
+        setProgram_week(user.getCurrent_week());
     }
 
     public String getBirthday() { return birthday; }
