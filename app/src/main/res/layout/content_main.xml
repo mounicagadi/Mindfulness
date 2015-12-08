@@ -54,6 +54,7 @@
                         android:id="@+id/MeditationImage6"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:tag="false"
                         android:src="@drawable/check_gray_2x"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -83,6 +84,7 @@
                         android:id="@+id/MeditationImage0"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:tag="false"
                         android:src="@drawable/check_gray_2x"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -112,6 +114,7 @@
                         android:id="@+id/MeditationImage1"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:tag="false"
                         android:src="@drawable/check_gray_2x"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -141,6 +144,7 @@
                         android:id="@+id/MeditationImage2"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:tag="false"
                         android:src="@drawable/check_gray_2x"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -170,6 +174,7 @@
                         android:id="@+id/MeditationImage3"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:tag="false"
                         android:src="@drawable/check_gray_2x"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -199,6 +204,7 @@
                         android:id="@+id/MeditationImage4"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:tag="false"
                         android:src="@drawable/check_gray_2x"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -228,6 +234,7 @@
                         android:id="@+id/MeditationImage5"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
+                        android:tag="false"
                         android:src="@drawable/check_gray_2x"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -298,7 +305,8 @@
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/check_green_2x"/>
+            android:tag="false"
+            android:src="@drawable/check_gray_2x"/>
         <TextView
             android:id="@+id/weeklyLessonButtonText"
             android:layout_width="wrap_content"

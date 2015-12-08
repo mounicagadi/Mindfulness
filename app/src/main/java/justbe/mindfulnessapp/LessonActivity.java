@@ -27,6 +27,14 @@ public class LessonActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getString(R.string.title_activity_lesson));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-    }
 
+        // Creates exercise session in database if it does not exist yet
+        Boolean completed = getIntent().getExtras().getBoolean("completed");
+
+        if (!completed) {
+            // TODO: get currently selected week instead of current program week
+            int week = 1;//App.getSession().getUser().getCurrent_week();
+            ServerRequests.completeExerciseSession(week, this);
+        }
+    }
 }

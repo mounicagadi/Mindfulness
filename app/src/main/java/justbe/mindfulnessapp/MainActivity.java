@@ -26,6 +26,7 @@ import android.widget.Toast;
 import java.util.Date;
 import java.util.Calendar;
 
+import justbe.mindfulnessapp.models.ExerciseSession;
 import justbe.mindfulnessapp.models.User;
 
 /**
@@ -79,9 +80,10 @@ public class MainActivity extends AppCompatActivity {
         View customToolbarView = li.inflate(R.layout.custom_main_toolbar, null);
         getSupportActionBar().setCustomView(customToolbarView);
 
-        int selectedWeek = 0;
+        int selectedWeek = 1;
         if(user != null) {
-            selectedWeek = user.getCurrent_week();
+            // TODO: uncomment when current week gets updated in database
+            // selectedWeek = user.getCurrent_week();
 
             // Media player setup
             mediaPlayer = new MeditationMediaPlayer(this, R.raw.sample, selectedWeek);
@@ -89,6 +91,22 @@ public class MainActivity extends AppCompatActivity {
             // Set the lesson button's text to the current week
             TextView lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
             lessonButtonText.setText(String.format("Week %d Exercise", selectedWeek));
+
+            // Get completed exercises from db, if this week has been completed give it a green check
+            ExerciseSession[] completedExercises = ServerRequests.getExerciseSessions(this);
+            for (ExerciseSession e : completedExercises) {
+                if (e.getExercise_id() == selectedWeek) {
+                    int weeklyLessonImageId = getResources().getIdentifier(
+                            "weeklyLessonButtonImage", "id", getPackageName());
+                    ImageView weeklyLessonImage = (ImageView) findViewById(weeklyLessonImageId);
+
+                    // Change the lesson to be completed
+                    weeklyLessonImage.setImageResource(R.drawable.check_green_2x);
+                    weeklyLessonImage.setTag("true");
+
+                    break;
+                }
+            }
         }
 
 //        // Pebble setup
@@ -175,7 +193,20 @@ public class MainActivity extends AppCompatActivity {
      * @param view The view
      */
     public void lessonButtonPressed(View view) {
+        int checkMarkViewId = getResources().getIdentifier(
+                "weeklyLessonButtonImage", "id", getPackageName());
+        ImageView checkMarkView = (ImageView) findViewById(checkMarkViewId);
+        // The tag of the ImageView tells us if the lesson is completed or not
+        Boolean checked = Boolean.valueOf(checkMarkView.getTag().toString());
+
+        // Change the lesson to be completed
+        if (!checked) {
+            checkMarkView.setImageResource(R.drawable.check_green_2x);
+            checkMarkView.setTag("true");
+        }
+
         Intent intent = new Intent(MainActivity.this, LessonActivity.class);
+        intent.putExtra("completed", checked);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }

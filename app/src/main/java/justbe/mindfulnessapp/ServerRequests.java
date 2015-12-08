@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import justbe.mindfulnessapp.models.Assessment;
+import justbe.mindfulnessapp.models.ExerciseSession;
 import justbe.mindfulnessapp.models.MeditationSession;
 import justbe.mindfulnessapp.models.Response;
 import justbe.mindfulnessapp.models.User;
@@ -272,5 +273,55 @@ public class ServerRequests {
             }
         }
         return success;
+    }
+
+    /***********************************************************************************************
+     * Exercise API Calls
+     **********************************************************************************************/
+
+    /**
+     *  Generates the exercise for the given week in the database for the user
+     *  @param week 1 -> 8 representing the week to create an exercise for
+     *  @param context The view that calls this, used to present specific errors
+     */
+    public static void completeExerciseSession(Integer week, Context context) {
+        // Create an HTTPRequestTask that sends an ExerciseSession Object and Returns a ExerciseSession Object
+        GenericHttpRequestTask<ExerciseSession, ExerciseSession> task;
+
+        // Create an exercise session for the week
+        ExerciseSession exerciseSession = new ExerciseSession();
+        exerciseSession.setExercise_id(week);
+
+        task = new GenericHttpRequestTask(ExerciseSession.class, ExerciseSession.class);
+
+        task.execute("/api/v1/exercise_session/", HttpMethod.POST, exerciseSession);
+    }
+
+    /**
+     *  Gets all the exercise sessions for the user
+     *  @param context The view that calls this, used to present specific errors
+     *  @return The exercise sessions from the database
+     */
+    public static ExerciseSession[] getExerciseSessions(Context context) {
+        ExerciseSession[] exerciseSessions = null;
+
+        // Create an HTTPRequestTask that sends a MeditationSession Object and Returns a MeditationSession Object
+        GenericHttpRequestTask<ExerciseSession, ExerciseSession> task
+                = new GenericHttpRequestTask(ExerciseSession.class, ExerciseSession.class);
+
+        task.execute("/api/v1/exercise_session/", HttpMethod.GET, null);
+
+        try {
+            ResponseEntity<ExerciseSession> result = task.waitForResponse();
+            RestUtil.checkResponseHazardously(result);
+
+            exerciseSessions = result.getBody().getObjects();
+
+
+        } catch (Exception e) {
+            new UserPresentableException(e).alert(context);
+        }
+
+        return exerciseSessions;
     }
 }
