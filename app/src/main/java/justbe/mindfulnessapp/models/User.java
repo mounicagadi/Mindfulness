@@ -182,6 +182,6 @@ public class User extends PlainOldDBO<User> {
         setWake_up_time(userProfile.getWake_up_time());
         setGo_to_sleep_time(userProfile.getGo_to_sleep_time());
         setGender(userProfile.getGender());
-        setCurrent_week(userProfile.getProgram_week());
+        setCurrent_week(userProfile.getCurrent_week());
     }
 }

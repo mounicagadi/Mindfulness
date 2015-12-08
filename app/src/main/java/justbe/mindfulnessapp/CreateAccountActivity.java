@@ -207,7 +207,7 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
                 public void handleMessage(Message msg) {
                     // Log in succeeded
                     if(msg.what == 0) {
-                        Intent intent = new Intent(getApplicationContext() , MainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), StartProgramActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         progressDialog.dismiss();

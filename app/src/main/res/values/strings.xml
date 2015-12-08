@@ -45,6 +45,9 @@
     <string name="title_activity_lesson">Weekly Lesson</string>
     <string name="title_activity_assessment">Assessment</string>
 
+    <string name="start_info">When you are ready to begin the Mindfulness program click the button below:</string>
+    <string name="start">Start</string>
+
     <string name="week_one_text">Week 1</string>
     <string name="week_two_text">Week 2</string>
     <string name="week_three_text">Week 3</string>

@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.support.v7.widget.Toolbar;
 import android.os.Handler;
 
+import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.rest.UserPresentableException;
 
 /**
@@ -117,11 +118,21 @@ public class LoginActivity extends AppCompatActivity  {
                 // Log in succeeded
                 if(msg.what == 0) {
                     Session session = App.getSession();
+                    User user = session.getUser();
                     sessionManager.createLoginSession(session.getSessionId(), session.getCsrfToken(),
-                            session.getUser());
-                    Intent intent = new Intent(getApplicationContext() , MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                            user);
+
+                    // If user hasn't started program yet, go to StartProgramActivity
+                    if (user.getCurrent_week() == 0) {
+                        Intent intent = new Intent(getApplicationContext(), StartProgramActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                    else {
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
                     progressDialog.dismiss();
                     finish();
                 } else { // Log in failed

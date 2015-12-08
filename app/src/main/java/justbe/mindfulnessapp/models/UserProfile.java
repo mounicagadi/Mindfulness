@@ -1,17 +1,8 @@
 package justbe.mindfulnessapp.models;
 
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import justbe.mindfulnessapp.App;
 import justbe.mindfulnessapp.Util;
-import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
-import justbe.mindfulnessapp.rest.RestUtil;
-import justbe.mindfulnessapp.rest.UserPresentableException;
 
 public class UserProfile extends PlainOldDBO<User> {
     private String birthday;
@@ -21,7 +12,7 @@ public class UserProfile extends PlainOldDBO<User> {
     private String wake_up_time;
     private String go_to_sleep_time;
     private Integer gender;
-    private Integer program_week;
+    private Integer current_week;
 
     /**
      * UserProfile Constructor that creates a default UserProfile object with default values
@@ -29,7 +20,7 @@ public class UserProfile extends PlainOldDBO<User> {
      */
     public UserProfile() {
         // Set the program week to 0 (Not Started)
-        setProgram_week(0);
+        setCurrent_week(0);
 
         // Set up default times
         String currentTime = Util.dateToUserProfileString(new Date());
@@ -51,7 +42,7 @@ public class UserProfile extends PlainOldDBO<User> {
         setWake_up_time(Util.dateToUserProfileString(user.getWake_up_time()));
         setGo_to_sleep_time(Util.dateToUserProfileString(user.getGo_to_sleep_time()));
         setGender(user.getGender());
-        setProgram_week(user.getCurrent_week());
+        setCurrent_week(user.getCurrent_week());
     }
 
     public String getBirthday() { return birthday; }
@@ -84,7 +75,7 @@ public class UserProfile extends PlainOldDBO<User> {
         this.gender = gender;
     }
 
-    public Integer getProgram_week() { return program_week; }
+    public Integer getCurrent_week() { return current_week; }
 
-    public void setProgram_week(Integer program_week) { this.program_week = program_week; }
+    public void setCurrent_week(Integer current_week) { this.current_week = current_week; }
 }
