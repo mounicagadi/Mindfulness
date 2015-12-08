@@ -105,7 +105,7 @@ public class GenericHttpRequestTask<S, T extends BaseModel> extends AsyncTask<Ob
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         // If we are logged in provide auth header
-        if (App.getSession().getSessionId() != null) {
+        if (App.getSession() != null && App.getSession().getSessionId() != null) {
             headers.set("Cookie", "sessionid=" + App.getSession().getSessionId());
         }
 
