@@ -194,21 +194,9 @@ public class MainActivity extends AppCompatActivity {
 
     // TODO: Remove this after assessment acitivies are done
     // THIS IS A TEMP BUTTON USED TO TEST ASSESSMENT ACTIVITIES
-    public void morningAssessmentButtonPressed(View view) {
-        // Create the morning AssessmentQuestionFlowManagers
-        AssessmentFlowManagerFactory managerFactory = new AssessmentFlowManagerFactory(this);
-        managerFactory.addMorningAssessmentQuestions();
-        AssessmentFlowManager morningAssessmentFlowManager = AssessmentFlowManager.getInstance(this);
-        morningAssessmentFlowManager.startNextAssessmentQuestion();
-    }
-    public void dayAssessmentButtonPressed(View view) {
-        AssessmentFlowManagerFactory managerFactory = new AssessmentFlowManagerFactory(this);
-        managerFactory.addDayAssessmentQuestions();
-        AssessmentFlowManager dayAssessmentFlowManager = AssessmentFlowManager.getInstance(this);
-        dayAssessmentFlowManager.startNextAssessmentQuestion();
-    }
     public void startAssessmentButtonPressed(View view) {
         Intent intent = new Intent(MainActivity.this, StartAssessmentActivity.class);
+        intent.putExtra("isMorningAssessment", true);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }

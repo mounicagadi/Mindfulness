@@ -16,30 +16,17 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Morning"
-        android:id="@+id/morningAssessmentButton"
-        android:onClick="morningAssessmentButtonPressed" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Day"
-        android:id="@+id/dayAssessmentButton"
-        android:onClick="dayAssessmentButtonPressed"
-        android:layout_toRightOf="@id/morningAssessmentButton"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="Start Assessment"
         android:id="@+id/startAssessmentButton"
-        android:onClick="startAssessmentButtonPressed"
-        android:layout_toRightOf="@id/dayAssessmentButton"/>
+        android:layout_centerHorizontal="true"
+        android:onClick="startAssessmentButtonPressed"/>
         <LinearLayout
             android:id="@+id/weekdaysLayout"
             android:baselineAligned="false"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:orientation="horizontal"
-            android:layout_below="@+id/morningAssessmentButton"
+            android:layout_below="@+id/startAssessmentButton"
             android:gravity="center_vertical">
             <LinearLayout
                 android:id="@+id/Meditation6"

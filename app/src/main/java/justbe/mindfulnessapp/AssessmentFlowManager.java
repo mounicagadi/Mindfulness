@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import justbe.mindfulnessapp.models.AssessmentQuestion;
+import justbe.mindfulnessapp.models.Response;
 
 /**
  * Singleton that contains and runs the assessments
@@ -36,6 +39,9 @@ public final class AssessmentFlowManager {
     private AssessmentQuestion currentAssessment;
     private Queue<AssessmentQuestion> assessments = new LinkedList<AssessmentQuestion>();
     private Context context;
+    private Integer assessmentID;
+    private Integer questionID;
+    private List<Response> responses = new ArrayList<Response>();
 
     /**
      * AssessmentFlowManager constructor
@@ -43,6 +49,7 @@ public final class AssessmentFlowManager {
      */
     public AssessmentFlowManager(Context context) {
         this.context = context;
+        questionID = 0;
     }
 
     /**
@@ -72,9 +79,37 @@ public final class AssessmentFlowManager {
 
     /**
      * Adds a assessment to the queue
-     * @param newAssessment the new assessment
+     * @param newAssessment The new Assessment
      */
     public void addAssessment(AssessmentQuestion newAssessment) { assessments.add(newAssessment); }
+
+    /**
+     * Gets the current assessment ID
+     * @return The assessmentID
+     */
+    public Integer getAssessmentID() { return assessmentID; }
+
+    /**
+     * Sets the assessmentID for this assessment
+     * @param assessmentID
+     */
+    public void setAssessmentID(Integer assessmentID) { this.assessmentID = assessmentID; }
+
+    /**
+     * Gets the Question ID and increment it by one
+     * @return The question ID
+     */
+    public Integer getQuestionID() {
+        Integer oldQuestionID = questionID;
+        questionID = oldQuestionID + 1;
+        return oldQuestionID;
+    }
+
+    /**
+     * Adds a response to the queue
+     * @param response The new Response
+     */
+    public void addResponse(Response response) { responses.add(response); }
 
     /**
      * Starts the next assessment question provided there is one.
@@ -90,6 +125,11 @@ public final class AssessmentFlowManager {
             context.startActivity(intent);
             ((Activity) context).finish();
         } else {
+            // Set questionID back to zero for next assessment
+            questionID = 0;
+
+            // This is where responses should be saved to the database
+
             // Go back to the main activity when done
             Intent intent = new Intent(context, MainActivity.class);
             context.startActivity(intent);

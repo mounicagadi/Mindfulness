@@ -8,6 +8,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 
+import justbe.mindfulnessapp.models.Response;
 import justbe.mindfulnessapp.models.SliderQuestion;
 
 /**
@@ -97,7 +98,12 @@ public class SliderAssessmentActivity extends AppCompatActivity
      * @param view The view
      */
     public void nextPressed(View view) {
+        Integer value = seekBar.getProgress();
+        Integer questionID = flowManager.getQuestionID();
+        Integer assessmentID = flowManager.getAssessmentID();
+        Response sliderResponse = new Response(questionID, assessmentID, value);
 
+        flowManager.addResponse(sliderResponse);
         flowManager.startNextAssessmentQuestion();
     }
 }

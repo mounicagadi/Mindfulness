@@ -51,7 +51,7 @@ public class MultiChoiceAssessmentActivity extends AppCompatActivity {
         // Setup the list choice view
         listView = (ListView) findViewById(R.id.choiceList);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_list_item_multiple_choice, multiChoiceQuestion.getChoices());
+                R.layout.custom_list_item_multiple_choice, multiChoiceQuestion.getChoices());
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.setAdapter(adapter);
     }
@@ -66,15 +66,14 @@ public class MultiChoiceAssessmentActivity extends AppCompatActivity {
      * @param view The view
      */
     public void nextPressed(View view) {
-        String selected = "";
-        int cntChoice = listView.getCount();
-        SparseBooleanArray sparseBooleanArray = listView.getCheckedItemPositions();
+        // Get the checked options in the listView
+        SparseBooleanArray checkedOptions = listView.getCheckedItemPositions();
 
-        for(int i = 0; i < cntChoice; i++){
-            if(sparseBooleanArray.get(i)) {
-                selected += listView.getItemAtPosition(i).toString() + "\n";
-            }
-        }
+        // When assessments/reponses are better defined by the user
+        // the response will be created here and added to the list of
+        // responses in AssessmentFlowManager.
+        // See SliderAssessmentActivity for a example of adding a
+        // response to the flowManager
         flowManager.startNextAssessmentQuestion();
     }
 

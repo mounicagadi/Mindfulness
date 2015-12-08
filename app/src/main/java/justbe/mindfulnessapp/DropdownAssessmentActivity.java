@@ -88,6 +88,11 @@ public class DropdownAssessmentActivity extends AppCompatActivity
      * @param view The view
      */
     public void nextPressed(View view) {
+        // When assessments/reponses are better defined by the user
+        // the response will be created here and added to the list of
+        // responses in AssessmentFlowManager.
+        // See SliderAssessmentActivity for a example of adding a
+        // response to the flowManager
         flowManager.startNextAssessmentQuestion();
     }
 }

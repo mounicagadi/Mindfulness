@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import justbe.mindfulnessapp.models.Assessment;
@@ -175,32 +176,11 @@ public class ServerRequests {
      * Response API Calls
      **********************************************************************************************/
 
-    /**
-     *  Adds the responses to their assessments
-     *  Responses are added to the assessments specified by the assessment_id within a Response
-     *  @param responses The list of responses to add to their assessments
-     *  @param context The view that calls this, used to present specific errors
-     *  @return True if update succeeded, false otherwise
-     */
-    public static Boolean setResponsesForAssessment(Response[] responses, Context context) {
-        // Create an HTTPRequestTask that sends a Assessment Object and Returns a Assessment Object
-        GenericHttpRequestTask<Response[], Assessment> task
-                = new GenericHttpRequestTask(Response[].class, Assessment.class);
+    // Currently the App does not save assessment responses to the server. The response object in the
+    // database was too different to the new design of the responses made it unusable and since the
+    // design is still not finalized it was considered out of scope for this iteration.
 
-        // Create request
-        task.execute("/api/v1/response/", HttpMethod.PATCH, responses);
-
-        Boolean success = false;
-        try {
-            ResponseEntity<Assessment> result = task.waitForResponse();
-            RestUtil.checkResponseHazardously(result);
-            success = true;
-        } catch (Exception e) {
-            new UserPresentableException(e).alert(context);
-            success = false;
-        }
-        return success;
-    }
+    // Currently the API call that would need to be implemented is "/api/v1/response/"
 
     /***********************************************************************************************
      * Meditation API Calls

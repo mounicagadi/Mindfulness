@@ -8,6 +8,10 @@ import android.view.View;
 
 /**
  * Activity that displays all Yes/No questions
+ * CURRENTLY THERE ARE NONE OF THESE QUESTION SO THEY HAVE NOT BEEN EXTENDED TO THE AssessmentQuestion
+ * ABSTRACT CLASS. IF YOU ARE ADDING IN YES/NO ASSESSMENT QUESTIONS YOU WILL NEED TO EXTEND THIS LIKE THE OTHERS
+ * SEE SliderAssessmentActivity, DropdownAssessmentActivity, or MultiChoiceAssessmentActivity
+ * ALONG WITH THEIR MATCHING QUESTION MODELS
  */
 public class YesNoAssessmentActivity extends AppCompatActivity {
 
@@ -40,7 +44,7 @@ public class YesNoAssessmentActivity extends AppCompatActivity {
      * @param view The view
      */
     public void yesButtonPressed(View view) {
-        // TODO: Save the result
+        // Add yes response to the flowManager here
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -53,7 +57,7 @@ public class YesNoAssessmentActivity extends AppCompatActivity {
      * @param view The view
      */
     public void noButtonPressed(View view) {
-        // TODO: Save the result
+        // Add no response to the flowManager here
 
         Intent intent = new Intent(YesNoAssessmentActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
