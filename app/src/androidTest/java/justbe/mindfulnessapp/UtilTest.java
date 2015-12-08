@@ -49,6 +49,7 @@ public class UtilTest {
 
     @Test
     public void dateToDisplayStringTest3() {
+        String result = Util.dateToDisplayString(null);
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -66,7 +67,6 @@ public class UtilTest {
         expected += calendar.get(Calendar.HOUR) + ":" +
                 calendar.get(Calendar.MINUTE) + " " +
                 ampm;
-        String result = Util.dateToDisplayString(null);
         Assert.assertEquals(expected, result);
     }
 
