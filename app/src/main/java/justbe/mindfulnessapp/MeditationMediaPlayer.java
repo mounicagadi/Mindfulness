@@ -190,9 +190,20 @@ public class MeditationMediaPlayer {
             new MediaPlayer.OnCompletionListener(){
 
                 public void onCompletion(MediaPlayer mp){
-                    completeMeditation(selectedDay);
-                    meditationSession.setMeditation_id(selectedWeek, selectedDay);
-                    ServerRequests.updateMeditationSession(meditationSession, context);
+                    int currentImageViewId = context.getResources().getIdentifier(
+                            "MeditationImage" + selectedDay, "id", context.getPackageName());
+                    ImageView currentDayImageView = (ImageView) containerView.findViewById(currentImageViewId);
+                    Boolean selectedCompleted = Boolean.valueOf(currentDayImageView.getTag().toString());
+
+                    audioPlaying = false;
+                    audioButton.setImageResource(R.drawable.play);
+
+                    if(!selectedCompleted) {
+                        currentDayImageView.setImageResource(R.drawable.check_green_2x);
+                        currentDayImageView.setTag("true");
+                        meditationSession.setMeditation_id(selectedWeek, selectedDay);
+                        ServerRequests.updateMeditationSession(meditationSession, context);
+                    }
                 }
             };
 
@@ -220,6 +231,7 @@ public class MeditationMediaPlayer {
                 "MeditationImage" + day, "id", context.getPackageName());
         ImageView currentDayImageView = (ImageView) containerView.findViewById(currentImageViewId);
 
+        currentDayImageView.setTag("true");
         currentDayImageView.setImageResource(R.drawable.check_green_2x);
     }
 }
