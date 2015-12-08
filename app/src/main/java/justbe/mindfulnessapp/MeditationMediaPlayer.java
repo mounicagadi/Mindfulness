@@ -156,7 +156,6 @@ public class MeditationMediaPlayer {
             Util.setTextViewToTime(currentAudioTimeText, currentTime);
 
             seekBar.setProgress((int)currentTime);
-            seekBar.setProgress((int)currentTime);
             audioInfoUpdater.postDelayed(this, 100);
         }
     };

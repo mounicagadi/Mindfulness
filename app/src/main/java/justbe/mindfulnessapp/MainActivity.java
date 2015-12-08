@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -66,9 +67,6 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        sessionManager = new SessionManager(getApplicationContext());
-        checkSessionManagerLogin();
-
         // Create toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
@@ -80,35 +78,44 @@ public class MainActivity extends AppCompatActivity {
         View customToolbarView = li.inflate(R.layout.custom_main_toolbar, null);
         getSupportActionBar().setCustomView(customToolbarView);
 
-        int selectedWeek = 1;
-        if(user != null) {
-            // TODO: uncomment when current week gets updated in database
-            // selectedWeek = user.getCurrent_week();
+        Session session = App.getSession();
+        sessionManager = new SessionManager(getApplicationContext());
+        user = session.getUser();
 
-            // Media player setup
-            mediaPlayer = new MeditationMediaPlayer(this, R.raw.sample, selectedWeek);
-
-            // Set the lesson button's text to the current week
-            TextView lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
-            lessonButtonText.setText(String.format("Week %d Exercise", selectedWeek));
-
-            // Get completed exercises from db, if this week has been completed give it a green check
-            ExerciseSession[] completedExercises = ServerRequests.getExerciseSessions(this);
-            for (ExerciseSession e : completedExercises) {
-                if (e.getExercise_id() == selectedWeek) {
-                    int weeklyLessonImageId = getResources().getIdentifier(
-                            "weeklyLessonButtonImage", "id", getPackageName());
-                    ImageView weeklyLessonImage = (ImageView) findViewById(weeklyLessonImageId);
-
-                    // Change the lesson to be completed
-                    weeklyLessonImage.setImageResource(R.drawable.check_green_2x);
-                    weeklyLessonImage.setTag("true");
-
-                    break;
-                }
-            }
+        Log.v("loggin in", user.getUsername());
+        Log.v("loggin in", user.getCurrent_week().toString());
+        if (user == null) {
+            user = sessionManager.getUser();
+            session.setUser(user);
+            session.setCsrfToken(sessionManager.getCSRFToken());
+            session.setSessionId(sessionManager.getSessionID());
         }
 
+        Integer selectedWeek = user.getCurrent_week();
+
+        // Media player setup
+        mediaPlayer = new MeditationMediaPlayer(this, R.raw.sample, selectedWeek);
+
+        // Set the lesson button's text to the current week
+        TextView lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
+        lessonButtonText.setText(String.format("Week %d Exercise", selectedWeek));
+
+        // Get completed exercises from db, if this week has been completed give it a green check
+        ExerciseSession[] completedExercises = ServerRequests.getExerciseSessions(this);
+        for (ExerciseSession e : completedExercises) {
+            if (e.getExercise_id() == selectedWeek) {
+                int weeklyLessonImageId = getResources().getIdentifier(
+                        "weeklyLessonButtonImage", "id", getPackageName());
+                ImageView weeklyLessonImage = (ImageView) findViewById(weeklyLessonImageId);
+
+                // Change the lesson to be completed
+                weeklyLessonImage.setImageResource(R.drawable.check_green_2x);
+                weeklyLessonImage.setTag("true");
+
+                break;
+            }
+
+        }
 //        // Pebble setup
 //        PebbleCommunicator comms = PebbleCommunicator.getInstance();
 //        if (!comms.checkPebbleConnection()) {
@@ -260,18 +267,6 @@ public class MainActivity extends AppCompatActivity {
                 weekImageView.setImageResource(R.drawable.check_gray_2x);
             }
         }
-    }
-
-    private void checkSessionManagerLogin() {
-        // This will redirect to login activity if user is not logged in
-        sessionManager.checkLogin();
-
-        // Set the data from the SessionManager
-        Session session = App.getSession();
-        user = sessionManager.getUser();
-        session.setUser(user);
-        session.setCsrfToken(sessionManager.getCSRFToken());
-        session.setSessionId(sessionManager.getSessionID());
     }
 
     /***********************************************************************************************

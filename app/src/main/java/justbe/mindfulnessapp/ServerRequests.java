@@ -83,6 +83,7 @@ public class ServerRequests {
             // Add the data to the User now that it is saved on the server
             RestUtil.checkResponseHazardously(result);
             user.addUserProfileData(userProfile);
+            App.getSession().setUser(user);
 
             success = true;
         } catch (Exception e) {

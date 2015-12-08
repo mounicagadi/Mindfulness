@@ -91,8 +91,8 @@ public class SessionManager {
      * */
     public void checkLogin(){
         // Check login status
-        if(!this.isLoggedIn()){
-            Intent i = new Intent(context, LoginActivity.class);
+        if(this.isLoggedIn()){
+            Intent i = new Intent(context, MainActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 
             // Staring Login Activity

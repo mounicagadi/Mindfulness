@@ -78,7 +78,7 @@ public class LoginActivityTest {
                 .perform(typeText("ckohler"));
         //tyoe password
         onView(withId(R.id.editPassword))
-                .perform(typeText("testtest"), closeSoftKeyboard());
+                .perform(typeText("bearbear"), closeSoftKeyboard());
         //cilck the login button
         onView(withId(R.id.loginButton)).perform(click());
         //go to MainActivity page
