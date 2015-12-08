@@ -48,9 +48,9 @@ public class MainActivityTest {
     public void testWeekButton() {
         onView(withId(R.id.weekButton)).check(matches(isDisplayed()));
         onView(withId(R.id.weekButton)).perform(click());
-        onView(withText("Week 1")).check(ViewAssertions.matches(isDisplayed()));
+        onView(withText("This Week")).check(ViewAssertions.matches(isDisplayed()));
         pressBack();
-        onView(withText("Week 1")).check(doesNotExist());
+        onView(withText("This Week")).check(doesNotExist());
     }
 
     //test WeeklyLessonButton on the main page
@@ -70,13 +70,13 @@ public class MainActivityTest {
 
     @Test
     public void WeekButton() {
-        onView(withId(R.id.suMeditation)).perform(click());
-        onView(withId(R.id.mMeditation)).perform(click());
-        onView(withId(R.id.tMeditation)).perform(click());
-        onView(withId(R.id.wMeditation)).perform(click());
-        onView(withId(R.id.thMeditation)).perform(click());
-        onView(withId(R.id.fMeditation)).perform(click());
-        onView(withId(R.id.sMeditation)).perform(click());
+        onView(withId(R.id.Meditation6)).perform(click());
+        onView(withId(R.id.Meditation0)).perform(click());
+        onView(withId(R.id.Meditation1)).perform(click());
+        onView(withId(R.id.Meditation2)).perform(click());
+        onView(withId(R.id.Meditation3)).perform(click());
+        onView(withId(R.id.Meditation4)).perform(click());
+        onView(withId(R.id.Meditation5)).perform(click());
 
     }
 

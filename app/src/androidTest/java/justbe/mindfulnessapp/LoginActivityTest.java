@@ -75,7 +75,7 @@ public class LoginActivityTest {
     public void testSuccessfulLogin() {
         //type username
         onView(withId(R.id.editUsername))
-                .perform(typeText("ckohler"));
+                .perform(typeText("testaccount"));
         //tyoe password
         onView(withId(R.id.editPassword))
                 .perform(typeText("bearbear"), closeSoftKeyboard());
