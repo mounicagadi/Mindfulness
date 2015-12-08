@@ -38,15 +38,15 @@ public class PreferencesActivityTest {
         //test the view on the Preferences page
         onView(withText("Preferences")).check(ViewAssertions.matches(isDisplayed()));
         onView(withText("Username")).check(ViewAssertions.matches(isDisplayed()));
-        onView(allOf(withId(R.id.currentUsername), withText("test"))).check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.currentUsername), withText("testaccount"))).check(ViewAssertions.matches(isDisplayed()));
         onView(withText("Meditations")).check(ViewAssertions.matches(isDisplayed()));
-        onView(allOf(withId(R.id.meditationTime), withText("09:00 AM"))).check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.meditationTime), withText("12:34 AM"))).check(ViewAssertions.matches(isDisplayed()));
         onView(withText("Lessons")).check(ViewAssertions.matches(isDisplayed()));
-        onView(allOf(withId(R.id.lessonTime), withText("09:00 AM"))).check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.lessonTime), withText("12:34 AM"))).check(ViewAssertions.matches(isDisplayed()));
         onView(withText("I wake up at")).check(ViewAssertions.matches(isDisplayed()));
-        onView(allOf(withId(R.id.wakeUpTime), withText(""))).check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.wakeUpTime), withText("12:34 AM"))).check(ViewAssertions.matches(isDisplayed()));
         onView(withText("I go to sleep at")).check(ViewAssertions.matches(isDisplayed()));
-        onView(allOf(withId(R.id.goToSleepTime), withText(""))).check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.goToSleepTime), withText("12:34 AM"))).check(ViewAssertions.matches(isDisplayed()));
         onView(withText("Log Out")).check(ViewAssertions.matches(isDisplayed()));
     }
 

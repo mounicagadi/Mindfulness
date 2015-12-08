@@ -126,11 +126,13 @@ public class CreateAccountActivityTest {
         onView(withId(R.id.createAccountButton)).perform(click());
     }
     ///////////////////////////////////////////////////////////////
-
+    // We didn't want to create a new account in the database every time the tests are run
+    // This can test account creation, but credentials for a unique account must be entered
+    // for username and password
     //////this username has already been used
    /*
     @Test
-    public void testSuccessAccountCreat() {
+    public void testSuccessAccountCreate() {
         //clear the text
         onView(withId(R.id.editUsername)).perform(clearText());
         //type username
@@ -142,32 +144,10 @@ public class CreateAccountActivityTest {
         //create count
         onView(withId(R.id.createAccountButton)).perform(click());
         //go to MainActivity page
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(StartProgramActivity.class.getName()));
         //when user reach main page the text Meditation will show
         onView(withText("Meditation")).check(ViewAssertions.matches(isDisplayed()));
     }
     */
-
-    //test create account success  open this comments
-    /*
-    @Test
-    public void testSuccessAccountCreat() {
-        //clear the text
-        onView(withId(R.id.editUsername)).perform(clearText());
-        //type username
-        onView(withId(R.id.editUsername)).perform(typeText("yoyo"));
-        //type password
-        onView(withId(R.id.editPassword)).perform(typeText("333333"));
-        //confirmPassword
-        onView(withId(R.id.editConfirmPassword)).perform(typeText("333333"), closeSoftKeyboard());
-        //create count
-        onView(withId(R.id.createAccountButton)).perform(click());
-        //go to MainActivity page
-        intended(hasComponent(MainActivity.class.getName()));
-        //when user reach main page the text Meditation will show
-        onView(withText("Meditation")).check(ViewAssertions.matches(isDisplayed()));
-    }
-    */
-
 }
 
