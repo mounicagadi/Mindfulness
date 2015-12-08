@@ -1,6 +1,9 @@
 # JustBe-Android
 The JustBe application, also known as the Mindfulness application, developed for Prof. Mariya Shiyko as semester long project in C4500. For a overview of the components within this Android App, see **__Overview of JustBe Exosystem ~ JustBe-Android__**.
 
+# Uploading to the app store
+Prof. Shiyko has a Android Developer Account that we use to upload the app to the Googel Play Store. Please follow these [isntructions](https://support.google.com/googleplay/android-developer/answer/113469?hl=en) to upload any future updates to the app.
+
 # Development
 While you are welcome to use other IDEs while continuing development on this, we highly recommend using Andorid Studio ver >= 2.0. The application is currently stored as a Android Studio App so if you want to use a different IDE there will be more work for you to do. That plus the fact that Android Studio is a fantastic IDE should be enough to deter you.
 
