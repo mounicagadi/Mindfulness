@@ -38,18 +38,10 @@ public class StartProgramActivityTest {
         onView(withId(R.id.startText)).check(matches(withText(R.string.start_info)));
     }
 
-    // Make sure starting the program goes to the main activity
+    // Make sure the start program button is available
     @Test
     public void testStartButton() {
-        // check that the button is there
         onView(withId(R.id.startButton)).check(matches(notNullValue()));
         onView(withId(R.id.startButton)).check(matches(withText("Start")));
-
-        //click the start button
-        onView(withId(R.id.startButton)).perform(click());
-        //go to MainActivity page
-        intended(hasComponent(MainActivity.class.getName()));
-        // button no longer on screen
-        onView(withText("Start")).check(doesNotExist());
     }
 }
