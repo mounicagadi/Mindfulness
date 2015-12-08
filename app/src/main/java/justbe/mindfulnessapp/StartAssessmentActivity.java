@@ -41,8 +41,7 @@ public class StartAssessmentActivity extends AppCompatActivity {
      * @param view The view
      */
     public void yesButtonPressed(View view) {
-        // Create assessment
-        Assessment newAssessment = ServerRequests.createAssessment(this);
+        // Create new assessment here
 
         AssessmentFlowManagerFactory managerFactory = new AssessmentFlowManagerFactory(this);
         // Get the correct assessment flow
@@ -54,7 +53,7 @@ public class StartAssessmentActivity extends AppCompatActivity {
         }
 
         AssessmentFlowManager flowManager = AssessmentFlowManager.getInstance(this);
-        flowManager.setAssessmentID(newAssessment.getId());
+        flowManager.setAssessmentID(1);
         flowManager.startNextAssessmentQuestion();
     }
 
