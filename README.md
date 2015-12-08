@@ -14,7 +14,7 @@ Most of the andorid app has already been completed and the few things that need 
 Please see the Github Issues associated with this repository for all bugs that we know of at this time. NOTE: There are no feature tickets in GitHub Issues as the design specifications are likely to change. 
 
 ## Tests
-When running the tests you need to run all the tests at once in order to login and out. Otherwise the app will save the state, like it would for a user, and you'll end up with failing tests that should pass.
+When running the tests you need to run all the tests at once on a emulator without a user currently logged in in order to login and out. To best accomplish this uninstall the app from the emulator you wish to test on and then run the tests. Otherwise the app will save the state, like it would for a user, and you'll end up with failing tests that should pass.
 
 # Overview of JustBe Ecosystem
 
