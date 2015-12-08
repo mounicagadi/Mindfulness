@@ -3,7 +3,6 @@ package justbe.mindfulnessapp;
 import android.app.Activity;
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.view.View;

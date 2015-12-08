@@ -10,17 +10,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -94,13 +91,13 @@ public class MainActivity extends AppCompatActivity {
             lessonButtonText.setText(String.format("Week %d Exercise", selectedWeek));
         }
 
-         /*       // Pebble setup
-        PebbleCommunicator comms = PebbleCommunicator.getInstance();
-        if (!comms.checkPebbleConnection()) {
-            Toast.makeText(App.context(), "No Pebble connection detected!", Toast.LENGTH_LONG).show();
-        }
-        setUpAlarms("assessment", 4, true);
-        setUpAlarms("pebble", 5, false);*/
+//        // Pebble setup
+//        PebbleCommunicator comms = PebbleCommunicator.getInstance();
+//        if (!comms.checkPebbleConnection()) {
+//            Toast.makeText(App.context(), "No Pebble connection detected!", Toast.LENGTH_LONG).show();
+//        }
+//        setUpAlarms("assessment", 4, true);
+//        setUpAlarms("pebble", 5, false);
     }
 
     @Override

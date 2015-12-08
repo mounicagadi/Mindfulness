@@ -5,8 +5,15 @@ import android.content.Context;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
+
 import justbe.mindfulnessapp.models.Assessment;
 import justbe.mindfulnessapp.models.MeditationSession;
+import justbe.mindfulnessapp.models.Response;
 import justbe.mindfulnessapp.models.User;
 import justbe.mindfulnessapp.models.UserProfile;
 import justbe.mindfulnessapp.rest.GenericHttpRequestTask;
@@ -90,13 +97,14 @@ public class ServerRequests {
     /**
      *  Creates a assessment in the database
      *  @param context The view that calls this, used to present specific errors
+     *  @return The newly created assessment
      */
     public static Assessment createAssessment(Context context) {
         Assessment assessment = new Assessment();
 
-        // Create an HTTPRequestTask that sends a MeditationSession Object and Returns a MeditationSession Object
+        // Create an HTTPRequestTask that sends a Map Object and Returns a Assessment Object
         GenericHttpRequestTask<Assessment, Assessment> task
-                = new GenericHttpRequestTask(MeditationSession.class, MeditationSession.class);
+                = new GenericHttpRequestTask(Map.class, Assessment.class);
 
         task.execute("/api/v1/assessment/", HttpMethod.POST, null);
 
@@ -108,6 +116,90 @@ public class ServerRequests {
             new UserPresentableException(e).alert(context);
         }
         return assessment;
+    }
+
+    /**
+     * Gets the currently pending assessment in the database
+     * @param context The view that calls this, used to present specific errors
+     * @return The pending assessment
+     */
+    public static Assessment getPendingAssessment(Context context) {
+        Assessment pendingAssessment = new Assessment();
+
+        // Create an HTTPRequestTask that sends a Assessment Object and Returns a Assessment Object
+        GenericHttpRequestTask<Assessment, Assessment> task
+                = new GenericHttpRequestTask(Assessment.class, Assessment.class);
+
+        task.execute("/api/v1/assessment/get_pending_assessment/", HttpMethod.GET, null);
+
+        try {
+            ResponseEntity<Assessment> result = task.waitForResponse();
+            RestUtil.checkResponseHazardously(result);
+            pendingAssessment = result.getBody();
+        } catch (Exception e) {
+            new UserPresentableException(e).alert(context);
+        }
+        return pendingAssessment;
+    }
+
+    /**
+     *  Creates a assessment in the database
+     *  @param context The view that calls this, used to present specific errors
+     *  @return Tbe updated assessment
+     */
+    public static Assessment updateAssessmentWithStartTime(Assessment assessment, Date date, Context context) {
+        Assessment updatedAssessment = new Assessment();
+
+        // Create an HTTPRequestTask that sends a Assessment Object and Returns a Assessment Object
+        GenericHttpRequestTask<Assessment, Assessment> task
+                = new GenericHttpRequestTask(Assessment.class, Assessment.class);
+
+        // Create request
+        int assessmentID = assessment.getId();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Map<String, String> startingTimeMap = new HashMap<String, String>();
+        startingTimeMap.put("starting_time", sdf.format(date));
+        task.execute("/api/v1/assessment/" + assessmentID + "/", HttpMethod.PATCH, startingTimeMap);
+
+        try {
+            ResponseEntity<Assessment> result = task.waitForResponse();
+            RestUtil.checkResponseHazardously(result);
+            updatedAssessment = result.getBody();
+        } catch (Exception e) {
+            new UserPresentableException(e).alert(context);
+        }
+        return updatedAssessment;
+    }
+
+    /***********************************************************************************************
+     * Response API Calls
+     **********************************************************************************************/
+
+    /**
+     *  Adds the responses to their assessments
+     *  Responses are added to the assessments specified by the assessment_id within a Response
+     *  @param responses The list of responses to add to their assessments
+     *  @param context The view that calls this, used to present specific errors
+     *  @return True if update succeeded, false otherwise
+     */
+    public static Boolean setResponsesForAssessment(Response[] responses, Context context) {
+        // Create an HTTPRequestTask that sends a Assessment Object and Returns a Assessment Object
+        GenericHttpRequestTask<Response[], Assessment> task
+                = new GenericHttpRequestTask(Response[].class, Assessment.class);
+
+        // Create request
+        task.execute("/api/v1/response/", HttpMethod.PATCH, responses);
+
+        Boolean success = false;
+        try {
+            ResponseEntity<Assessment> result = task.waitForResponse();
+            RestUtil.checkResponseHazardously(result);
+            success = true;
+        } catch (Exception e) {
+            new UserPresentableException(e).alert(context);
+            success = false;
+        }
+        return success;
     }
 
     /***********************************************************************************************
