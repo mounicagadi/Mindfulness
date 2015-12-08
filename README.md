@@ -1,6 +1,9 @@
 # JustBe-Android
 The JustBe application, also known as the Mindfulness application, developed for Prof. Mariya Shiyko as semester long project in C4500. For a overview of the components within this Android App, see **__Overview of JustBe Exosystem ~ JustBe-Android__**.
 
+# Uploading to the app store
+Prof. Shiyko has a Android Developer Account that we use to upload the app to the Googel Play Store. Please follow these [isntructions](https://support.google.com/googleplay/android-developer/answer/113469?hl=en) to upload any future updates to the app.
+
 # Development
 While you are welcome to use other IDEs while continuing development on this, we highly recommend using Andorid Studio ver >= 2.0. The application is currently stored as a Android Studio App so if you want to use a different IDE there will be more work for you to do. That plus the fact that Android Studio is a fantastic IDE should be enough to deter you.
 
@@ -14,7 +17,7 @@ Most of the andorid app has already been completed and the few things that need 
 Please see the Github Issues associated with this repository for all bugs that we know of at this time. NOTE: There are no feature tickets in GitHub Issues as the design specifications are likely to change. 
 
 ## Tests
-When running the tests you need to run all the tests at once in order to login and out. Otherwise the app will save the state, like it would for a user, and you'll end up with failing tests that should pass.
+When running the tests you need to run all the tests at once on a emulator without a user currently logged in in order to login and out. To best accomplish this uninstall the app from the emulator you wish to test on and then run the tests. Otherwise the app will save the state, like it would for a user, and you'll end up with failing tests that should pass.
 
 # Overview of JustBe Ecosystem
 
