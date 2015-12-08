@@ -1,51 +1,50 @@
 package justbe.mindfulnessapp.rest;
 
-import android.support.test.runner.AndroidJUnit4;
-
-import junit.framework.TestCase;
-
-import org.junit.Rule;
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import justbe.mindfulnessapp.models.Assessment;
 
+import static org.junit.Assert.*;
+
+import justbe.mindfulnessapp.models.Assessment;
+import justbe.mindfulnessapp.models.User;
 
 /**
- * Created by eddiehurtig on 12/7/15.
+ * Tests for the GenericHTTPRequestTask
+ * @author edhurtig
  */
-@RunWith(AndroidJUnit4.class)
-public class GenericHttpRequestTaskTest extends TestCase {
-        protected int value1, value2;
+public class GenericHttpRequestTaskTest {
 
-        // assigning the values
-        protected void setUp(){
-            value1=3;
-            value2=3;
-        }
+    @Test
+    public void testGetAssessment() {
+        GenericHttpRequestTask<String, Assessment> request = new GenericHttpRequestTask<String, Assessment>(String.class, Assessment.class);
 
-        // test method to add two values
-        public void testAdd(){
-            double result= value1 + value2;
-            assertTrue(result == 6);
-        }
+        ResponseEntity<Assessment> response = request.doInBackground("/api/v1/assessment/5964/", HttpMethod.GET);
 
-        @Test
-        public void testGetAssessment() {
-            GenericHttpRequestTask<String, Assessment> request = new GenericHttpRequestTask<String, Assessment>(String.class, Assessment.class);
+        Assert.assertNotNull(response);
+        Assert.assertNotNull(response.getBody());
 
-            ResponseEntity<Assessment> response = request.doInBackground("/api/v1/assessment/5964/", HttpMethod.GET);
+        Assert.assertEquals(response.getStatusCode(), 200);
 
-            assertNotNull(response);
-            assertNotNull(response.getBody());
+        Assert.assertEquals(response.getBody().getId(), new Integer(5964));
+        Assert.assertEquals(response.getBody().getUser(), "/api/v1/user/1/");
+    }
 
-            assertEquals(response.getStatusCode(), 200);
+    @Test
+    public void testGetUser() {
+        GenericHttpRequestTask<String, User> request = new GenericHttpRequestTask(String.class, User.class);
 
-            assertEquals(response.getBody().getId(), new Integer(5964));
-            assertEquals(response.getBody().getUser(), "/api/v1/user/1/");
+        ResponseEntity<User> response = request.doInBackground("/api/v1/user/1/", HttpMethod.GET);
 
-        }
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+
+        assertEquals(response.getStatusCode(), 200);
+
+        assertEquals(response.getBody().getId(), new Integer(5964));
+        assertEquals(response.getBody().getUsername(), "admin");
+        assertEquals(response.getBody().getResource_uri(), "/api/v1/user/1/");
+    }
 }
 
