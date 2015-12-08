@@ -1,18 +1,13 @@
 package justbe.mindfulnessapp;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
 import com.google.gson.*;
 
-import java.net.URI;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
@@ -26,118 +21,17 @@ import justbe.mindfulnessapp.rest.RestUtil;
  */
 public class Session {
 
-    public Session(Context context) {
-        this.setContext(context);
-    }
-
     private Context context;
-    public static final String PREFERENCES_KEY = "CURRENT_SESSION";
+    private SessionManager sessionManager;
 
-    private String username;
     private String user;
     private String sessionId;
     private String csrfToken;
 
-    /**
-     * Loads the preferences from the current context
-     */
-    private void load() {
-        SharedPreferences settings = this.getContext().getSharedPreferences(PREFERENCES_KEY, 0);
 
-        this.username = settings.getString("username", null);
-        this.user = settings.getString("user", null);
-        this.sessionId = settings.getString("sessionId", null);
-        this.csrfToken = settings.getString("csrfToken", null);
-    }
-
-    /**
-     * Saves the current Session state to the current context
-     */
-    private void save() {
-        SharedPreferences settings = this.getContext().getSharedPreferences(PREFERENCES_KEY, 0);
-
-        SharedPreferences.Editor editor = settings.edit();
-
-        if (this.username != null) {
-            editor.putString("username", this.username);
-        }
-
-        if (this.sessionId != null) {
-            editor.putString("sessionId", this.sessionId);
-        }
-
-        if (this.csrfToken != null) {
-            editor.putString("csrfToken", this.csrfToken);
-        }
-
-        // Save the preferences
-        editor.commit();
-    }
-
-    /**
-     * Removes the given key from the store
-     *
-     * @param key The Key to remove / delete
-     */
-    private void remove(String key) {
-        SharedPreferences settings = this.getContext().getSharedPreferences(PREFERENCES_KEY, 0);
-
-        SharedPreferences.Editor editor = settings.edit();
-
-        editor.remove(key);
-
-        // Save the preferences
-        editor.commit();
-    }
-
-    /**
-     * Removes the Username from the store
-     */
-    private void removeUsername() {
-        this.username = null;
-        this.remove("username");
-    }
-
-    /**
-     * Removes the user from the store
-     */
-    private void removeUser() {
-        this.user = null;
-        this.remove("user");
-    }
-
-    /**
-     * Removes the Session Id from the Store
-     */
-    private void removeSessionId() {
-        this.sessionId = null;
-        this.remove("sessionId");
-    }
-
-    /**
-     * Removes the CsrfToken from the store
-     */
-    private void removeCsrfToken() {
-        this.csrfToken = null;
-        this.remove("csrfToken");
-    }
-
-
-    /**
-     * Gets the current username
-     * @return
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * Updates the session username
-     * @param username the new username
-     */
-    public void setUsername(String username) {
-        this.username = username;
-        this.save();
+    public Session(Context context) {
+        this.setContext(context);
+        sessionManager = new SessionManager(context);
     }
 
     /**
@@ -155,7 +49,7 @@ public class Session {
     public void setUser(User user) {
         Gson gson = new Gson();
         this.user = gson.toJson(user);
-        this.save();
+        sessionManager.setUser(user);
     }
 
     /**
@@ -172,7 +66,7 @@ public class Session {
      */
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
-        this.save();
+        sessionManager.setSessionID(sessionId);
     }
 
     /**
@@ -189,7 +83,7 @@ public class Session {
      */
     public void setCsrfToken(String csrfToken) {
         this.csrfToken = csrfToken;
-        this.save();
+        sessionManager.setCSRFToken(csrfToken);
     }
 
     /**
@@ -206,28 +100,7 @@ public class Session {
      * @param context The new context
      */
     public void setContext(Context context) {
-        this.setContext(context, false);
-    }
-
-    /**
-     * Updates the context, replacing the current context with the given new context
-     * @param context The New Context
-     * @param preserveCurrent whether to save the current session state to the new context, or to load the state in the context's preference file
-     */
-    public void setContext(Context context, boolean preserveCurrent) {
-        try {
-            this.save();
-        } catch (Exception e) {
-            // Don't care
-        } finally {
-            this.context = context;
-            if (preserveCurrent) {
-                this.save();
-            } else {
-                this.load();
-            }
-        }
-
+        this.context = context;
     }
 
     /**
@@ -240,7 +113,6 @@ public class Session {
      */
     public boolean authenticate(String username, String raw_password) throws InterruptedException, ExecutionException, TimeoutException {
         GenericHttpRequestTask<User, User> task = new GenericHttpRequestTask(User.class, User.class);
-
         User u = new User();
 
         Log.v("username", username);
@@ -272,7 +144,6 @@ public class Session {
             }
 
             this.setUser(response.getBody());
-            this.setUsername(username);
             return true;
         } else {
             return false;
@@ -289,8 +160,6 @@ public class Session {
         response = task.waitForResponse();
 
         if (RestUtil.checkResponse(response) && response.getBody() != null && response.getBody().getSuccess()) {
-            this.removeSessionId();
-            this.removeCsrfToken();
             App.getSession().setUser(null);
             return true;
         } else {

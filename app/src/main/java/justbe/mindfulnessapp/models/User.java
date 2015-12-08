@@ -44,7 +44,7 @@ public class User extends PlainOldDBO<User> {
     private Date wake_up_time;
     private Date go_to_sleep_time;
     private Integer gender;
-    private Integer program_week;
+    private Integer current_week;
 
     public String getEmail() {
         return email;
@@ -166,9 +166,9 @@ public class User extends PlainOldDBO<User> {
         this.gender = gender;
     }
 
-    public Integer getProgram_week() { return program_week; }
+    public Integer getCurrent_week() { return current_week; }
 
-    public void setProgram_week(Integer program_week) { this.program_week = program_week; }
+    public void setCurrent_week(Integer current_week) { this.current_week = current_week; }
 
     /**
      * Sets the data from a UserProfile to this user's data
@@ -182,6 +182,6 @@ public class User extends PlainOldDBO<User> {
         setWake_up_time(userProfile.getWake_up_time());
         setGo_to_sleep_time(userProfile.getGo_to_sleep_time());
         setGender(userProfile.getGender());
-        setProgram_week(userProfile.getProgram_week());
+        setCurrent_week(userProfile.getProgram_week());
     }
 }

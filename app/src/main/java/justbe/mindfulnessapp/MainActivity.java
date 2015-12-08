@@ -1,5 +1,6 @@
 package justbe.mindfulnessapp;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -9,15 +10,19 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,8 +44,12 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Fields
      */
+    private Activity activity;
+    private ProgressBar progressBar;
+
     private PopupWindow popupWindow;
     private User user;
+    private SessionManager sessionManager;
 
     // audio player variables
     private MeditationMediaPlayer mediaPlayer;
@@ -56,9 +65,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
-        user = App.getSession().getUser();
+        sessionManager = new SessionManager(getApplicationContext());
+        checkSessionManagerLogin();
 
         // Create toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -71,24 +82,25 @@ public class MainActivity extends AppCompatActivity {
         View customToolbarView = li.inflate(R.layout.custom_main_toolbar, null);
         getSupportActionBar().setCustomView(customToolbarView);
 
-        user.setProgram_week(1);
-        // TODO: allow changing the current week
-        int selectedWeek = user.getProgram_week();
+        int selectedWeek = 0;
+        if(user != null) {
+            selectedWeek = user.getCurrent_week();
 
-        // Media player setup
-        mediaPlayer = new MeditationMediaPlayer(this, R.raw.sample, selectedWeek);
+            // Media player setup
+            mediaPlayer = new MeditationMediaPlayer(this, R.raw.sample, selectedWeek);
 
- /*       // Pebble setup
+            // Set the lesson button's text to the current week
+            TextView lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
+            lessonButtonText.setText(String.format("Week %d Exercise", selectedWeek));
+        }
+
+         /*       // Pebble setup
         PebbleCommunicator comms = PebbleCommunicator.getInstance();
         if (!comms.checkPebbleConnection()) {
             Toast.makeText(App.context(), "No Pebble connection detected!", Toast.LENGTH_LONG).show();
         }
         setUpAlarms("assessment", 4, true);
         setUpAlarms("pebble", 5, false);*/
-
-        // Set the lesson button's text to the current week
-        TextView lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
-        lessonButtonText.setText(String.format("Week %d Exercise", selectedWeek));
     }
 
     @Override
@@ -198,6 +210,11 @@ public class MainActivity extends AppCompatActivity {
         AssessmentFlowManager dayAssessmentFlowManager = AssessmentFlowManager.getInstance(this);
         dayAssessmentFlowManager.startNextAssessmentQuestion();
     }
+    public void startAssessmentButtonPressed(View view) {
+        Intent intent = new Intent(MainActivity.this, StartAssessmentActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
 
     /***********************************************************************************************
      * MainActivity Specific Helpers
@@ -208,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
      * @param pw_view The popup view that the fields are on
      */
     private void setupPopupTextFields(View pw_view) {
-        int currentWeek = user.getProgram_week();
+        int currentWeek = user.getCurrent_week();
 
         // Go through each week of the program and sets the correct UI
         for(int i = 1; i <= 8; i++) {
@@ -227,6 +244,18 @@ public class MainActivity extends AppCompatActivity {
                 weekImageView.setImageResource(R.drawable.check_gray_2x);
             }
         }
+    }
+
+    private void checkSessionManagerLogin() {
+        // This will redirect to login activity if user is not logged in
+        sessionManager.checkLogin();
+
+        // Set the data from the SessionManager
+        Session session = App.getSession();
+        user = sessionManager.getUser();
+        session.setUser(user);
+        session.setCsrfToken(sessionManager.getCSRFToken());
+        session.setSessionId(sessionManager.getSessionID());
     }
 
     /***********************************************************************************************

@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity  {
 
     private ProgressDialog progressDialog;
     private static Handler loginHandler;
+    private SessionManager sessionManager;
 
     /***********************************************************************************************
      * LoginActivity Life Cycle Functions
@@ -45,6 +46,9 @@ public class LoginActivity extends AppCompatActivity  {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle(getString(R.string.title_activity_login));
+
+        // Create new session manager
+        sessionManager = new SessionManager(getApplicationContext());
 
         // Create 'logging in' progress spinner
         progressDialog = new ProgressDialog(this);
@@ -112,8 +116,11 @@ public class LoginActivity extends AppCompatActivity  {
             public void handleMessage(Message msg) {
                 // Log in succeeded
                 if(msg.what == 0) {
+                    Session session = App.getSession();
+                    sessionManager.createLoginSession(session.getSessionId(), session.getCsrfToken(),
+                            session.getUser());
                     Intent intent = new Intent(getApplicationContext() , MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     progressDialog.dismiss();
                     finish();

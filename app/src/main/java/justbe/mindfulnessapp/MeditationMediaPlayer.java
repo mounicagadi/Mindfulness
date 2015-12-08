@@ -32,6 +32,7 @@ public class MeditationMediaPlayer {
     private double currentTime;
     private double totalTime;
     private Integer selectedDay;
+    private Handler audioInfoUpdater;
     private MeditationSession meditationSession;
     private Integer selectedWeek;
     private Integer mediaID;
@@ -48,8 +49,8 @@ public class MeditationMediaPlayer {
         this.selectedWeek = selectedWeek;
         this.containerView = ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content);
 
-        // execute ASYNC task to create media player
-        new CreateMediaPlayerTask().execute();
+        // create media player
+        mediaPlayer = MediaPlayer.create(context, mediaID);
 
         // Initialize parts from view
         seekBar = (SeekBar) containerView.findViewById(R.id.volumeBar);
@@ -57,6 +58,7 @@ public class MeditationMediaPlayer {
         totalAudioTimeText = (TextView) containerView.findViewById(R.id.totalTime);
         audioButton = (ImageButton) containerView.findViewById(R.id.audioButton);
 
+        // set meditation
         meditationSession = new MeditationSession();
         meditationSession.setPercent_completed(1.0);
         selectedDay = Util.getCurrentDayOfTheWeek();
@@ -120,7 +122,32 @@ public class MeditationMediaPlayer {
 
         selectedDay = newDay;
 
-        new InitMediaPlayerTask().execute((Void[])null);
+        initMediaPlayer();
+    }
+
+    private void initMediaPlayer() {
+        mediaPlayer.release();
+        // TODO: change the meditation file based on day selected
+        mediaPlayer = MediaPlayer.create(context, mediaID);
+        mediaPlayer.setOnCompletionListener(endOfMeditationListener);
+
+        currentTime = mediaPlayer.getCurrentPosition();
+        totalTime = mediaPlayer.getDuration();
+
+        // Set up progress bar and make it usable
+        seekBar.setMax((int) totalTime);
+        seekBar.setProgress((int)currentTime);
+        seekBar.setOnSeekBarChangeListener(seekBarListener);
+
+        // Initialize time indicators
+        Util.setTextViewToTime(currentAudioTimeText, currentTime);
+        Util.setTextViewToTime(totalAudioTimeText, totalTime);
+
+        audioInfoUpdater = new Handler();
+        audioInfoUpdater.postDelayed(UpdateCurrentTime,100);
+
+        audioPlaying = false;
+        audioButton.setImageResource(R.drawable.play);
     }
 
     // Updates the song time info every second
@@ -130,11 +157,13 @@ public class MeditationMediaPlayer {
             Util.setTextViewToTime(currentAudioTimeText, currentTime);
 
             seekBar.setProgress((int)currentTime);
+            seekBar.setProgress((int)currentTime);
+            audioInfoUpdater.postDelayed(this, 100);
         }
     };
 
     // Called when the seekbar is interacted with
-    private final SeekBar.OnSeekBarChangeListener seekBarListener =
+    private SeekBar.OnSeekBarChangeListener seekBarListener =
             new SeekBar.OnSeekBarChangeListener() {
 
                 @Override
@@ -164,7 +193,7 @@ public class MeditationMediaPlayer {
                 public void onCompletion(MediaPlayer mp){
                     completeMeditation(selectedDay);
                     meditationSession.setMeditation_id(selectedWeek, selectedDay);
-                    ServerRequests.update(meditationSession, context);
+                    ServerRequests.updateMeditationSession(meditationSession, context);
                 }
             };
 
@@ -193,41 +222,5 @@ public class MeditationMediaPlayer {
         ImageView currentDayImageView = (ImageView) containerView.findViewById(currentImageViewId);
 
         currentDayImageView.setImageResource(R.drawable.check_green_2x);
-    }
-
-    private class CreateMediaPlayerTask extends AsyncTask<Void, Void, Void> {
-        protected Void doInBackground(Void... params) {
-            mediaPlayer = MediaPlayer.create(context, mediaID);
-
-            return null;
-        }
-    }
-
-    private class InitMediaPlayerTask extends AsyncTask<Void, Void, Void> {
-        protected Void doInBackground(Void... param) {
-            mediaPlayer.release();
-            // TODO: change the meditation file based on day selected
-            mediaPlayer = MediaPlayer.create(context, mediaID);
-            mediaPlayer.setOnCompletionListener(endOfMeditationListener);
-
-            return null;
-        }
-
-        protected void onPostExecute(Void param) {
-            currentTime = mediaPlayer.getCurrentPosition();
-            totalTime = mediaPlayer.getDuration();
-
-            // Set up progress bar and make it usable
-            seekBar.setMax((int) totalTime);
-            seekBar.setProgress((int)currentTime);
-            seekBar.setOnSeekBarChangeListener(seekBarListener);
-
-            // Initialize time indicators
-            Util.setTextViewToTime(currentAudioTimeText, currentTime);
-            Util.setTextViewToTime(totalAudioTimeText, totalTime);
-
-            audioPlaying = false;
-            audioButton.setImageResource(R.drawable.play);
-        }
     }
 }

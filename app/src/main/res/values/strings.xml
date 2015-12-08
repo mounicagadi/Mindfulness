@@ -15,7 +15,8 @@
     <string name="setup">Setup</string>
     <string name="pendingMorning">Pending Morning Assessment</string>
     <string name="pendingAfternoon">Pending Afternoon Assessment</string>
-    <string name="timeForAssessment">It's time for a momentary evaluation!</string>
+    <string name="timeForAssessment">It\'s time for a momentary evaluation!</string>
+    <string name="readyToStartAssesssment">Are you ready to start the assessment?</string>
 
     <string name="username_text">Username</string>
     <string name="password_text">Password</string>
