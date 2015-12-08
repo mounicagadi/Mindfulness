@@ -1,5 +1,6 @@
 package justbe.mindfulnessapp.rest;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -80,16 +81,23 @@ public class UserPresentableException extends RuntimeException {
      * @param context The Context (Activity/View) to show the alert on
      */
     public void alert(Context context) {
-        new AlertDialog.Builder(context)
-                .setTitle(this.getTitle())
-                .setMessage(this.getMessage())
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Return to dialog
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+        final Context mContext = context;
+        final UserPresentableException exception = this;
+        ((Activity)context).runOnUiThread(new Runnable(){
+           @Override
+           public void run() {
+               new AlertDialog.Builder(mContext)
+                       .setTitle(exception.getTitle())
+                       .setMessage(exception.getMessage())
+                       .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                           public void onClick(DialogInterface dialog, int which) {
+                               // Return to dialog
+                           }
+                       })
+                       .setIcon(android.R.drawable.ic_dialog_alert)
+                       .show();
+           }
+        });
     }
 
     /**

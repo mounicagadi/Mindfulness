@@ -175,6 +175,7 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
         if ( validateActivity() ) {
             progressDialog.show();
 
+            final Context context = CreateAccountActivity.this;
             // Run createAccount in its own thread
             Thread createAccountThread = new Thread(new Runnable() {
                 @Override
@@ -183,7 +184,6 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
                     user.setRaw_password(password_field.getText().toString());
 
                     // Run all the server requests to create an account
-                    Context context = getApplicationContext();
                     Boolean createAccountSuccess = (ServerRequests.createUser(user, context) &&
                             ServerRequests.updateUserWithUserProfile(user, userProfile, context) &&
                             // Create meditation sessions for first week
@@ -207,16 +207,13 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
                 public void handleMessage(Message msg) {
                     // Log in succeeded
                     if(msg.what == 0) {
-                        Intent intent = new Intent(getApplicationContext(), StartProgramActivity.class);
+                        Intent intent = new Intent(CreateAccountActivity.this, StartProgramActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         progressDialog.dismiss();
                         finish();
                     } else { // Create account failed
                         progressDialog.dismiss();
-                        throw new UserPresentableException(
-                                getString(R.string.auth_failed),
-                                getString(R.string.cant_login_to_new_account));
                     }
                 }
             };
