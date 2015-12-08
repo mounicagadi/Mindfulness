@@ -13,6 +13,8 @@ import justbe.mindfulnessapp.models.SliderQuestion;
  * Factory class used to add assessments to the AssessmentFlowManager
  * Contains a number of methods to make adding assessments easier
  * Currently contains the hardcoded surveys
+ * Future groups will need to extend this to examine some database input and create
+ * the questions from that.
  */
 public class AssessmentFlowManagerFactory {
     /**
@@ -67,6 +69,7 @@ public class AssessmentFlowManagerFactory {
 
     /**
      * Adds all the questions to make the morning survey flow
+     * Hardcoded to a unfinished spec from our client
      */
     public void addMorningAssessmentQuestions() {
         // Life Satisfaction
@@ -131,6 +134,7 @@ public class AssessmentFlowManagerFactory {
 
     /**
      * Adds all the questions to make the day survey flow
+     * Hardcoded to a unfinished spec from our client
      */
     public void addDayAssessmentQuestions() {
         // Emotions
@@ -163,6 +167,7 @@ public class AssessmentFlowManagerFactory {
 
     /**
      * Adds the emotion assessment questions
+     * Hardcoded to a unfinished spec from our client
      */
     public void addEmotionQuestions() {
         String iFeel = context.getString(R.string.iFeel) + " %s.";
@@ -209,6 +214,7 @@ public class AssessmentFlowManagerFactory {
 
     /**
      * Adds the mindfulness assessment questions
+     * Hardcoded to a unfinished spec from our client
      */
     public void addMindfulnessQuestions() {
         addSliderQuestionToManager(context.getString(R.string.mindfulnessQuestion1),
