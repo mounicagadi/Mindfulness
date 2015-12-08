@@ -174,7 +174,7 @@ public class LoginActivity extends AppCompatActivity  {
         try {
             success = App.getSession().authenticate(username, password);
         } catch (Exception e) {
-            new UserPresentableException(e).alert(this);
+            new UserPresentableException(e).alert(LoginActivity.this);
         }
         return success;
     }

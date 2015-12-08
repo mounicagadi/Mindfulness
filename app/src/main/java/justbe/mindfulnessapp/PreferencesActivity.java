@@ -2,6 +2,7 @@ package justbe.mindfulnessapp;
 
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -168,6 +169,7 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
         progressDialog.show();
 
         // Run logout within a thread
+        final Context context = PreferencesActivity.this;
         Thread logoutThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -175,7 +177,7 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
                 try {
                     success = App.getSession().invalidate();
                 } catch (Exception e) {
-                    new UserPresentableException(e).alert(getApplicationContext());
+                    new UserPresentableException(e).alert(context);
                 }
 
                 // Attempt to logout
@@ -209,7 +211,7 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
                 } else { // Logout failed
                     new UserPresentableException(
                             getString(R.string.cannot_logout),
-                            getString(R.string.cannot_logout_message)).alert(getApplicationContext());
+                            getString(R.string.cannot_logout_message)).alert(context);
                 }
             }
         };

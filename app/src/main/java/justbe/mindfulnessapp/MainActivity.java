@@ -82,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
         sessionManager = new SessionManager(getApplicationContext());
         user = session.getUser();
 
-        Log.v("loggin in", user.getUsername());
-        Log.v("loggin in", user.getCurrent_week().toString());
         if (user == null) {
             user = sessionManager.getUser();
             session.setUser(user);
