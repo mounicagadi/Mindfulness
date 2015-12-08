@@ -66,8 +66,6 @@ public class MainActivityTest {
         onView(withText("Weekly Lesson")).check(doesNotExist());
     }
 
-
-
     @Test
     public void WeekButton() {
         onView(withId(R.id.Meditation6)).perform(click());
