@@ -32,11 +32,11 @@ The andorid verison of the JustBe application consists of the following modules 
 The iOS version of the JustBe applciation. The iOS app shares the same basic UI design as our android app with a few caveats due to the differences in Android and iOS development guidelines. The only major difference in implementations (as of 12/8/2015) is that the iOS app uses a cron job on the database to push notificatons down to the iOS devices using apns keys while on Andorid they are handled locally. 
 
 ## JustBe-Django
-The database for both the iOS and Andorid apps can be found in this repo. The database itself is hosted on Herkou, please see logins doc from Prof. Shiyko for access. All calls to the database are done through a sereis of RESTFUL API calls. Be careful if you edit the Django app the indentation is very odd and can cause problems within python if you are not careful.
+The database for both the iOS and Andorid apps can be found in this repo. The database itself is hosted on Heroku, please see logins doc from Prof. Shiyko for access. All calls to the database are done through a series of RESTFUL API calls. Be careful if you edit the Django app the indentation is very odd and can cause problems within python if you are not careful.
 
 DO NOT TRUST [apiusage.txt]( https://github.com/justbeneu/JustBe-Django/blob/master/apiusage.txt#L46-L110)! When implementing API calls to the database use curl extensivly to test the calls and their output. As of this moment the apiusage.txt doc contains misinformation that has the potential to cause alot of headaches unless you run all the commands through curl before implementing them. 
 
-For more information on using API calls within the Andorid Application please see the **__API Interacitons__** section below.
+For more information on using API calls within the Andorid Application please see the **__API Interactions** section below.
 
 ## JustBe-Pebble
 The Pebble application to be used in tandem with the iOS/Android App.
