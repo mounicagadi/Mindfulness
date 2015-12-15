@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="justbe.mindfulnessapp">
+    package="justbe.mindfulness">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name=".App"
+        android:name="justbe.mindfulness.App"
         android:allowBackup="true"
         android:icon="@mipmap/launcher_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".SplashActivity"
+            android:name="justbe.mindfulness.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -24,58 +24,58 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="justbe.mindfulness.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".LoginActivity"
+            android:name="justbe.mindfulness.LoginActivity"
             android:label="Login"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CreateAccountActivity"
+            android:name="justbe.mindfulness.CreateAccountActivity"
             android:label="@string/title_activity_create_account"
-            android:parentActivityName=".LoginActivity"
+            android:parentActivityName="justbe.mindfulness.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".PreferencesActivity"
+            android:name="justbe.mindfulness.PreferencesActivity"
             android:label="Preferences"
             android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="justbe.mindfulness.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         />
         <activity
-            android:name=".LessonActivity"
+            android:name="justbe.mindfulness.LessonActivity"
             android:label="@string/title_activity_lesson"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="justbe.mindfulness.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SliderAssessmentActivity"
+            android:name="justbe.mindfulness.SliderAssessmentActivity"
             android:label="@string/title_activity_assessment"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="justbe.mindfulness.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".DropdownAssessmentActivity"
+            android:name="justbe.mindfulness.DropdownAssessmentActivity"
             android:label="@string/title_activity_assessment"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="justbe.mindfulness.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".YesNoAssessmentActivity"
+            android:name="justbe.mindfulness.YesNoAssessmentActivity"
             android:label="@string/title_activity_smoke_assessment"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MultiChoiceAssessmentActivity"
+            android:name="justbe.mindfulness.MultiChoiceAssessmentActivity"
             android:label="@string/title_activity_multi_choice_assessment"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="justbe.mindfulness.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="justbe.mindfulnessapp.MainActivity" />
+                android:value="justbe.mindfulness.MainActivity" />
         </activity>
 
         <receiver
-            android:name=".AlarmReceiver"
+            android:name="justbe.mindfulness.AlarmReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -83,10 +83,10 @@
         </receiver>
 
         <activity
-            android:name=".StartAssessmentActivity"
+            android:name="justbe.mindfulness.StartAssessmentActivity"
             android:label="@string/title_activity_start_assessment"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".StartProgramActivity"></activity>
+        <activity android:name="justbe.mindfulness.StartProgramActivity"></activity>
     </application>
 
 </manifest>

@@ -7,7 +7,7 @@
     android:paddingTop="@dimen/activity_top_margin"
     android:paddingBottom="@dimen/activity_bottom_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_lesson" tools:context="justbe.mindfulnessapp.LessonActivity">
+    tools:showIn="@layout/activity_lesson" tools:context="justbe.mindfulness.LessonActivity">
     <ScrollView
         android:id="@+id/lesson_text_scroll_view"
         android:layout_width="match_parent"

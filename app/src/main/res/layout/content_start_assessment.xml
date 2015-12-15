@@ -7,7 +7,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_top_margin"
     android:paddingBottom="@dimen/activity_bottom_margin"
-    tools:context="justbe.mindfulnessapp.StartAssessmentActivity"
+    tools:context="justbe.mindfulness.StartAssessmentActivity"
     tools:showIn="@layout/activity_start_assessment">
     <RelativeLayout
         android:layout_width="match_parent"

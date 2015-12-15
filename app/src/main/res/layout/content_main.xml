@@ -11,7 +11,7 @@
     android:background="@color/colorPrimary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_main"
-    tools:context="justbe.mindfulnessapp.MainActivity">
+    tools:context="justbe.mindfulness.MainActivity">
 
     <Button
         android:layout_width="wrap_content"

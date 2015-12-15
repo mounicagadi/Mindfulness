@@ -6,7 +6,7 @@
     android:paddingTop="60dp"
     android:paddingBottom="@dimen/activity_bottom_margin"
     tools:showIn="@layout/activity_create_account"
-    tools:context="justbe.mindfulnessapp.CreateAccountActivity">
+    tools:context="justbe.mindfulness.CreateAccountActivity">
 
     <TableLayout
         android:id="@+id/creatAccountTable"

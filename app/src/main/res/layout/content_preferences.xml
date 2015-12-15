@@ -6,7 +6,7 @@
     android:paddingTop="60dp"
     android:paddingBottom="@dimen/activity_bottom_margin"
     tools:showIn="@layout/activity_preferences"
-    tools:context="justbe.mindfulnessapp.PreferencesActivity"
+    tools:context="justbe.mindfulness.PreferencesActivity"
     android:id="@+id/mainView">
 
     <TableLayout

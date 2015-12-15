@@ -61,7 +61,7 @@ returns a partial User Object.  For more details check out the API usage info [h
 
 Implementing this in Java is fairly straitforward.
 
-1. Create the User Model, you only need to do this once for each data type you are working with.  See [models/User.java](https://github.com/justbeneu/JustBe-Android/blob/master/app/src/main/java/justbe/mindfulnessapp/models/User.java) for an example.  Most of this is mindless work, adding fields and then auto-generating Getters and Setters.
+1. Create the User Model, you only need to do this once for each data type you are working with.  See [models/User.java](https://github.com/justbeneu/JustBe-Android/blob/master/app/src/main/java/justbe/mindfulness/models/User.java) for an example.  Most of this is mindless work, adding fields and then auto-generating Getters and Setters.
     * Please remember to keep fields private and create Getters and Setters, they are really important here
     * Jackson2, the tool that takes JSON and converts it into an instance of a model (and vice versa) will map fields based on the getters and setter names. The getter `getFirst_name()` will map to a `first_name` field in the JSON.
     * The django server will ignore any fields it was not expecting so you can theoretically send it a bunch of extrainious info and it will just ignore it.  This is of course less than ideal... working on it, just be aware of this. (Example: you want to update a user's first name, but currently the client will send an entire User object instead of just a `{"first_name": "new name"}`)

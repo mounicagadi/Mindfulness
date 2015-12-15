@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_top_margin"
     android:paddingBottom="@dimen/activity_bottom_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_login" tools:context="justbe.mindfulnessapp.LoginActivity">
+    tools:showIn="@layout/activity_login" tools:context="justbe.mindfulness.LoginActivity">
 
     <EditText
         android:id="@+id/editUsername"
