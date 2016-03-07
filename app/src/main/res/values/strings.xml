@@ -4,12 +4,11 @@
 
     <string name="title_activity_login">Login</string>
     <string name="login_button">Login</string>
-    <string name="create_account_button">Sign up</string>
+    <string name="create_account_button">Create Account</string>
     <string name="title_activity_main">Main Activity</string>
     <string name="title_activity_create_account">Create Account</string>
     <string name="title_activity_getting_started">Getting Started</string>
     <string name="create_account_text">Create Account</string>
-    <string name="not_a_member">Not a member?</string>
     <string name="continue_button">Continue</string>
     <string name="next">Next</string>
     <string name="submit_button">Submit</string>
@@ -30,9 +29,6 @@
     <string name="birthday_text">Birthday</string>
     <string name="age_text">Age</string>
     <string name="gender_text">Gender</string>
-    <string name="male_text">Male</string>
-    <string name="female_text">Female</string>
-    <string name="other_text">Other</string>
     <string name="wake_up_text">I wake up at </string>
     <string name="go_to_sleep_text">I go to sleep at </string>
     <string name="change_password_text">Change Password</string>

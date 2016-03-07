@@ -31,13 +31,11 @@
         <activity
             android:name="justbe.mindfulness.LoginActivity"
             android:label="Login"
-            android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="justbe.mindfulness.CreateAccountActivity"
             android:label="@string/title_activity_create_account"
-            android:windowSoftInputMode="adjustPan"
             android:parentActivityName="justbe.mindfulness.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
