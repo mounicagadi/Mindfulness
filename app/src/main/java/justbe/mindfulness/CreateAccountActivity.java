@@ -13,7 +13,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Date;
 
@@ -27,9 +30,14 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
      */
     private User user;
     private UserProfile userProfile;
+    private EditText first_name_field;
+    private EditText last_name_field;
+    private EditText email_field;
     private EditText username_field;
     private EditText password_field;
     private EditText confirm_password_field;
+    private Integer gender;
+    private RadioGroup gender_group;
     private TextView meditationTimeText;
     private TextView lessonTimeText;
     private TextView wakeUpTimeText;
@@ -74,6 +82,10 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
         userProfile = new UserProfile();
 
         // Set variables to their Text Views
+        first_name_field = (EditText) findViewById(R.id.editFirstname);
+        last_name_field = (EditText) findViewById(R.id.editLastname);
+        gender_group = (RadioGroup) findViewById(R.id.genderRow);
+        email_field = (EditText) findViewById(R.id.editEmail);
         username_field = (EditText) findViewById(R.id.editUsername);
         password_field = (EditText) findViewById(R.id.editPassword);
         confirm_password_field = (EditText) findViewById(R.id.editConfirmPassword);
@@ -166,6 +178,29 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
         newFragment.show(getFragmentManager(), "timePicker");
     }
 
+    /*
+    * Radio button handler
+    */
+
+    public void onGenderButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.male:
+                if (checked) {
+                    gender = 0;
+                    break;
+                }
+            case R.id.female:
+                if (checked) {
+                    gender = 1;
+                    break;
+                }
+        }
+    }
+
     /**
      * Callback for when the create account button is pressed
      * @param view The View
@@ -179,6 +214,10 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
             Thread createAccountThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    user.setFirst_name(first_name_field.getText().toString());
+                    user.setLast_name(last_name_field.getText().toString());
+                    user.setGender(gender);
+                    user.setEmail(email_field.getText().toString());
                     user.setUsername(username_field.getText().toString());
                     user.setRaw_password(password_field.getText().toString());
 
@@ -241,7 +280,12 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
         if ( username_field.getText().length() == 0 ) {
             username_field.setError("The username field must not be empty");
             return false;
-        } else if ( username_field.getText().length() > 16 ) {
+        }
+        else if ( username_field.getText().length() < 6 ) {
+            username_field.setError("Your username must be at least 6 characters");
+            return false;
+        }
+        else if ( username_field.getText().length() > 16 ) {
             username_field.setError("Your username must be less than 16 characters");
             return false;
         }
@@ -254,6 +298,20 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
             return false;
         }
 
+        if ( email_field.getText().length() == 0 ){
+            Toast.makeText(getApplicationContext(), "Please enter email", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if ( !(android.util.Patterns.EMAIL_ADDRESS.matcher(email_field.getText()).matches()) )
+        {
+            Toast.makeText(getApplicationContext(), "Please enter valid email", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if ( gender_group.getCheckedRadioButtonId() == -1 ) {
+            Toast.makeText(getApplicationContext(), "Please select Gender", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 }
