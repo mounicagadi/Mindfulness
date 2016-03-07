@@ -29,11 +29,15 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
     private User user;
     private UserProfile userProfile;
     private TextView currentUsername;
+    private TextView currentFirstname;
+    private TextView currentLastname;
+    private TextView currentGender;
     private TextView meditationTimeText;
     private TextView lessonTimeText;
     private TextView wakeUpTimeText;
     private TextView goToSleepTimeText;
 
+    private String gender_string;
     private String meditationTime;
     private String lessonTime;
     private String wakeUpTime;
@@ -70,6 +74,9 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
 
         // Set variables to their Text Views
         currentUsername = (TextView) findViewById(R.id.currentUsername);
+        currentFirstname = (TextView) findViewById(R.id.currentFirstname);
+        currentLastname = (TextView) findViewById(R.id.currentLastname);
+        currentGender = (TextView) findViewById(R.id.currentGender);
         meditationTimeText = (TextView) findViewById(R.id.meditationTime);
         lessonTimeText = (TextView) findViewById(R.id.lessonTime);
         wakeUpTimeText = (TextView) findViewById(R.id.wakeUpTime);
@@ -81,6 +88,10 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
 
         // Set the fields to the user's values
         currentUsername.setText(user.getUsername());
+        currentFirstname.setText(user.getFirst_name());
+        currentLastname.setText(user.getLast_name());
+        if(user.getGender() != null)
+        currentGender.setText(getGenderString(user.getGender()));
         meditationTime = Util.dateToDisplayString(user.getMeditation_time());
         lessonTime = Util.dateToDisplayString(user.getExercise_time());
         wakeUpTime = Util.dateToDisplayString(user.getWake_up_time());
@@ -97,6 +108,15 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
      */
     public void refreshView() {
         setTimeFields();
+    }
+
+    public String getGenderString(int gender)
+    {
+        if(gender == 0)
+            gender_string = "Male";
+        else if(gender == 1)
+            gender_string = "Female";
+        return gender_string;
     }
 
     /**
