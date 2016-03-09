@@ -34,18 +34,18 @@ public class LoginActivityTest {
         //createAccountButton are here not null
         onView(withId(R.id.createAccountButton)).check(matches(notNullValue()));
         //check create Account Button has text create account
-        onView(withId(R.id.createAccountButton)).check(matches(withText("Create Account")));
+        onView(withId(R.id.createAccountButton)).check(matches(withText("Sign up")));
         //when user click createAccountButton
         onView(withId(R.id.createAccountButton)).perform(click());
         //load page createAccountActivity page
         intended(hasComponent(CreateAccountActivity.class.getName()));
         onView(withId(R.id.loginButton)).check(doesNotExist());
         //on create account page it will show the createAccountButton
-        onView(withId(R.id.createAccountButton)).check(matches(withText("Create Account")));
+        onView(withId(R.id.createAccountButton)).check(matches(withText("Sign up")));
         pressBack();
         //when we back to login in page button will show
         onView(withId(R.id.loginButton)).check(matches(withText("Login")));
-        onView(withId(R.id.createAccountButton)).check(matches(withText("Create Account")));
+        onView(withId(R.id.createAccountButton)).check(matches(withText("Sign up")));
     }
 
     //when password and user name are not match
@@ -59,12 +59,52 @@ public class LoginActivityTest {
         onView(withId(R.id.loginButton)).check(matches(notNullValue()));
         onView(withId(R.id.loginButton)).check(matches(withText("Login")));
         // Error shouldn't appear until after button is pressed
-        onView(withText("Password and username didn't match an account"))
+        onView(withText("Username does not exist"))
                 .check(doesNotExist());
         onView(withId(R.id.loginButton)).perform(click());
         // error is displayed after wrong credentials entered
         onView(withId(R.id.editPassword))
-                .check(matches(hasErrorText("Password and username didn't match an account")));
+                .check(matches(hasErrorText("Invalid Username/password")));
+    }
+
+    @Test
+    public void nullUsername(){
+
+        onView(withId(R.id.editPassword))
+                .perform(typeText("testing"), closeSoftKeyboard());
+        // check that the button is there
+        onView(withId(R.id.loginButton)).check(matches(notNullValue()));
+        onView(withId(R.id.loginButton)).check(matches(withText("Login")));
+        // Error shouldn't appear until after button is pressed
+        onView(withId(R.id.loginButton)).perform(click());
+        onView(withId(R.id.editUsername))
+                .check(matches(hasErrorText("Username cannot be null")));
+    }
+
+    @Test
+    public void nullPassword(){
+
+        onView(withId(R.id.editUsername))
+                .perform(typeText("testing"));
+        // check that the button is there
+        onView(withId(R.id.loginButton)).check(matches(notNullValue()));
+        onView(withId(R.id.loginButton)).check(matches(withText("Login")));
+        // Error shouldn't appear until after button is pressed
+        onView(withId(R.id.loginButton)).perform(click());
+        onView(withId(R.id.editPassword))
+                .check(matches(hasErrorText("Password cannot be null")));
+    }
+
+    @Test
+    public void nullUsernamePassword(){
+
+        // check that the button is there
+        onView(withId(R.id.loginButton)).check(matches(notNullValue()));
+        onView(withId(R.id.loginButton)).check(matches(withText("Login")));
+        // Error shouldn't appear until after button is pressed
+        onView(withId(R.id.loginButton)).perform(click());
+        onView(withId(R.id.editPassword))
+                .check(matches(hasErrorText("Please enter the username and password")));
     }
 
 
