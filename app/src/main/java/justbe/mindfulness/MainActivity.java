@@ -224,7 +224,35 @@ public class MainActivity extends AppCompatActivity {
         String stringId = view.getResources().getResourceName(view.getId());
         stringId = stringId.substring(stringId.length() - 1);
 
-        mediaPlayer.updateSelectedDay(Integer.valueOf(stringId));
+        int selectedDay = Integer.valueOf(stringId);
+        // get the current week day id
+        int currentDay = getCurrentWeekDayId();
+
+        /* Selected Day id has to be less than or equal to current week day id.
+        *  Exception: Sunday id is 6.
+        *  If current day is Wednesday, the user can only access meditation and
+        *  reading lessons of  Sunday, Monday, Tuesday and Wednesday
+        *  */
+        if(currentDay!=6 && selectedDay <= currentDay || selectedDay ==6)
+            mediaPlayer.updateSelectedDay(Integer.valueOf(stringId));
+
+    }
+
+    public int getCurrentWeekDayId(){
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+
+
+        switch(day){
+            case 1: return 6;  // Sunday
+            case 2: return 0;  // Monday
+            case 3: return 1;  // Tuesday
+            case 4: return 2;  // Wednesday
+            case 5: return 3;  // Thursday
+            case 6: return 4;  // Friday
+            case 7: return 5;  // Saturday
+        }
+        return -1;
     }
 
     // TODO: Remove this after assessment acitivies are done
