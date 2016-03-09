@@ -33,6 +33,17 @@ public class CreateAccountActivityTest {
 
     @Test
     public void testViewDisplay() {
+
+        onView(allOf(withId(R.id.editFirstname), withHint("First Name")))
+                .check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.editLastname), withHint("Last Name")))
+                .check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.male)))
+                .check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.female)))
+                .check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.editEmail)))
+                .check(ViewAssertions.matches(isDisplayed()));
         onView(allOf(withId(R.id.editUsername), withHint("Username")))
                 .check(ViewAssertions.matches(isDisplayed()));
         onView(allOf(withId(R.id.editPassword), withHint("Password")))
@@ -86,6 +97,19 @@ public class CreateAccountActivityTest {
         onView(withId(R.id.createAccountButton)).perform(click());
         onView(withId(R.id.editConfirmPassword))
                 .check(matches(hasErrorText("Your passwords do not match")));
+
+        //check for email
+        onView(withId(R.id.editUsername)).perform(clearText());
+        onView(withId(R.id.editUsername)).perform(typeText("newuser420"));
+        onView(withId(R.id.editPassword)).perform(typeText("short"));
+        onView(withId(R.id.editConfirmPassword)).perform(typeText("short"), closeSoftKeyboard());
+        onView(withId(R.id.editEmail)).perform(typeText("short"));
+        onView(withId(R.id.createAccountButton)).perform(click());
+        onView(withId(R.id.editEmail))
+                .check(matches(hasErrorText("Invalid email")));
+
+        //check for gender radiobuttons
+
     }
 
 
