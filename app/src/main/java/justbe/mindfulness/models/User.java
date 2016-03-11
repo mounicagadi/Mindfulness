@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import justbe.mindfulness.rest.UserPresentableException;
+
 /**
  * Created by eddiehurtig on 11/20/15.
  */
@@ -117,44 +119,44 @@ public class User extends PlainOldDBO<User> {
     public Date getExercise_time() { return exercise_time; }
 
     public void setExercise_time(String exercise_time) {
-        DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+        DateFormat sdf = new SimpleDateFormat("hh:mm", java.util.Locale.getDefault());
         try {
             this.exercise_time = sdf.parse(exercise_time);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
     public Date getMeditation_time() { return meditation_time; }
 
     public void setMeditation_time(String meditation_time) {
-        DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+        DateFormat sdf = new SimpleDateFormat("hh:mm", java.util.Locale.getDefault());
         try {
             this.meditation_time = sdf.parse(meditation_time);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
     public Date getWake_up_time() { return wake_up_time; }
 
     public void setWake_up_time(String wake_up_time) {
-        DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+        DateFormat sdf = new SimpleDateFormat("hh:mm", java.util.Locale.getDefault());
         try {
             this.wake_up_time = sdf.parse(wake_up_time);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
     public Date getGo_to_sleep_time() { return this.go_to_sleep_time; }
 
     public void setGo_to_sleep_time(String go_to_sleep_time) {
-        DateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+        DateFormat sdf = new SimpleDateFormat("hh:mm", java.util.Locale.getDefault());
         try {
             this.go_to_sleep_time = sdf.parse(go_to_sleep_time);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

@@ -216,11 +216,10 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
                 public void run() {
                     user.setFirst_name(first_name_field.getText().toString());
                     user.setLast_name(last_name_field.getText().toString());
-                    user.setGender(gender);
+                    userProfile.setGender(gender);
                     user.setEmail(email_field.getText().toString());
                     user.setUsername(username_field.getText().toString());
                     user.setRaw_password(password_field.getText().toString());
-
                     // Run all the server requests to create an account
                     Boolean createAccountSuccess = (ServerRequests.createUser(user, context) &&
                             ServerRequests.updateUserWithUserProfile(user, userProfile, context) &&

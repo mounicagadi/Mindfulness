@@ -90,7 +90,6 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
         currentUsername.setText(user.getUsername());
         currentFirstname.setText(user.getFirst_name());
         currentLastname.setText(user.getLast_name());
-        if(user.getGender() != null)
         currentGender.setText(getGenderString(user.getGender()));
         meditationTime = Util.dateToDisplayString(user.getMeditation_time());
         lessonTime = Util.dateToDisplayString(user.getExercise_time());
