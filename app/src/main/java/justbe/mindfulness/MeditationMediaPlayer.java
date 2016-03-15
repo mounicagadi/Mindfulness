@@ -12,6 +12,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import justbe.mindfulness.models.MeditationSession;
+import justbe.mindfulness.models.User;
 
 /**
  * Media Player for meditations. Handles the media player and updating of meditaiton sessions
@@ -212,10 +213,14 @@ public class MeditationMediaPlayer {
     private void setMeditationCompletion() {
         Integer day;
         MeditationSession[] meditationSessions = ServerRequests.getMeditationSessions(context);
+        User user  = App.getSession().getUser();
+        int currentWeek =  user.getCurrent_week();
         for(MeditationSession m : meditationSessions) {
-            if(m.getPercent_completed() == 1.0){
+            int meditationCurrentWeekValue = (m.getMeditation_id() - (currentWeek * 10));
+            System.out.println("Current Week : "+ user.getCurrent_week());
+            if(m.getPercent_completed() == 1.0 && meditationCurrentWeekValue >= 0) {
                 day = m.getMeditation_id() % 10;
-
+                System.out.println("Meditation completed 1 . ID: "+ m.getMeditation_id());
                 completeMeditation(day);
             }
         }
@@ -229,7 +234,7 @@ public class MeditationMediaPlayer {
         int currentImageViewId = context.getResources().getIdentifier(
                 "MeditationImage" + day, "id", context.getPackageName());
         ImageView currentDayImageView = (ImageView) containerView.findViewById(currentImageViewId);
-
+        System.out.println("Meditation completed 2 ");
         currentDayImageView.setTag("true");
         currentDayImageView.setImageResource(R.drawable.check_green_2x);
     }
