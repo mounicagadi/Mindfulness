@@ -10,6 +10,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import justbe.mindfulness.models.DropdownQuestion;
+import justbe.mindfulness.models.Response;
 
 /**
  * Activity that displays all dropdown questions
@@ -93,6 +94,14 @@ public class DropdownAssessmentActivity extends AppCompatActivity
         // responses in AssessmentFlowManager.
         // See SliderAssessmentActivity for a example of adding a
         // response to the flowManager
+        String value =  ""+spinner.getSelectedItem();
+        Integer questionId = flowManager.getQuestionID();
+        Integer assessmentId = flowManager.getAssessmentID();
+        String question =  dropdownQuestion.getQuestionText();
+
+        Response dropDownResponse = new Response(questionId,assessmentId,value, question);
+        System.out.println("Assessment: "+question+" --> "+value);
+        flowManager.addResponse(dropDownResponse);
         flowManager.startNextAssessmentQuestion();
     }
 }
