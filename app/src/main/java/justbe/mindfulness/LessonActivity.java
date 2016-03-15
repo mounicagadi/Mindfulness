@@ -33,7 +33,7 @@ public class LessonActivity extends AppCompatActivity {
 
         if (!completed) {
             // TODO: get currently selected week instead of current program week
-            int week = 1;//App.getSession().getUser().getCurrent_week();
+            int week = App.getSession().getUser().getCurrent_week();
             ServerRequests.completeExerciseSession(week, this);
         }
     }
