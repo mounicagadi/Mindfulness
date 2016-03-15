@@ -49,6 +49,7 @@ public class StartAssessmentActivity extends AppCompatActivity {
         }
 
         AssessmentFlowManager flowManager = AssessmentFlowManager.getInstance(this);
+
         flowManager.setAssessmentID(1);
         flowManager.startNextAssessmentQuestion();
     }
