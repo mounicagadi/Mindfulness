@@ -7,10 +7,11 @@ public class Response extends PlainOldDBO<Response> {
     private Integer assessment_id;
     private Integer type;
     private Boolean _boolean;
-    private Integer number;
+    private String number;
     private Integer emotion;
     private Float percent;
     private Integer question_id;
+    private String question;
 
     /**
      * Empty constructor for Response
@@ -23,12 +24,13 @@ public class Response extends PlainOldDBO<Response> {
      * @param assessment_id The assessment this response belongs to
      * @param number The value of the response
      */
-    public Response(Integer question_id, Integer assessment_id,Integer number) {
+    public Response(Integer question_id, Integer assessment_id,String number, String question) {
             this.question_id = question_id;
         this.assessment_id = assessment_id;
         this.number = number;
         // Set the type to number response
         this.type = 1;
+        this.question = question;
     }
 
     /**
@@ -59,10 +61,10 @@ public class Response extends PlainOldDBO<Response> {
     /**
      * Get/Set the number
      */
-    public Integer getNumber() {
+    public String getNumber() {
         return number;
     }
-    public void setNumber(Integer number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -91,4 +93,7 @@ public class Response extends PlainOldDBO<Response> {
         return percent;
     }
     public void setPercent(Float percent) { this.percent = percent; }
+
+    public String getQuestion() {return question; }
+    public void setQuestion(String question) {this.question = question;}
 }
