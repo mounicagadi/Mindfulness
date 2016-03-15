@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import justbe.mindfulness.models.MultiChoiceQuestion;
+import justbe.mindfulness.models.Response;
 
 /**
  * Activity that displays all MultiChoice questions
@@ -74,7 +75,19 @@ public class MultiChoiceAssessmentActivity extends AppCompatActivity {
         // responses in AssessmentFlowManager.
         // See SliderAssessmentActivity for a example of adding a
         // response to the flowManager
+
+        String value = "";
+       for(int i = 0; i< checkedOptions.size();i++){
+           if(checkedOptions.get(i))
+               value = value+multiChoiceQuestion.getChoices()[i]+"$#";
+       }
+        Integer questionID = flowManager.getQuestionID();
+        Integer assessmentID = flowManager.getAssessmentID();
+        String question = multiChoiceQuestion.getQuestionText();
+
+        Response multiChoiceResponse = new Response(questionID,assessmentID,value,question);
+        System.out.println("Assessment: "+question+" --> "+value);
+        flowManager.addResponse(multiChoiceResponse);
         flowManager.startNextAssessmentQuestion();
     }
-
 }
