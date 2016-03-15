@@ -224,7 +224,7 @@ public class ServerRequests {
                 = new GenericHttpRequestTask(MeditationSession.class, MeditationSession.class);
 
         int meditationSessionID = meditationSession.getMeditation_id();
-        task.execute("/api/v1/meditation_session/" + meditationSessionID + "/", HttpMethod.PATCH, meditationSession);
+        task.execute("/api/v1/meditation_session/" + meditationSessionID + "/", HttpMethod.PUT, meditationSession);
 
         Boolean success = false;
         try {
