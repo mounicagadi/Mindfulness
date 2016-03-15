@@ -23,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             session.setCsrfToken(sessionManager.getCSRFToken());
             session.setSessionId(sessionManager.getSessionID());
         }
-
+        updateCurrentWeek();
         Integer selectedWeek = user.getCurrent_week();
 
         // Media player setup
@@ -264,6 +265,29 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+    public void updateCurrentWeek(){
+
+        String createdDateString =  user.getCreated_at();
+        int currentWeek=0;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try{
+            Date createdDate = sdf.parse(createdDateString);
+            Date currentDate = new Date();
+            sdf.format(currentDate);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(createdDate);
+            int weekCreated =  cal.get(Calendar.WEEK_OF_YEAR);
+            cal.setTime(currentDate);
+            currentWeek =cal.get(Calendar.WEEK_OF_YEAR);
+            user.setCurrent_week(currentWeek-weekCreated+1);
+            App.getSession().setUser(user);
+            System.out.println("main activity user current week : " + user.getCurrent_week());
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     /***********************************************************************************************
      * MainActivity Specific Helpers
      **********************************************************************************************/
@@ -273,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
      * @param pw_view The popup view that the fields are on
      */
     private void setupPopupTextFields(View pw_view) {
+
         int currentWeek = user.getCurrent_week();
 
         // Go through each week of the program and sets the correct UI
