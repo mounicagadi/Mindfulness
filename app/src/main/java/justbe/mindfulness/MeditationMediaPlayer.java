@@ -5,6 +5,7 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,6 +45,7 @@ public class MeditationMediaPlayer {
      * @param selectedWeek
      */
     public MeditationMediaPlayer(Context context, int mediaID, int selectedWeek) {
+
         this.context = context;
         this.mediaID = mediaID;
         this.selectedWeek = selectedWeek;
@@ -51,6 +53,7 @@ public class MeditationMediaPlayer {
 
         // create media player
         mediaPlayer = MediaPlayer.create(context, mediaID);
+
 
         // Initialize parts from view
         seekBar = (SeekBar) containerView.findViewById(R.id.volumeBar);
@@ -63,7 +66,10 @@ public class MeditationMediaPlayer {
         meditationSession.setPercent_completed(1.0);
         selectedDay = Util.getCurrentDayOfTheWeek();
         updateSelectedDay(selectedDay);
-        setMeditationCompletion();
+
+
+        setMeditationCompletion(selectedWeek);
+
     }
 
     /**
@@ -110,6 +116,7 @@ public class MeditationMediaPlayer {
         int newTextViewId = context.getResources().getIdentifier(
                 "MeditationText" + newDay, "id", context.getPackageName());
 
+
         // remove styling from current day
         TextView currentDayTextView = (TextView) containerView.findViewById(currentTextViewId);
         currentDayTextView.setTextColor(ContextCompat.getColor(context, R.color.transparentLightGreen));
@@ -119,7 +126,6 @@ public class MeditationMediaPlayer {
         TextView newDayTextView = (TextView) containerView.findViewById(newTextViewId);
         newDayTextView.setTextColor(ContextCompat.getColor(context, R.color.bpWhite));
         newDayTextView.setBackgroundColor(ContextCompat.getColor(context, R.color.transparentOrange));
-
         selectedDay = newDay;
 
         initMediaPlayer();
@@ -210,19 +216,25 @@ public class MeditationMediaPlayer {
     /**
      * Determines and displays which meditations are complete
      */
-    private void setMeditationCompletion() {
+    private void setMeditationCompletion(int selectedWeek) {
         Integer day;
         MeditationSession[] meditationSessions = ServerRequests.getMeditationSessions(context);
         User user  = App.getSession().getUser();
-        int currentWeek =  user.getCurrent_week();
+        //int currentWeek =  selectedWeek;
+        for(int i=0;i<7;i++)
+            updatedNotCompleted(i);
+
         for(MeditationSession m : meditationSessions) {
-            int meditationCurrentWeekValue = (m.getMeditation_id() - (currentWeek * 10));
-            System.out.println("Current Week : "+ user.getCurrent_week());
-            if(m.getPercent_completed() == 1.0 && meditationCurrentWeekValue >= 0) {
-                day = m.getMeditation_id() % 10;
+            int meditationCurrentWeekValue = (m.getMeditation_id() - (selectedWeek * 10));
+            System.out.println("Current Week : " + user.getCurrent_week());
+
+            if(m.getPercent_completed() == 1.0 && meditationCurrentWeekValue >= 0 && meditationCurrentWeekValue<=6) {
+                //day = m.getMeditation_id() % 10;
+                day = meditationCurrentWeekValue;
                 System.out.println("Meditation completed 1 . ID: "+ m.getMeditation_id());
                 completeMeditation(day);
             }
+
         }
     }
 
@@ -231,6 +243,7 @@ public class MeditationMediaPlayer {
      * @param day 0 Monday -> 6 Sunday to mark as complete
      */
     private void completeMeditation(Integer day){
+        Log.v("Meditation complete for", " "+day);
         int currentImageViewId = context.getResources().getIdentifier(
                 "MeditationImage" + day, "id", context.getPackageName());
         ImageView currentDayImageView = (ImageView) containerView.findViewById(currentImageViewId);
@@ -238,4 +251,17 @@ public class MeditationMediaPlayer {
         currentDayImageView.setTag("true");
         currentDayImageView.setImageResource(R.drawable.check_green_2x);
     }
+
+    // previous week content selected by user and if any of meditations
+    // are incomplete, update the image as incomplete
+    private void updatedNotCompleted(Integer day){
+        Log.v("Meditation incomplete for", " "+day);
+        int currentImageViewId = context.getResources().getIdentifier(
+                "MeditationImage" + day, "id", context.getPackageName());
+        ImageView currentDayImageView = (ImageView) containerView.findViewById(currentImageViewId);
+        System.out.println("Meditation completed 3 ");
+        currentDayImageView.setTag("false");
+        currentDayImageView.setImageResource(R.drawable.check_gray_2x);
+    }
+
 }
