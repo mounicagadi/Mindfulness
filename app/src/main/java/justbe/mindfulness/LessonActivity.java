@@ -1,8 +1,10 @@
 package justbe.mindfulness;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -42,6 +44,18 @@ public class LessonActivity extends AppCompatActivity {
 
         User user = App.getSession().getUser();
 
+        Intent intent = getIntent();
+        String weekData =intent.getStringExtra("week");
+        int weekId = 0;
+        System.out.println("Lesson Activity: "+ weekData);
+
+        if(weekData == null)
+            weekId = user.getCurrent_week();
+        else
+            weekId = Integer.parseInt(weekData);
+
+
+
         // Creates exercise session in database if it does not exist yet
         Boolean completed = getIntent().getExtras().getBoolean("completed");
         Map<Integer, Excercise> excerciseMap =  new HashMap<Integer, Excercise>();
@@ -70,11 +84,12 @@ public class LessonActivity extends AppCompatActivity {
         "A known German philosopher, Friedrich Nietzche (1844 – 1900), said about the body, 'There is more wisdom in your body than in your deepest philosophies.'\r\n\r\n"+
         "Enjoy discovering yourself!"));
 
-                lessonTitle.setText(excerciseMap.get(user.getCurrent_week()).getExcerciseName());
-        lessonContent.setText(excerciseMap.get(user.getCurrent_week()).getExcerciseContent());
+        lessonTitle.setText(excerciseMap.get(weekId).getExcerciseName());
+        lessonContent.setText(excerciseMap.get(weekId).getExcerciseContent());
+
         if (!completed) {
             // TODO: get currently selected week instead of current program week
-            int week = user.getCurrent_week();
+            int week = weekId;
             ServerRequests.completeExerciseSession(week, this);
         }
     }
