@@ -6,6 +6,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import org.junit.Rule;
 import org.junit.Test;
@@ -101,15 +102,79 @@ public class CreateAccountActivityTest {
         //check for email
         onView(withId(R.id.editUsername)).perform(clearText());
         onView(withId(R.id.editUsername)).perform(typeText("newuser420"));
-        onView(withId(R.id.editPassword)).perform(typeText("short"));
-        onView(withId(R.id.editConfirmPassword)).perform(typeText("short"), closeSoftKeyboard());
+        onView(withId(R.id.editPassword)).perform(typeText("longer"));
+        onView(withId(R.id.editConfirmPassword)).perform(typeText("longer"), closeSoftKeyboard());
+        onView(withId(R.id.createAccountButton)).perform(click());
+        onView(withId(R.id.editEmail))
+                .check(matches(hasErrorText("Please enter email")));
+
+        //check for valid email
+        onView(withId(R.id.editUsername)).perform(clearText());
+        onView(withId(R.id.editUsername)).perform(typeText("newuser420"));
+        onView(withId(R.id.editPassword)).perform(typeText("longer"));
+        onView(withId(R.id.editConfirmPassword)).perform(typeText("longer"), closeSoftKeyboard());
         onView(withId(R.id.editEmail)).perform(typeText("short"));
         onView(withId(R.id.createAccountButton)).perform(click());
         onView(withId(R.id.editEmail))
-                .check(matches(hasErrorText("Invalid email")));
+                .check(matches(hasErrorText("Please enter valid email")));
 
-        //check for gender radiobuttons
+        //check for gender
+//        onView(withId(R.id.editUsername)).perform(clearText());
+//        onView(withId(R.id.editUsername)).perform(typeText("newuser420"));
+//        onView(withId(R.id.editPassword)).perform(typeText("longer"));
+//        onView(withId(R.id.editConfirmPassword)).perform(typeText("longer"), closeSoftKeyboard());
+//        onView(withId(R.id.editEmail)).perform(typeText("short@gmail.com"));
+//        onView(withId(R.id.createAccountButton)).perform(click());
+//        onView(withId(R.id.female))
+//                .check(matches(hasErrorText("Please enter gender")));
 
+        //check for first name empty
+        onView(withId(R.id.editUsername)).perform(clearText());
+        onView(withId(R.id.editUsername)).perform(typeText("newuser420"));
+        onView(withId(R.id.editPassword)).perform(typeText("longer"));
+        onView(withId(R.id.editConfirmPassword)).perform(typeText("longer"), closeSoftKeyboard());
+        onView(withId(R.id.editEmail)).perform(typeText("short@gmail.com"));
+        onView(withId(R.id.male)).check(matches(isChecked()));
+        onView(withId(R.id.createAccountButton)).perform(click());
+        onView(withId(R.id.editFirstname))
+                .check(matches(hasErrorText("First Name field must not be empty")));
+
+        //check for first name is too long
+        onView(withId(R.id.editUsername)).perform(clearText());
+        onView(withId(R.id.editUsername)).perform(typeText("newuser420"));
+        onView(withId(R.id.editPassword)).perform(typeText("longer"));
+        onView(withId(R.id.editConfirmPassword)).perform(typeText("longer"), closeSoftKeyboard());
+        onView(withId(R.id.editEmail)).perform(typeText("short@gmail.com"));
+        onView(withId(R.id.male)).check(matches(isChecked()));
+        onView(withId(R.id.createAccountButton)).perform(click());
+        onView(withId(R.id.editFirstname)).perform(typeText("kjdhfiawhgiuabrlbaeiurgbaieurgbaeiubgaeoubaougbaeiuaieibaaibu"));
+        onView(withId(R.id.editFirstname))
+                .check(matches(hasErrorText("First Name field must be less than 25 characters")));
+
+        //check for last name is empty
+        onView(withId(R.id.editUsername)).perform(clearText());
+        onView(withId(R.id.editUsername)).perform(typeText("newuser420"));
+        onView(withId(R.id.editPassword)).perform(typeText("longer"));
+        onView(withId(R.id.editConfirmPassword)).perform(typeText("longer"), closeSoftKeyboard());
+        onView(withId(R.id.editEmail)).perform(typeText("short@gmail.com"));
+        onView(withId(R.id.male)).check(matches(isChecked()));
+        onView(withId(R.id.createAccountButton)).perform(click());
+        onView(withId(R.id.editFirstname)).perform(typeText("Alice"));
+        onView(withId(R.id.editLastname))
+                .check(matches(hasErrorText("Last Name field must not be empty")));
+
+        //check for last name is too long
+        onView(withId(R.id.editUsername)).perform(clearText());
+        onView(withId(R.id.editUsername)).perform(typeText("newuser420"));
+        onView(withId(R.id.editPassword)).perform(typeText("longer"));
+        onView(withId(R.id.editConfirmPassword)).perform(typeText("longer"), closeSoftKeyboard());
+        onView(withId(R.id.editEmail)).perform(typeText("short@gmail.com"));
+        onView(withId(R.id.male)).check(matches(isChecked()));
+        onView(withId(R.id.createAccountButton)).perform(click());
+        onView(withId(R.id.editFirstname)).perform(typeText("Alice"));
+        onView(withId(R.id.editLastname)).perform(typeText("kjdhfiawhgiuabrlbaeiurgbaieurgbaeiubgaeoubaougbaeiuaieibaaibu"));
+        onView(withId(R.id.editLastname))
+                .check(matches(hasErrorText("Last Name field must be less than 25 characters")));
     }
 
 
