@@ -33,7 +33,13 @@ public class PreferencesActivityTest {
         //test the view on the Preferences page
         onView(withText("Preferences")).check(ViewAssertions.matches(isDisplayed()));
         onView(withText("Username")).check(ViewAssertions.matches(isDisplayed()));
-        onView(allOf(withId(R.id.currentUsername), withText("testaccount"))).check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.currentUsername), withText("ababab"))).check(ViewAssertions.matches(isDisplayed()));
+        onView(withText("First Name")).check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.currentFirstname), withText("abab"))).check(ViewAssertions.matches(isDisplayed()));
+        onView(withText("Last Name")).check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.currentLastname), withText("abab"))).check(ViewAssertions.matches(isDisplayed()));
+        onView(withText("Gender")).check(ViewAssertions.matches(isDisplayed()));
+        onView(allOf(withId(R.id.currentGender), withText("Male"))).check(ViewAssertions.matches(isDisplayed()));
         onView(withText("Meditations")).check(ViewAssertions.matches(isDisplayed()));
         onView(allOf(withId(R.id.meditationTime), withText("12:34 AM"))).check(ViewAssertions.matches(isDisplayed()));
         onView(withText("Lessons")).check(ViewAssertions.matches(isDisplayed()));
@@ -50,6 +56,34 @@ public class PreferencesActivityTest {
         onView(withId(R.id.currentUsernameRow)).check(matches(notNullValue()));
         onView(withId(R.id.currentUsernameText)).check(matches(withText("Username")));
         onView(withId(R.id.currentUsernameRow)).check(matches(not(isClickable())));
+    }
+
+    @Test
+    public void firstNameNotClickable() {
+        onView(withId(R.id.currentFirstnameRow)).check(matches(notNullValue()));
+        onView(withId(R.id.currentFirstnameText)).check(matches(withText("Username")));
+        onView(withId(R.id.currentFirstname)).check(matches(not(isClickable())));
+    }
+
+    @Test
+    public void lastNameNotClickable() {
+        onView(withId(R.id.currentLastnameRow)).check(matches(notNullValue()));
+        onView(withId(R.id.currentLastnameText)).check(matches(withText("Username")));
+        onView(withId(R.id.currentLastname)).check(matches(not(isClickable())));
+    }
+
+    @Test
+    public void genderNotClickable() {
+        onView(withId(R.id.currentGenderRow)).check(matches(notNullValue()));
+        onView(withId(R.id.currentGenderText)).check(matches(withText("Username")));
+        onView(withId(R.id.currentGender)).check(matches(not(isClickable())));
+    }
+
+    @Test
+    public void testMeditationsButton() {
+        onView(withId(R.id.meditationRow)).check(matches(notNullValue()));
+        onView(withId(R.id.meditationTimeText)).check(matches(withText("Lessons")));
+        onView(withId(R.id.meditationRow)).perform(click());
     }
 
     @Test
