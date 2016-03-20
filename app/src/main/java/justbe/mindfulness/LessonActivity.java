@@ -1,13 +1,27 @@
 package justbe.mindfulness;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextPaint;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import justbe.mindfulness.models.Excercise;
@@ -27,6 +41,11 @@ public class LessonActivity extends AppCompatActivity {
      */
 
     TextView lessonTitle, lessonContent;
+    private ViewPager mPager;
+    private FragmentPagerAdapter mPagerAdapter;
+
+    private List<String> pageContents;
+    LinearLayout mPageIndicator = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +59,7 @@ public class LessonActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         lessonTitle =  (TextView) findViewById(R.id.lesson_title_text);
-        lessonContent =  (TextView) findViewById(R.id.lesson_text);
+
 
         User user = App.getSession().getUser();
 
@@ -76,16 +95,98 @@ public class LessonActivity extends AppCompatActivity {
 
         // week 2
         excerciseMap.put(2, new Excercise("WEEK 2: KNOW YOUR BODY",
-                "Awareness of your body is another tool that helps develop the skill of awareness. There are processes in your body happening at all times, whether you are aware of them or not. Those processes are felt as physical sensations. They are anything that you feel on the surface, under your skin or deep inside the body. Familiar examples are pain, hunger, your heart pounding, sweat, and dryness. But there are many more: cold, warmth, pressure, tingling, throbbing, pulsation, lightness, the touch of the atmosphere or your own clothes, contraction, expansion, shivering, and many other sensations that do not even have names attached to them.\r\n\r\n"+
-                "In your meditation, you will systematically bring awareness to each body part, one by one. You will practice objective observation. Patiently, intently, you will notice sensations that exist in each part of your body in a given moment.\r\n\r\n"+
-                "Sensations are constantly changing: sometimes staying for longer periods, sometimes shifting quickly. You might start developing expectations about particular types of sensations in particular body regions. For example, if you have chronic pain, you might expect to come across that pain. During meditation, notice that tendency and try to remain as objective as possible. Be curious what is true in that particular moment. You might be surprised that, besides pain, you could come across pulsation or heat, or anything else. Stay open. The same is true for wanting positive sensations – do not get attached to them, simply notice and observe.\r\n\r\n"+
-        "There is no need to explain sensations: why they are there, what they mean, and whether they are good or bad. There is also no need to name them: feeling is all you need. Your tendency might be to identify with different types of sensations: maybe preferring some over others. Notice that. Remember an image of a friend who listens with great interest, indiscriminately, to what you have to say. Similarly, you are becoming aware of sensations, without preferences for one type or another.\r\n\r\n"+
-        "During your daily practice, bring your awareness to whatever activity you are doing in that moment and a body part involved in that activity. For example, if you are walking, notice your legs moving, sensations in the muscles, and soles of the feet striking the ground. If you are driving, notice sitting bones on the seat, hands on the wheel, and feet on pedals. If you are eating, notice the movement of the tongue, teeth and lips, food swallowing, and sensations in your stomach. If you are watching a TV, notice sensations from sitting, the posture, and facial muscles. Take a few moments to practice objective awareness in whatever you are doing during your day.\r\n\r\n"+
-        "A known German philosopher, Friedrich Nietzche (1844 – 1900), said about the body, 'There is more wisdom in your body than in your deepest philosophies.'\r\n\r\n"+
-        "Enjoy discovering yourself!"));
+                "Awareness of your body is another tool that helps develop the skill of awareness. There are processes in your body happening at all times, whether you are aware of them or not. Those processes are felt as physical sensations. They are anything that you feel on the surface, under your skin or deep inside the body. Familiar examples are pain, hunger, your heart pounding, sweat, and dryness. But there are many more: cold, warmth, pressure, tingling, throbbing, pulsation, lightness, the touch of the atmosphere or your own clothes, contraction, expansion, shivering, and many other sensations that do not even have names attached to them.\r\n\r\n" +
+                        "In your meditation, you will systematically bring awareness to each body part, one by one. You will practice objective observation. Patiently, intently, you will notice sensations that exist in each part of your body in a given moment.\r\n\r\n" +
+                        "Sensations are constantly changing: sometimes staying for longer periods, sometimes shifting quickly. You might start developing expectations about particular types of sensations in particular body regions. For example, if you have chronic pain, you might expect to come across that pain. During meditation, notice that tendency and try to remain as objective as possible. Be curious what is true in that particular moment. You might be surprised that, besides pain, you could come across pulsation or heat, or anything else. Stay open. The same is true for wanting positive sensations – do not get attached to them, simply notice and observe.\r\n\r\n" +
+                        "There is no need to explain sensations: why they are there, what they mean, and whether they are good or bad. There is also no need to name them: feeling is all you need. Your tendency might be to identify with different types of sensations: maybe preferring some over others. Notice that. Remember an image of a friend who listens with great interest, indiscriminately, to what you have to say. Similarly, you are becoming aware of sensations, without preferences for one type or another.\r\n\r\n" +
+                        "During your daily practice, bring your awareness to whatever activity you are doing in that moment and a body part involved in that activity. For example, if you are walking, notice your legs moving, sensations in the muscles, and soles of the feet striking the ground. If you are driving, notice sitting bones on the seat, hands on the wheel, and feet on pedals. If you are eating, notice the movement of the tongue, teeth and lips, food swallowing, and sensations in your stomach. If you are watching a TV, notice sensations from sitting, the posture, and facial muscles. Take a few moments to practice objective awareness in whatever you are doing during your day.\r\n\r\n" +
+                        "A known German philosopher, Friedrich Nietzche (1844 – 1900), said about the body, 'There is more wisdom in your body than in your deepest philosophies.'\r\n\r\n" +
+                        "Enjoy discovering yourself!"));
 
+
+        excerciseMap.put(3, new Excercise("WEEK 3: TITLE","WEEK 3 CONTENT"));
+        excerciseMap.put(4, new Excercise("WEEK 4: TITLE","WEEK 4 CONTENT"));
+        excerciseMap.put(5, new Excercise("WEEK 5: TITLE","WEEK 5 CONTENT"));
+        excerciseMap.put(6, new Excercise("WEEK 6: TITLE","WEEK 6 CONTENT"));
+        excerciseMap.put(7, new Excercise("WEEK 7: TITLE","WEEK 7 CONTENT"));
+        excerciseMap.put(8, new Excercise("WEEK 8: TITLE","WEEK 8 CONTENT"));
+
+        Log.v("Lesson Activity", "" + weekId);
         lessonTitle.setText(excerciseMap.get(weekId).getExcerciseName());
-        lessonContent.setText(excerciseMap.get(weekId).getExcerciseContent());
+
+        //lessonContent.setText(text);
+
+
+        /**/
+        ViewGroup textviewPage = (ViewGroup) getLayoutInflater().inflate(R.layout.fragment, (ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content), false);
+        lessonContent = null;
+        lessonContent =  (TextView) textviewPage.findViewById(R.id.text);
+        String contentString = excerciseMap.get(weekId).getExcerciseContent();
+
+        float horizontalMargin = getResources().getDimension(R.dimen.activity_horizontal_margin) * 2;
+        float verticalMargin = getResources().getDimension(R.dimen.activity_vertical_margin) * 2;
+
+        // obtaining screen dimensions
+        Display display = getWindowManager().getDefaultDisplay();
+        int screenWidth = (int) (display.getWidth() - horizontalMargin);
+        int screenHeight = display.getHeight();
+
+        TextPaint paint = lessonContent.getPaint();
+
+        //clear previous content
+        pageContents = new ArrayList<String>();
+
+        //Working Out How Many Lines Can Be Entered In The Screen
+        Paint.FontMetrics fm = paint.getFontMetrics();
+        float fullHeight = fm.top- fm.bottom;
+        fullHeight = Math.abs(fullHeight);
+
+        int numChars = 0;
+        int lineCount = 0;
+        int maxLineCount = (int) ((screenHeight - (/*actionBarHeight + */ verticalMargin) )/fullHeight);
+        //contentTextView.setLines(maxLineCount);
+
+        // contentString is the whole string of the book
+        int totalPages = 0;
+        while (contentString != null && contentString.length() != 0 )
+        {
+            while ((lineCount < maxLineCount) && (numChars < contentString.length())) {
+                numChars = numChars + paint.breakText(contentString.substring(numChars), true, screenWidth, null);
+                lineCount ++;
+            }
+
+            // retrieve the String to be displayed in the current textbox
+            String toBeDisplayed = contentString.substring(0, numChars);
+            int nextIndex = numChars;
+            char nextChar = nextIndex < contentString.length() ? contentString.charAt(nextIndex) : ' ';
+            if (!Character.isWhitespace(nextChar)) {
+                toBeDisplayed = toBeDisplayed.substring(0, toBeDisplayed.lastIndexOf(" "));
+            }
+            numChars = toBeDisplayed.length();
+            contentString = contentString.substring(numChars);
+
+            pageContents.add(toBeDisplayed.trim());
+
+            numChars = 0;
+            lineCount = 0;
+
+            totalPages ++;
+        }
+        Log.v("TOTAL PAGES",""+totalPages);
+        // Instantiate a ViewPager and a PagerAdapter.
+        mPager = (ViewPager) findViewById(R.id.pager);
+        mPagerAdapter = new TestPagerAdapter(getSupportFragmentManager(), totalPages,"LessonActivity");
+        mPager.setAdapter(mPagerAdapter);
+        mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                showPageIndicator(position);
+            }
+        });
+
+        createPageIndicator();
+
+        /**/
 
         if (!completed) {
             // TODO: get currently selected week instead of current program week
@@ -93,4 +194,58 @@ public class LessonActivity extends AppCompatActivity {
             ServerRequests.completeExerciseSession(week, this);
         }
     }
+
+    @SuppressWarnings("deprecation")
+    private void createPageIndicator() {
+        mPageIndicator = (LinearLayout) findViewById(R.id.pageIndicator);
+        for (int i = 0; i < pageContents.size(); i++) {
+            View view = new View(this);
+            ViewGroup.LayoutParams params = new TableLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT, 1f);
+            view.setLayoutParams(params );
+            view.setBackgroundDrawable(getResources().getDrawable(i == 0 ? R.drawable.current_page_indicator : R.drawable.indicator_background));
+            view.setTag(i);
+            mPageIndicator.addView(view);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    protected void showPageIndicator(int position) {
+        try {
+            mPageIndicator = (LinearLayout) findViewById(R.id.pageIndicator);
+            for (int i = 0; i < pageContents.size(); i++) {
+                View view = mPageIndicator.findViewWithTag(i);
+                view.setBackgroundDrawable(getResources().getDrawable(i == position ? R.drawable.current_page_indicator : R.drawable.indicator_background));
+            }
+        } catch (Exception e) {
+           // Log.e(TAG, e.toString());
+        }
+    }
+
+    public String getContents(int pageNumber){
+        return pageContents.get(pageNumber);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_lesson, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }
