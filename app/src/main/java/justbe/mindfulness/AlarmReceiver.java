@@ -5,6 +5,9 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NotificationCompat;
 
 import java.util.Calendar;
@@ -22,13 +25,14 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-
+        System.out.println("Crash Received: "+action);
         // Make sure we have a action and it is not a boot message
         if (action != null && !action.equals("android.intent.action.BOOT_COMPLETED")) {
-            String[] actionInfo = action.split("|");
+            String[] actionInfo = action.split("##");
             Calendar calendar = Calendar.getInstance();
+            System.out.println("Crash: "+actionInfo[1]);
             calendar.setTimeInMillis(Long.parseLong(actionInfo[1]));
-
+            System.out.println("**********  Receive 1 ****************");
             // Assessment notification
             if (actionInfo[0] == "assessment") {
                 if (calendar.get(Calendar.HOUR_OF_DAY) < 12) {
@@ -55,6 +59,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 context.getString(R.string.pendingMorning) :
                 context.getString(R.string.pendingAfternoon);
 
+        System.out.println("**********  Notify 1 ****************");
         // Build notification
         Intent startAssessmentIntent = new Intent(context, StartAssessmentActivity.class);
         startAssessmentIntent.putExtra("isMorningAssessment", isMorningAssessment);
@@ -66,9 +71,13 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent contentIntent = PendingIntent.getActivity(context, pendingIntentID,
                startAssessmentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         notificationBuilder.setContentIntent(contentIntent);
-
+        System.out.println("**********  Notify 2 ****************");
         // Display the notification
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(notificationID, notificationBuilder.build());
+
+        System.out.println("**********  Notify 3 ****************");
     }
+
+
 }
