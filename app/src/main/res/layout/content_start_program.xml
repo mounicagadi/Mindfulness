@@ -10,9 +10,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_top_margin"
     android:paddingBottom="@dimen/activity_bottom_margin"
-    android:background="@color/colorPrimary"
     tools:context=".StartProgramActivity">
-
+    <!--android:background="@color/colorPrimary"-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +22,7 @@
         android:orientation="vertical"
         android:layout_above="@+id/startButton">
 
-        <ScrollView
+        <!--<ScrollView
         android:layout_width="match_parent"
         android:id="@+id/scroll_bar"
         android:layout_weight="0.37"
@@ -45,7 +44,35 @@
                 android:text="@string/start_info"
                 android:textSize="@dimen/normal_text_size"
                 android:textAlignment="gravity"/>
-    </ScrollView>
+    </ScrollView>-->
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".LessonActivity"
+            android:layout_marginTop="45dp">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:id="@+id/pageIndicator"
+                android:layout_width="match_parent"
+                android:layout_height="6px"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="5dp"
+                android:background="#FFFFFF"
+                android:orientation="horizontal">
+            </LinearLayout>
+
+        </FrameLayout>
+
+
         </LinearLayout>
 
 
@@ -73,6 +100,7 @@
         android:textSize="@dimen/large_text_size"
         android:typeface="sans"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"/>
 
 </RelativeLayout>
