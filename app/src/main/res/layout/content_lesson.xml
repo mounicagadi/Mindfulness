@@ -8,41 +8,47 @@
     android:paddingBottom="@dimen/activity_bottom_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_lesson" tools:context="justbe.mindfulness.LessonActivity">
+
+
     <TextView
         android:id="@+id/lesson_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Lesson Title"
-        android:textColor="@color/done_text_color_normal"
+        android:textColor="@color/black"
         android:textSize="@dimen/lesson_title_text_size"
+        android:layout_gravity="left|top"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp"/>
 
-    <ScrollView
-        android:id="@+id/lesson_text_scroll_view"
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/lesson_title_text"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
-        <RelativeLayout
+        android:orientation="vertical"
+        tools:context=".LessonActivity"
+        android:layout_marginTop="45dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/lesson_title_text"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/lesson_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:text="@string/lorem_ipsum"
-                android:textSize="@dimen/normal_text_size"
-                android:textColor="@color/done_text_color_normal"/>
+        <LinearLayout
+            android:id="@+id/pageIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="6px"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="5dp"
+            android:background="#FFFFFF"
+            android:orientation="horizontal">
+        </LinearLayout>
 
-        </RelativeLayout>
-    </ScrollView>
+    </FrameLayout>
+
 
 
 
