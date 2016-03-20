@@ -34,6 +34,9 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import justbe.mindfulness.models.ExerciseSession;
 import justbe.mindfulness.models.User;
@@ -403,48 +406,56 @@ public class MainActivity extends AppCompatActivity{
                     weekString = weekString.replace(":", "");
                     final String weekText = weekString.trim();
 
-                    progressDialog = new ProgressDialog(MainActivity.this);
-                    progressDialog.setTitle("Loading content for selected week");
-                    progressDialog.setMessage(getString(R.string.pleaseWait));
-                    progressDialog.setCancelable(false);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(),
+                                    weekText+ " content requested. Please wait while the content is fetched..!!", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
 
                     class LoadContent extends AsyncTask {
                         @Override
                         protected void onPreExecute() {
                             super.onPreExecute();
+                            progressDialog = new ProgressDialog(MainActivity.this);
+                            progressDialog.setTitle("Loading content for selected week");
+                            progressDialog.setMessage(getString(R.string.pleaseWait));
+                            progressDialog.setIndeterminate(true);
+                            progressDialog.setCancelable(false);
                             progressDialog.show();
-                            pwindow.dismiss();
                         }
 
                         @Override
                         protected Object doInBackground(Object[] params) {
                             weekContentRequest(weekText, currentWeek);
-                            progressDialog.dismiss();
                             return "";
                         }
 
                         @Override
                         protected void onPostExecute(Object o) {
                             super.onPostExecute(o);
-
-                            /*new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        Thread.currentThread().sleep(5000);
-                                        progressDialog.dismiss();
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }).start();*/
-
-
+                            progressDialog.dismiss();
                         }
                     }
 
 
-                    new LoadContent().execute();
+                    try {
+
+                        pwindow.dismiss();
+                        LoadContent asyncTask = new LoadContent();
+                        asyncTask.execute();
+                        asyncTask.get(5000, TimeUnit.MILLISECONDS);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (TimeoutException e) {
+                        e.printStackTrace();
+                    }
+
+
                     return true;
                 }
             });
