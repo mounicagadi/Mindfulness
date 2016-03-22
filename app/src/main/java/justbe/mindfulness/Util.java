@@ -175,7 +175,12 @@ public class Util {
         return weekImageView;
     }
 
-
+    /** getExerciseForWeek() returns an Exercise bean
+     * with title and lesson content based on week id
+     *
+     *  @param weekId : weekId for which exercise
+     *                  content needs to be fetched
+     * */
     public static Exercise getExerciseForWeek(int weekId){
 
         Exercise exercise = null;
