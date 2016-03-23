@@ -35,6 +35,8 @@
     <string name="other_text">Other</string>
     <string name="wake_up_text">I wake up at </string>
     <string name="go_to_sleep_text">I go to sleep at </string>
+    <string name="wake_up_text_create_account">What time do you wake up in the morning?</string>
+    <string name="go_to_sleep_text_create_account">What time do you go to sleep daily?</string>
     <string name="change_password_text">Change Password</string>
     <string name="log_out_text">Log Out</string>
     <string name="loggingIn">Logging In</string>
@@ -43,8 +45,12 @@
     <string name="pleaseWait">Please wait...</string>
 
     <string name="title_activity_preferences">Preferences</string>
-    <string name="meditations_text">Meditations</string>
-    <string name="lessons_text">Lessons</string>
+    <string name="meditations_text">Meditation Time</string>
+    <string name="lessons_text">Lessons Time</string>
+    <string name="lessons_day_text">Lessons Day</string>
+    <string name="meditations_text_create_account">What time do you want to meditate daily?</string>
+    <string name="lessons_text_create_account">What time on that day would you like to receive the lesson?</string>
+    <string name="lessons_day_text_create_account">What day would you like to receive your weekly lesson?</string>
 
     <string name="title_activity_lesson">Weekly Lesson</string>
     <string name="title_activity_assessment">Assessment</string>
@@ -162,6 +168,16 @@ Communicate your feedback and questions to justbe@gmail.com
     <string name="cannot_logout">Logout Failed</string>
     <string name="cannot_logout_message">Could not logout with the server</string>
     <string name="title_activity_smoke_assessment">SmokeAssessmentActivity</string>
+
+    <string-array name="days_array">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
 
     <string-array name="genders_array">
         <item>Male</item>

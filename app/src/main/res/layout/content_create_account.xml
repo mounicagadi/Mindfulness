@@ -136,147 +136,119 @@
                 android:hint="@string/confim_password_text"/>
         </android.support.design.widget.TextInputLayout>
 
-        <TableLayout
-            android:id="@+id/creatAccountTable"
-            android:orientation="vertical"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="1">
+            android:id="@+id/setupText"
+            android:padding="10dp"
+            android:gravity="center"
+            android:text="@string/title_activity_preferences"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="@dimen/normal_text_size" />
 
-
-        <TableRow
-            android:id="@+id/setupRow"
-            android:paddingTop="5dp"
-            android:background="@drawable/clickable_table_row_selector">
-            <TextView
-                android:id="@+id/setupText"
-                android:layout_span="2"
-                android:padding="10dp"
-                android:gravity="center"
-                android:text="@string/setup"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textSize="@dimen/normal_text_size" />
-        </TableRow>
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="2dp" >
-            <View style="@style/Divider" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/meditationTimeText"
+            android:padding="10dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/meditations_text_create_account"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_text_size" />
 
-        <TableRow
-            android:id="@+id/meditationRow"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:clickable="true"
             android:onClick="showTimePickerDialog"
-            android:background="@drawable/clickable_table_row_selector">
-            <TextView
-                android:id="@+id/meditationTimeText"
-                android:padding="10dp"
-                android:layout_marginStart="5dp"
-                android:text="@string/meditations_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/small_text_size" />
+            android:id="@+id/meditationTime"
+            android:padding="10dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="end"
+            android:textColor="@color/bpTransparent_black"
+            android:textSize="@dimen/small_text_size" />
 
-            <TextView
-                android:id="@+id/meditationTime"
-                android:padding="10dp"
-                android:layout_marginEnd="5dp"
-                android:gravity="end"
-                android:textColor="@color/bpTransparent_black"
-                android:textSize="@dimen/small_text_size" />
-        </TableRow>
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="2dp" >
-            <View style="@style/Divider" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/lesson_dayText"
+            android:padding="10dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/lessons_day_text_create_account"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_text_size" />
 
-        <TableRow
-            android:id="@+id/lessonRow"
+        <Spinner
+            android:id="@+id/days_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lessonTimeText"
+            android:padding="10dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/lessons_text_create_account"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_text_size" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:clickable="true"
             android:onClick="showTimePickerDialog"
-            android:background="@drawable/clickable_table_row_selector">
-            <TextView
-                android:id="@+id/lessonTimeText"
-                android:padding="10dp"
-                android:layout_marginStart="5dp"
-                android:text="@string/lessons_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/small_text_size" />
+            android:id="@+id/lessonTime"
+            android:padding="10dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="end"
+            android:textColor="@color/bpTransparent_black"
+            android:textSize="@dimen/small_text_size"/>
 
-            <TextView
-                android:id="@+id/lessonTime"
-                android:padding="10dp"
-                android:layout_marginEnd="5dp"
-                android:gravity="end"
-                android:textColor="@color/bpTransparent_black"
-                android:textSize="@dimen/small_text_size"/>
-        </TableRow>
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="2dp" >
-            <View style="@style/Divider" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/wakeUpText"
+            android:padding="10dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/wake_up_text_create_account"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_text_size" />
 
-        <TableRow
-            android:id="@+id/wakeUpRow"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:clickable="true"
             android:onClick="showTimePickerDialog"
-            android:background="@drawable/clickable_table_row_selector">
-            <TextView
-                android:id="@+id/wakeUpText"
-                android:padding="10dp"
-                android:layout_marginStart="5dp"
-                android:text="@string/wake_up_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/small_text_size" />
+            android:id="@+id/wakeUpTime"
+            android:padding="10dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="end"
+            android:textColor="@color/bpTransparent_black"
+            android:textSize="@dimen/small_text_size"/>
 
-            <TextView
-                android:id="@+id/wakeUpTime"
-                android:padding="10dp"
-                android:layout_marginEnd="5dp"
-                android:gravity="end"
-                android:textColor="@color/bpTransparent_black"
-                android:textSize="@dimen/small_text_size"/>
-        </TableRow>
-
-        <LinearLayout
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="2dp" >
-            <View style="@style/Divider" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/goToSleepText"
+            android:padding="10dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/go_to_sleep_text_create_account"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_text_size" />
 
-        <TableRow
-            android:id="@+id/goToSleepRow"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:clickable="true"
             android:onClick="showTimePickerDialog"
-            android:background="@drawable/clickable_table_row_selector">
-            <TextView
-                android:id="@+id/goToSleepText"
-                android:padding="10dp"
-                android:layout_marginStart="5dp"
-                android:text="@string/go_to_sleep_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/small_text_size" />
-
-            <TextView
-                android:id="@+id/goToSleepTime"
-                android:padding="10dp"
-                android:layout_marginEnd="5dp"
-                android:gravity="end"
-                android:textColor="@color/bpTransparent_black"
-                android:textSize="@dimen/small_text_size"/>
-        </TableRow>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="2dp" >
-            <View style="@style/Divider" />
-        </LinearLayout>
-    </TableLayout>
+            android:id="@+id/goToSleepTime"
+            android:padding="10dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="end"
+            android:textColor="@color/bpTransparent_black"
+            android:textSize="@dimen/small_text_size"/>
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/createAccountButton"

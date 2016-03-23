@@ -10,6 +10,9 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -28,6 +31,7 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
      */
     private User user;
     private UserProfile userProfile;
+    private Spinner spinner;
     private TextView currentUsername;
     private TextView currentFirstname;
     private TextView currentLastname;
@@ -58,6 +62,28 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
+
+        // Days Spinner for lessons
+        spinner = (Spinner) findViewById(R.id.days_spinner);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.days_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                userProfile.setExercise_day_of_week(spinner.getSelectedItemPosition());
+                ServerRequests.updateUserWithUserProfile(user, userProfile, getApplicationContext());
+                user = App.getSession().getUser();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         // Create the toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -95,6 +121,7 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
         lessonTime = Util.dateToDisplayString(user.getExercise_time());
         wakeUpTime = Util.dateToDisplayString(user.getWake_up_time());
         goToSleepTime = Util.dateToDisplayString(user.getGo_to_sleep_time());
+        spinner.setSelection(user.getExercise_day_of_week());
         setTimeFields();
     }
 
