@@ -180,6 +180,9 @@ public class Util {
      *
      *  @param weekId : weekId for which exercise
      *                  content needs to be fetched
+     *
+     *  @return Exercise bean for current week
+     *  (with title and content)
      * */
     public static Exercise getExerciseForWeek(int weekId){
 
