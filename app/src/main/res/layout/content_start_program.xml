@@ -22,7 +22,7 @@
         android:orientation="vertical"
         android:layout_above="@+id/startButton">
 
-        <!--<ScrollView
+        <ScrollView
         android:layout_width="match_parent"
         android:id="@+id/scroll_bar"
         android:layout_weight="0.37"
@@ -42,35 +42,13 @@
                 android:gravity="left"
                 android:typeface="serif"
                 android:text="@string/start_info"
-                android:textSize="@dimen/normal_text_size"
-                android:textAlignment="gravity"/>
-    </ScrollView>-->
+                android:textSize="@dimen/small_text_size"
+                android:textAlignment="gravity"
+                android:layout_marginTop="5dp"/>
+    </ScrollView>
 
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:context=".LessonActivity"
-            android:layout_marginTop="45dp">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <LinearLayout
-                android:id="@+id/pageIndicator"
-                android:layout_width="match_parent"
-                android:layout_height="6px"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="2dp"
-                android:layout_marginTop="5dp"
-                android:background="#FFFFFF"
-                android:orientation="horizontal">
-            </LinearLayout>
-
-        </FrameLayout>
 
 
         </LinearLayout>
@@ -82,7 +60,7 @@
         android:layout_height="wrap_content"
         android:text="@string/start"
         android:layout_weight="0.2"
-        android:textSize="@dimen/normal_text_size"
+        android:textSize="@dimen/small_text_size"
         android:background="@color/orange"
         android:onClick="startButtonPressed"
         android:layout_alignParentBottom="true"
@@ -97,7 +75,7 @@
         android:text="@string/welcome_msg"
         android:textStyle="bold"
         android:id="@+id/textView2"
-        android:textSize="@dimen/large_text_size"
+        android:textSize="@dimen/small_text_size"
         android:typeface="sans"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
