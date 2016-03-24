@@ -24,32 +24,40 @@
         android:layout_marginBottom="5dp"/>
 
 
-    <FrameLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:id="@+id/matter"
         android:orientation="vertical"
-        tools:context=".LessonActivity"
-        android:layout_marginTop="45dp">
+        android:layout_below="@+id/lesson_title_text">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <LinearLayout
-            android:id="@+id/pageIndicator"
-            android:layout_width="match_parent"
-            android:layout_height="6px"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="5dp"
-            android:background="#FFFFFF"
-            android:orientation="horizontal">
-        </LinearLayout>
-
-    </FrameLayout>
+            android:id="@+id/scroll_bar"
+            android:layout_weight="0.37"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:paddingTop="30dp"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_above="@+id/startButton">
 
 
 
+            <TextView
+                android:id="@+id/lesson_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left"
+                android:typeface="serif"
+                android:text="@string/start_info"
+                android:textSize="@dimen/normal_text_size"
+                android:textAlignment="gravity"/>
+        </ScrollView>
+
+    </LinearLayout>
 
 </RelativeLayout>
