@@ -290,6 +290,31 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
      * @return true if the form is valid, false if it is not
      */
     private boolean validateActivity() {
+
+        if ( first_name_field.getText().length() == 0 ) {
+            first_name_field.setError("The first name field must not be empty");
+            return false;
+        }
+
+        if ( last_name_field.getText().length() == 0 ) {
+            last_name_field.setError("The last name field must not be empty");
+            return false;
+        }
+
+        if ( gender_group.getCheckedRadioButtonId() == -1 ) {
+            Toast.makeText(getApplicationContext(), "Please select Gender", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if ( email_field.getText().length() == 0 ){
+            email_field.setError("The email field must not be empty");
+            return false;
+        }
+        else if ( !(android.util.Patterns.EMAIL_ADDRESS.matcher(email_field.getText()).matches()))
+        {
+            email_field.setError("Please enter valid email");
+            return false;
+        }
         if ( username_field.getText().length() == 0 ) {
             username_field.setError("The username field must not be empty");
             return false;
@@ -302,29 +327,15 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
             username_field.setError("Your username must be less than 16 characters");
             return false;
         }
-
-        if ( ! Util.samePassword(password_field, confirm_password_field) ) {
-            confirm_password_field.setError("Your passwords do not match");
-            return false;
-        } else if ( password_field.getText().length() < 6 ) {
+        if ( password_field.getText().length() < 6 ) {
             password_field.setError("Your password must be at least 6 characters");
             return false;
         }
-
-        if ( email_field.getText().length() == 0 ){
-            Toast.makeText(getApplicationContext(), "Please enter email", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        else if ( !(android.util.Patterns.EMAIL_ADDRESS.matcher(email_field.getText()).matches()) )
-        {
-            Toast.makeText(getApplicationContext(), "Please enter valid email", Toast.LENGTH_SHORT).show();
+         else if ( ! Util.samePassword(password_field, confirm_password_field) ) {
+            confirm_password_field.setError("Your passwords do not match");
             return false;
         }
 
-        if ( gender_group.getCheckedRadioButtonId() == -1 ) {
-            Toast.makeText(getApplicationContext(), "Please select Gender", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
+       return true;
     }
 }
