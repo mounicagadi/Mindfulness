@@ -92,60 +92,63 @@ public class LoginActivity extends AppCompatActivity  {
      * @param view The View
      */
     public void loginPressed(View view) {
+
+        if(validateLogin()){
+            progressDialog.show();
+
+            // Run login within a thread
+            Thread logInThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    // Get the username and password from their respective fields
+                    String username = username_field.getText().toString();
+                    String password = password_field.getText().toString();
+                    // Attempt to login and save the result
+                    if(login(username, password)) {
+                        loginHandler.sendEmptyMessage(0);
+                    } else {
+                        loginHandler.sendEmptyMessage(1);
+                    }
+                }
+            });
+
+            // Start the thread and wait till its done
+            logInThread.start();
+
+            // Handler to deal with the result of the login thread
+            loginHandler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    // Log in succeeded
+                    if(msg.what == 0) {
+                        Session session = App.getSession();
+                        User user = session.getUser();
+                        sessionManager.createLoginSession(session.getSessionId(), session.getCsrfToken(),
+                                user);
+
+                        // If user hasn't started program yet, go to StartProgramActivity
+                        if (user.getCurrent_week() == 0) {
+                            Intent intent = new Intent(getApplicationContext(), StartProgramActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                        else {
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                        progressDialog.dismiss();
+                        finish();
+                    } else { // Log in failed
+                        password_field = (EditText) findViewById(R.id.editPassword);
+                        password_field.setError("Password and username didn't match an account");
+                        progressDialog.dismiss();
+                    }
+                }
+            };
+        }
         // Display the logging in spinner
-        progressDialog.show();
 
-        // Run login within a thread
-        Thread logInThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // Get the username and password from their respective fields
-                String username = username_field.getText().toString();
-                String password = password_field.getText().toString();
-
-                // Attempt to login and save the result
-                if(login(username, password)) {
-                    loginHandler.sendEmptyMessage(0);
-                } else {
-                    loginHandler.sendEmptyMessage(1);
-                }
-            }
-        });
-
-        // Start the thread and wait till its done
-        logInThread.start();
-
-        // Handler to deal with the result of the login thread
-        loginHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                // Log in succeeded
-                if(msg.what == 0) {
-                    Session session = App.getSession();
-                    User user = session.getUser();
-                    sessionManager.createLoginSession(session.getSessionId(), session.getCsrfToken(),
-                            user);
-
-                    // If user hasn't started program yet, go to StartProgramActivity
-                    if (user.getCurrent_week() == 0) {
-                        Intent intent = new Intent(getApplicationContext(), StartProgramActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                    else {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                    progressDialog.dismiss();
-                    finish();
-                } else { // Log in failed
-                    password_field = (EditText) findViewById(R.id.editPassword);
-                    password_field.setError("Password and username didn't match an account");
-                    progressDialog.dismiss();
-                }
-            }
-        };
     }
 
     /**
@@ -156,6 +159,35 @@ public class LoginActivity extends AppCompatActivity  {
         Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
+    }
+	
+	/** validateLogin() will validate for username and password policy
+	*   username must be between 6 and 16 characters
+	*   password must be at least 6 characters
+	
+	*/
+	
+	public Boolean validateLogin(){
+
+        if ( username_field.getText().length() == 0 ) {
+            username_field.setError("The username field must not be empty");
+            return false;
+        }
+        else if ( username_field.getText().length() < 6 ) {
+            username_field.setError("Your username must be at least 6 characters");
+            return false;
+        }
+        else if ( username_field.getText().length() > 16 ) {
+            username_field.setError("Your username must be less than 16 characters");
+            return false;
+        }
+        else if ( password_field.getText().length() < 6 ) {
+            password_field.setError("Your password must be at least 6 characters");
+            return false;
+        }
+
+
+        return true;
     }
 
     /***********************************************************************************************
