@@ -35,6 +35,8 @@
     <string name="other_text">Other</string>
     <string name="wake_up_text">I wake up at </string>
     <string name="go_to_sleep_text">I go to sleep at </string>
+    <string name="wake_up_text_create_account">What time do you wake up in the morning?</string>
+    <string name="go_to_sleep_text_create_account">What time do you go to sleep daily?</string>
     <string name="change_password_text">Change Password</string>
     <string name="log_out_text">Log Out</string>
     <string name="loggingIn">Logging In</string>
@@ -43,8 +45,12 @@
     <string name="pleaseWait">Please wait...</string>
 
     <string name="title_activity_preferences">Preferences</string>
-    <string name="meditations_text">Meditations</string>
-    <string name="lessons_text">Lessons</string>
+    <string name="meditations_text">Meditation Time</string>
+    <string name="lessons_text">Lessons Time</string>
+    <string name="lessons_day_text">Lessons Day</string>
+    <string name="meditations_text_create_account">What time do you want to meditate daily?</string>
+    <string name="lessons_text_create_account">What time on that day would you like to receive the lesson?</string>
+    <string name="lessons_day_text_create_account">What day would you like to receive your weekly lesson?</string>
 
     <string name="title_activity_lesson">Weekly Lesson</string>
     <string name="title_activity_assessment">Assessment</string>
@@ -62,7 +68,7 @@ your eyes and try not to think of anything. If a thought comes up, mark a tally 
 
 time it is about the future. Place a tally mark on the paper near your left hand if it is about the past. Do the exercise
 
-for 1 minute, then open your eyes and count the marks.\r\n\r\n
+for 1 minute, then open your eyes and count the marks.\n
 
 Likely, your mind has jumped to the past or the future several times during the exercise. There is no inherent
 
@@ -74,7 +80,7 @@ experience into your daily life. You will do daily exercises that build awarenes
 
 physical sensations. These processes influence your day-to-day functioning and influence your life quality and
 
-relationships with yourself, others and life in general.\r\n\r\n
+relationships with yourself, others and life in general.\n
 
 Think of this example: you are at work and have mild symptoms of a headache. If these symptoms go unnoticed, it
 
@@ -86,7 +92,7 @@ This program won’t teach you how to change your lifestyle. In fact, it is not 
 
 Instead, it will teach you three important tools: AWARENESS, NON-RESISTANCE and UNCONDITIONAL LOVE. Then,
 
-you will be equipped to use these skills to live an authentic and harmonious life.\r\n\r\n
+you will be equipped to use these skills to live an authentic and harmonious life.\n
 
 AWARENESS is objective information, unclouded by judgment. Imagine sitting with a friend and pouring your heart
 
@@ -106,7 +112,7 @@ with unconditional self-love, you won’t be motivated to make choices based on 
 
 love, you will be free to choose what the best option is for you and those around you. Without resistance, you will
 
-build resilience to handle emotions, thoughts, and events coming your way.\r\n\r\n
+build resilience to handle emotions, thoughts, and events coming your way.\n
 
 This program is not a miracle, but it will equip you with important tools that can be applied daily. No intellectual
 
@@ -122,11 +128,11 @@ a difference, the only metric of progress is your daily practice, no matter of i
 
 components: guided meditations and daily applications to your life. Guided meditation is dedicated time to develop
 
-new skills, and daily applications are opportunities to apply the skills to your life.\r\n\r\n\r\n
+new skills, and daily applications are opportunities to apply the skills to your life.\n
 
-Enjoy your “JustBe” journey!\r\n\r\n
+Enjoy your “JustBe” journey!\n
 
-Communicate your feedback and questions to justbe@gmail.com\r\n\r\n
+Communicate your feedback and questions to justbe@gmail.com
 
 
     </string>
@@ -162,6 +168,16 @@ Communicate your feedback and questions to justbe@gmail.com\r\n\r\n
     <string name="cannot_logout">Logout Failed</string>
     <string name="cannot_logout_message">Could not logout with the server</string>
     <string name="title_activity_smoke_assessment">SmokeAssessmentActivity</string>
+
+    <string-array name="days_array">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
 
     <string-array name="genders_array">
         <item>Male</item>
