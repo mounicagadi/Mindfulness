@@ -1,6 +1,5 @@
 package justbe.mindfulness;
 
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -13,12 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +30,6 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
      */
     private User user;
     private UserProfile userProfile;
-    private Spinner spinner;
     private EditText first_name_field;
     private EditText last_name_field;
     private EditText email_field;
@@ -68,14 +63,6 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
-
-        // Days Spinner for lessons
-        spinner = (Spinner) findViewById(R.id.days_spinner);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.days_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
 
         // Create Toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -149,19 +136,19 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
     public void saveTimes(int buttonID, Date time) {
         // Check to see what field we are editing
         switch (buttonID) {
-            case R.id.meditationTime:
+            case R.id.meditationRow:
                 meditationTime = Util.dateToDisplayString(time);
                 userProfile.setMeditation_time(Util.dateToUserProfileString(time));
                 break;
-            case R.id.lessonTime:
+            case R.id.lessonRow:
                 lessonTime = Util.dateToDisplayString(time);
                 userProfile.setExercise_time(Util.dateToUserProfileString(time));
                 break;
-            case R.id.wakeUpTime:
+            case R.id.wakeUpRow:
                 wakeUpTime = Util.dateToDisplayString(time);
                 userProfile.setWake_up_time(Util.dateToUserProfileString(time));
                 break;
-            case R.id.goToSleepTime:
+            case R.id.goToSleepRow:
                 goToSleepTime = Util.dateToDisplayString(time);
                 userProfile.setGo_to_sleep_time(Util.dateToUserProfileString(time));
                 break;
@@ -230,7 +217,6 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
                     user.setFirst_name(first_name_field.getText().toString());
                     user.setLast_name(last_name_field.getText().toString());
                     userProfile.setGender(gender);
-                    userProfile.setExercise_day_of_week(spinner.getSelectedItemPosition());
                     user.setEmail(email_field.getText().toString());
                     user.setUsername(username_field.getText().toString());
                     user.setRaw_password(password_field.getText().toString());
@@ -301,10 +287,10 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
             return false;
         }
 
-        if ( gender_group.getCheckedRadioButtonId() == -1 ) {
+       /* if ( gender_group.getCheckedRadioButtonId() == -1 ) {
             Toast.makeText(getApplicationContext(), "Please select Gender", Toast.LENGTH_SHORT).show();
             return false;
-        }
+        }*/
 
         if ( email_field.getText().length() == 0 ){
             email_field.setError("The email field must not be empty");
@@ -327,10 +313,11 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
             username_field.setError("Your username must be less than 16 characters");
             return false;
         }
-        if ( password_field.getText().length() < 6 ) {
+        else if ( password_field.getText().length() < 6 ) {
             password_field.setError("Your password must be at least 6 characters");
             return false;
         }
+
          else if ( ! Util.samePassword(password_field, confirm_password_field) ) {
             confirm_password_field.setError("Your passwords do not match");
             return false;
