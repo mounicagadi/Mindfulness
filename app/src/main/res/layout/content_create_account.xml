@@ -60,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/male_text"
+                android:checked="true"
                 android:onClick="onGenderButtonClicked"/>
             <RadioButton android:id="@+id/female"
                 android:layout_width="wrap_content"
@@ -234,7 +235,7 @@
             android:id="@+id/goToSleepText"
             android:padding="10dp"
             android:layout_marginStart="5dp"
-            android:text="@string/go_to_sleep_text_create_account"
+                android:text="@string/go_to_sleep_text_create_account"
             android:textColor="@color/black"
             android:textSize="@dimen/small_text_size" />
 
