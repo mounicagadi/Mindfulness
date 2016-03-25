@@ -28,50 +28,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 
-/*
 @RunWith(AndroidJUnit4.class)
 public class StartProgramActivityTest {
 
 
-    @Rule
-    public IntentsTestRule startProgramIntentRule = new IntentsTestRule(StartProgramActivity.class);
-
-   */
-/* @Test
-    public void testStartText() {
-        //Information about starting program is present
-        onView(withId(R.id.startText)).check(matches(notNullValue()));
-
-        // Make sure it has the appropriate information
-        onView(withId(R.id.startText)).check(matches(withText(R.string.start_info)));
-    }
-
-    // Make sure the start program button is available
-    @Test
-    public void testStartButton() {
-        onView(withId(R.id.startButton)).check(matches(notNullValue()));
-        onView(withId(R.id.startButton)).check(matches(withText("Start")));
-    }
-
-    @Test
-    public void testWelcomeText() {
-        onView(withId(R.id.textView2)).check(matches(notNullValue()));
-        onView(withId(R.id.textView2)).check(matches(withText(R.string.welcome_msg)));
-    }
-*//*
-
-    @Test
-    public void testStartButtonClick() {
-        onView(withId(R.id.startButton)).perform(click());
-        //intended(hasComponent(MainActivity.class.getName()));
-    }
-}*/
-
-@RunWith(MockitoJUnitRunner.class)
-public class StartProgramActivityTest {
-
-
-    @Rule
+   @Rule
     public IntentsTestRule startProgramIntentRule = new IntentsTestRule(StartProgramActivity.class);
     private UserProfile userProfile;
 
@@ -128,3 +89,5 @@ public class StartProgramActivityTest {
         intended(hasComponent(MainActivity.class.getName()));
     }
 }
+
+
