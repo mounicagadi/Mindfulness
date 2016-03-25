@@ -170,29 +170,25 @@ public class CreateAccountActivityTest{
     ///////////////////////test the time picker  not yet///////////////////////
     @Test
     public void testMeditationsButton() {
-        onView(withId(R.id.meditationRow)).check(matches(notNullValue()));
-        onView(withId(R.id.meditationTimeText)).check(matches(withText("Meditations")));
-        onView(withId(R.id.meditationRow)).perform(scrollTo(),click());
+        onView(withId(R.id.meditationTimeText)).perform(scrollTo()).check(matches(withText("What time do you want to meditate daily?")));
+        onView(withId(R.id.meditationTime)).perform(scrollTo(),click());
     }
     @Test
     public void testLessonsButton() {
-        onView(withId(R.id.lessonRow)).check(matches(notNullValue()));
-        onView(withId(R.id.lessonTimeText)).check(matches(withText("Lessons")));
-        onView(withId(R.id.lessonRow)).perform(scrollTo(),click());
+        onView(withId(R.id.lessonTimeText)).perform(scrollTo()).check(matches(withText("What time on that day would you like to receive the lesson?")));
+        onView(withId(R.id.lessonTime)).perform(scrollTo(), click());
     }
 
     @Test
     public void testWakeUpButton() {
-        onView(withId(R.id.wakeUpRow)).check(matches(notNullValue()));
-        onView(withId(R.id.wakeUpText)).check(matches(withText("I wake up at")));
-        onView(withId(R.id.wakeUpRow)).perform(scrollTo(),click());
+        onView(withId(R.id.wakeUpText)).perform(scrollTo()).check(matches(withText("What time do you wake up in the morning?")));
+        onView(withId(R.id.wakeUpTime)).perform(scrollTo(), click());
     }
 
     @Test
     public void testGoToSleepButton() {
-        onView(withId(R.id.goToSleepRow)).check(matches(notNullValue()));
-        onView(withId(R.id.goToSleepText)).check(matches(withText("I go to sleep at")));
-        onView(withId(R.id.goToSleepRow)).perform(scrollTo(),click());
+        onView(withId(R.id.goToSleepText)).perform(scrollTo()).check(matches(withText("What time do you go to sleep daily?")));
+        onView(withId(R.id.goToSleepTime)).perform(scrollTo(),click());
     }
 
     @Test
@@ -211,11 +207,11 @@ public class CreateAccountActivityTest{
 
         onView(withId(R.id.editFirstname)).perform(typeText("alice"), closeSoftKeyboard());
         onView(withId(R.id.editLastname)).perform(typeText("wonderland"), closeSoftKeyboard());
-        onView(withId(R.id.editEmail)).perform(typeText("alice@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.editEmail)).perform(typeText("alice234562356123@gmail.com"), closeSoftKeyboard());
         //clear the text
         onView(withId(R.id.editUsername)).perform(clearText());
         //type username
-        onView(withId(R.id.editUsername)).perform(typeText("alice123"), closeSoftKeyboard());
+        onView(withId(R.id.editUsername)).perform(typeText("alice9999911"), closeSoftKeyboard());
         //type password
         onView(withId(R.id.editPassword)).perform(typeText("333333"), closeSoftKeyboard());
         //confirmPassword

@@ -141,7 +141,7 @@ public class LoginActivity extends AppCompatActivity  {
                         finish();
                     } else { // Log in failed
                         password_field = (EditText) findViewById(R.id.editPassword);
-                        password_field.setError("Password and username didn't match an account");
+                        password_field.setError("Invalid Username/password");
                         progressDialog.dismiss();
                     }
                 }
@@ -169,6 +169,10 @@ public class LoginActivity extends AppCompatActivity  {
 	
 	public Boolean validateLogin(){
 
+        if ( username_field.getText().length() == 0 && password_field.getText().length() == 0) {
+            password_field.setError("Please enter the username and password");
+            return false;
+        }
         if ( username_field.getText().length() == 0 ) {
             username_field.setError("The username field must not be empty");
             return false;

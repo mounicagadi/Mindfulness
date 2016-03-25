@@ -54,13 +54,8 @@ public class LoginActivityTest {
         onView(withId(R.id.editUsername))
                 .perform(typeText("HELLOIAMNOTREAL"), closeSoftKeyboard());
         onView(withId(R.id.editPassword))
-                .perform(typeText("short"), closeSoftKeyboard());
+                .perform(typeText("short12345"), closeSoftKeyboard());
         // check that the button is there
-        onView(withId(R.id.loginButton)).check(matches(notNullValue()));
-        onView(withId(R.id.loginButton)).check(matches(withText("Login")));
-        // Error shouldn't appear until after button is pressed
-        onView(withText("Username does not exist"))
-                .check(doesNotExist());
         onView(withId(R.id.loginButton)).perform(click());
         // error is displayed after wrong credentials entered
         onView(withId(R.id.editPassword))
@@ -78,7 +73,7 @@ public class LoginActivityTest {
         // Error shouldn't appear until after button is pressed
         onView(withId(R.id.loginButton)).perform(click());
         onView(withId(R.id.editUsername))
-                .check(matches(hasErrorText("Username cannot be null")));
+                .check(matches(hasErrorText("The username field must not be empty")));
     }
     @Test
     public void shortUsername(){
@@ -113,7 +108,7 @@ public class LoginActivityTest {
     }
 
     @Test
-    public void nullPassword(){
+    public void shortPassword(){
 
         onView(withId(R.id.editUsername))
                 .perform(typeText("testing"), closeSoftKeyboard());
@@ -123,7 +118,7 @@ public class LoginActivityTest {
         // Error shouldn't appear until after button is pressed
         onView(withId(R.id.loginButton)).perform(click());
         onView(withId(R.id.editPassword))
-                .check(matches(hasErrorText("Password cannot be null")));
+                .check(matches(hasErrorText("Your password must be at least 6 characters")));
     }
 
     @Test
