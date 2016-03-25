@@ -52,7 +52,7 @@ public class LoginActivityTest {
     @Test
     public void testFailedLogin() {
         onView(withId(R.id.editUsername))
-                .perform(typeText("HELLOIAMNOTREAL"));
+                .perform(typeText("HELLOIAMNOTREAL"), closeSoftKeyboard());
         onView(withId(R.id.editPassword))
                 .perform(typeText("short"), closeSoftKeyboard());
         // check that the button is there
@@ -80,15 +80,46 @@ public class LoginActivityTest {
         onView(withId(R.id.editUsername))
                 .check(matches(hasErrorText("Username cannot be null")));
     }
+    @Test
+    public void shortUsername(){
+
+        onView(withId(R.id.editUsername))
+                .perform(typeText("test"), closeSoftKeyboard());
+        onView(withId(R.id.editPassword))
+                .perform(typeText("testing"), closeSoftKeyboard());
+        // check that the button is there
+        onView(withId(R.id.loginButton)).check(matches(notNullValue()));
+        onView(withId(R.id.loginButton)).check(matches(withText("Login")));
+        // Error shouldn't appear until after button is pressed
+        onView(withId(R.id.loginButton)).perform(click());
+        onView(withId(R.id.editUsername))
+                .check(matches(hasErrorText("Your username must be at least 6 characters")));
+    }
+
+    @Test
+    public void longUsername(){
+
+        onView(withId(R.id.editUsername))
+                .perform(typeText("testasdasdasdasdasdasdasdadasdasdasdasdasd"), closeSoftKeyboard());
+        onView(withId(R.id.editPassword))
+                .perform(typeText("testing"), closeSoftKeyboard());
+        // check that the button is there
+        onView(withId(R.id.loginButton)).check(matches(notNullValue()));
+        onView(withId(R.id.loginButton)).check(matches(withText("Login")));
+        // Error shouldn't appear until after button is pressed
+        onView(withId(R.id.loginButton)).perform(click());
+        onView(withId(R.id.editUsername))
+                .check(matches(hasErrorText("Your username must be less than 16 characters")));
+    }
 
     @Test
     public void nullPassword(){
 
         onView(withId(R.id.editUsername))
-                .perform(typeText("testing"));
+                .perform(typeText("testing"), closeSoftKeyboard());
         // check that the button is there
-        onView(withId(R.id.loginButton)).check(matches(notNullValue()));
-        onView(withId(R.id.loginButton)).check(matches(withText("Login")));
+        /*onView(withId(R.id.loginButton)).check(matches(notNullValue()));
+        onView(withId(R.id.loginButton)).check(matches(withText("Login")));*/
         // Error shouldn't appear until after button is pressed
         onView(withId(R.id.loginButton)).perform(click());
         onView(withId(R.id.editPassword))
@@ -107,24 +138,39 @@ public class LoginActivityTest {
                 .check(matches(hasErrorText("Please enter the username and password")));
     }
 
-
-
     @Test
-    public void testSuccessfulLogin() {
+    public void invalidUsernameLogin() {
         //type username
         onView(withId(R.id.editUsername))
-                .perform(typeText("testaccount"));
+                .perform(typeText("ababab1234"), closeSoftKeyboard());
         //tyoe password
         onView(withId(R.id.editPassword))
-                .perform(typeText("testtest"), closeSoftKeyboard());
+                .perform(typeText("ababab"), closeSoftKeyboard());
         //cilck the login button
         onView(withId(R.id.loginButton)).perform(click());
         //go to MainActivity page
-        intended(hasComponent(MainActivity.class.getName()));
-        //login in button disappear
-        onView(withText("Login")).check(doesNotExist());
+        onView(withId(R.id.editPassword))
+                .check(matches(hasErrorText("Invalid Username/password")));
 
     }
+
+    @Test
+    public void invalidPasswordLogin() {
+        //type username
+        onView(withId(R.id.editUsername))
+                .perform(typeText("ababab"), closeSoftKeyboard());
+        //tyoe password
+        onView(withId(R.id.editPassword))
+                .perform(typeText("ababab1234"), closeSoftKeyboard());
+        //cilck the login button
+        onView(withId(R.id.loginButton)).perform(click());
+        //go to MainActivity page
+        onView(withId(R.id.editPassword))
+                .check(matches(hasErrorText("Invalid Username/password")));
+
+    }
+
+
 }
 
 ///done
