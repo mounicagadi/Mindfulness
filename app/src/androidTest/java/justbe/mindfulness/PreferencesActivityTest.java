@@ -4,9 +4,16 @@ import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.Calendar;
+
+import justbe.mindfulness.models.ExerciseSession;
+import justbe.mindfulness.models.User;
+import justbe.mindfulness.models.UserProfile;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -27,6 +34,33 @@ public class PreferencesActivityTest {
 
     @Rule
     public IntentsTestRule prefActivityRule = new IntentsTestRule(PreferencesActivity.class);
+    private UserProfile userProfile;
+
+    @Before
+    public void setUp() {
+
+
+        userProfile = new UserProfile();
+        userProfile.setCurrent_week(1);
+        userProfile.setGo_to_sleep_time(Calendar.getInstance().getTime().toString());
+        userProfile.setWake_up_time(Calendar.getInstance().getTime().toString());
+        userProfile.setGo_to_sleep_time(Calendar.getInstance().getTime().toString());
+        userProfile.setExercise_day_of_week(1);
+        userProfile.setExercise_time(Calendar.getInstance().getTime().toString());
+        userProfile.setGender(1);
+        userProfile.setMeditation_time(Calendar.getInstance().getTime().toString());
+        userProfile.setBirthday(Calendar.getInstance().getTime().toString());
+
+        User user =  App.getSession().getUser();
+        user.addUserProfileData(userProfile);
+        user.setUsername("ababab");
+        //user.setBirthday(Calendar.getInstance().getTime().toString());
+        user.setCreated_at(Calendar.getInstance().getTime().toString());
+        ExerciseSession exercise = new ExerciseSession();
+        exercise.setExercise_id(11);
+        user.setEmail("ababab@gmail.com");
+        App.getSession().setUser(user);
+    }
 
     @Test
     public void testViewDisplay() {

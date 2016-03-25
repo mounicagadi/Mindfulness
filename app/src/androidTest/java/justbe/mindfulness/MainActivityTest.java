@@ -16,9 +16,16 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.Calendar;
+
+import justbe.mindfulness.models.ExerciseSession;
+import justbe.mindfulness.models.User;
+import justbe.mindfulness.models.UserProfile;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -26,6 +33,33 @@ public class MainActivityTest {
 
     @Rule
     public IntentsTestRule mActivityRule = new IntentsTestRule(MainActivity.class);
+    private UserProfile userProfile;
+
+    @Before
+    public void setUp() {
+
+
+        userProfile = new UserProfile();
+        userProfile.setCurrent_week(1);
+        userProfile.setGo_to_sleep_time(Calendar.getInstance().getTime().toString());
+        userProfile.setWake_up_time(Calendar.getInstance().getTime().toString());
+        userProfile.setGo_to_sleep_time(Calendar.getInstance().getTime().toString());
+        userProfile.setExercise_day_of_week(1);
+        userProfile.setExercise_time(Calendar.getInstance().getTime().toString());
+        userProfile.setGender(1);
+        userProfile.setMeditation_time(Calendar.getInstance().getTime().toString());
+
+
+        User user =  new User();
+        user.addUserProfileData(userProfile);
+        user.setUsername("abababa");
+        user.setCreated_at(Calendar.getInstance().getTime().toString());
+        ExerciseSession exercise = new ExerciseSession();
+        exercise.setExercise_id(11);
+        user.setEmail("ababab@gmail.com");
+        App.getSession().setUser(user);
+
+    }
 
     //test preferenceButton on main page
     @Test
