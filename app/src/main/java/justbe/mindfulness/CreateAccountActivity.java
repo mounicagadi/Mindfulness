@@ -1,5 +1,7 @@
 package justbe.mindfulness;
 
+import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +13,16 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Date;
 import justbe.mindfulness.models.User;
 import justbe.mindfulness.models.UserProfile;
 
@@ -33,6 +42,10 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText confirm_password_field;
     private Integer gender = DEFAULT_GENDER;
     private RadioGroup gender_group;
+	private String meditationTime;
+    private String lessonTime;
+    private String wakeUpTime;
+    private String goToSleepTime;
 
     private ProgressDialog progressDialog;
     private static Handler createAccountHandler;
