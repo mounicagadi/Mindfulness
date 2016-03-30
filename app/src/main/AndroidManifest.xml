@@ -91,13 +91,30 @@
                 android:value="justbe.mindfulness.MainActivity" />
         </activity>
 
-        <receiver
-            android:name="justbe.mindfulness.AlarmReceiver"
+        
+	 <receiver
+            android:name=".AlarmReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name=".MeditationAlarmReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".LessonAlarmReceiver"
+
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+		
 
         <activity
             android:name="justbe.mindfulness.StartAssessmentActivity"
