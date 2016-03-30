@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true" >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="56dp"
+        android:paddingBottom="@dimen/activity_bottom_margin"
+        tools:showIn="@layout/activity_lesson_time"
+        tools:context="justbe.mindfulness.LessonTimeActivity"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lesson_dayText"
+            android:padding="10dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/lessons_day_text_create_account"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_text_size" />
+
+        <Spinner
+            android:id="@+id/days_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lessonTimeText"
+            android:padding="10dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/lessons_text_create_account"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_text_size" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="showTimePickerDialog"
+            android:id="@+id/lessonTime"
+            android:padding="10dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="end"
+            android:textColor="@color/bpTransparent_black"
+            android:textSize="@dimen/small_text_size"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/lessonNextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="20dp"
+            android:padding="12dp"
+            android:onClick="lessonNextButtonPressed"
+            android:text="@string/next_button"/>
+
+    </LinearLayout>
+</ScrollView>

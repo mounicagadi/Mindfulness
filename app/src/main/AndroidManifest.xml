@@ -41,6 +41,21 @@
             android:parentActivityName="justbe.mindfulness.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name="justbe.mindfulness.SleepTimeActivity"
+            android:label="@string/title_activity_sleep_time"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="justbe.mindfulness.LessonTimeActivity"
+            android:label="@string/title_activity_lesson_time"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="justbe.mindfulness.MeditationTimeActivity"
+            android:label="@string/title_activity_meditation_time"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name="justbe.mindfulness.PreferencesActivity"
             android:label="Preferences"
             android:launchMode="singleTask"

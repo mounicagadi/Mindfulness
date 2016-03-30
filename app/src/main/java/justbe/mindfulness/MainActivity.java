@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity{
 //        if (!comms.checkPebbleConnection()) {
 //            Toast.makeText(App.context(), "No Pebble connection detected!", Toast.LENGTH_LONG).show();
 //        }
-        setUpAlarms("assessment", 4, true);
+        //setUpAlarms("assessment", 4, true);
 //        setUpAlarms("pebble", 5, false);
     }
 
@@ -534,7 +534,7 @@ public class MainActivity extends AppCompatActivity{
      * @param count The amount of alarms that should be generated
      * @param deleteOldAlarms If old alarms should be deleted first
      */
-    private void setUpAlarms(String action, int count, boolean deleteOldAlarms) {
+    /*private void setUpAlarms(String action, int count, boolean deleteOldAlarms) {
         Date userAwakeTime = user.getWake_up_time();
         Date userSleepTime = user.getGo_to_sleep_time();
         //Date userAwakeTime = null, userSleepTime = null;
@@ -570,5 +570,5 @@ public class MainActivity extends AppCompatActivity{
             e.printStackTrace();
 
         }
-    }
+    }*/
 }

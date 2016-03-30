@@ -1,7 +1,5 @@
 package justbe.mindfulness;
 
-import android.app.Activity;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,45 +11,28 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Date;
-
 import justbe.mindfulness.models.User;
 import justbe.mindfulness.models.UserProfile;
 
-public class CreateAccountActivity extends AppCompatActivity implements RefreshViewListener {
+public class CreateAccountActivity extends AppCompatActivity {
 
     /*
      * Fields
      */
+    private int DEFAULT_GENDER = 0;
     private User user;
     private UserProfile userProfile;
-    private Spinner spinner;
     private EditText first_name_field;
     private EditText last_name_field;
     private EditText email_field;
     private EditText username_field;
     private EditText password_field;
     private EditText confirm_password_field;
-    private Integer gender;
+    private Integer gender = DEFAULT_GENDER;
     private RadioGroup gender_group;
-    private TextView meditationTimeText;
-    private TextView lessonTimeText;
-    private TextView wakeUpTimeText;
-    private TextView goToSleepTimeText;
-
-    private String meditationTime;
-    private String lessonTime;
-    private String wakeUpTime;
-    private String goToSleepTime;
 
     private ProgressDialog progressDialog;
     private static Handler createAccountHandler;
@@ -68,14 +49,6 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
-
-        // Days Spinner for lessons
-        spinner = (Spinner) findViewById(R.id.days_spinner);
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.days_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
 
         // Create Toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -102,18 +75,6 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
         username_field = (EditText) findViewById(R.id.editUsername);
         password_field = (EditText) findViewById(R.id.editPassword);
         confirm_password_field = (EditText) findViewById(R.id.editConfirmPassword);
-        meditationTimeText = (TextView) findViewById(R.id.meditationTime);
-        lessonTimeText = (TextView) findViewById(R.id.lessonTime);
-        wakeUpTimeText = (TextView) findViewById(R.id.wakeUpTime);
-        goToSleepTimeText = (TextView) findViewById(R.id.goToSleepTime);
-
-        // Set the fields to the user's values
-        String currentTime = Util.dateToDisplayString(new Date());
-        meditationTime = currentTime;
-        lessonTime = currentTime;
-        wakeUpTime = currentTime;
-        goToSleepTime = currentTime;
-        setTimeFields();
 
         // TextChangedListener to handle error dismissal
         password_field.addTextChangedListener(new TextWatcher() {
@@ -133,63 +94,8 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
     }
 
     /***********************************************************************************************
-     * RefreshViewListener Functions
-     **********************************************************************************************/
-
-    /**
-     * Sets time fields on view, callable from anywhere
-     */
-    public void refreshView() {
-        setTimeFields();
-    }
-
-    /**
-     * Saves the time from the Time Picker
-     */
-    public void saveTimes(int buttonID, Date time) {
-        // Check to see what field we are editing
-        switch (buttonID) {
-            case R.id.meditationTime:
-                meditationTime = Util.dateToDisplayString(time);
-                userProfile.setMeditation_time(Util.dateToUserProfileString(time));
-                break;
-            case R.id.lessonTime:
-                lessonTime = Util.dateToDisplayString(time);
-                userProfile.setExercise_time(Util.dateToUserProfileString(time));
-                break;
-            case R.id.wakeUpTime:
-                wakeUpTime = Util.dateToDisplayString(time);
-                userProfile.setWake_up_time(Util.dateToUserProfileString(time));
-                break;
-            case R.id.goToSleepTime:
-                goToSleepTime = Util.dateToDisplayString(time);
-                userProfile.setGo_to_sleep_time(Util.dateToUserProfileString(time));
-                break;
-            default:
-                throw new RuntimeException("Attempted to set time for unknown field");
-        }
-    }
-
-    /***********************************************************************************************
      * CreateAccountActivity Button Handlers
      **********************************************************************************************/
-
-    /**
-     * Callback for when the wake up, go to sleep, lesson, or meditation button is pressed
-     * Creates and displays the Time Picker
-     * @param view The view
-     */
-    public void showTimePickerDialog(View view) {
-        // Get the button ID so we know what field we are editing
-        int buttonID = view.getId();
-        Bundle bundle = new Bundle();
-        bundle.putInt("buttonID", buttonID);
-
-        // Create the Time Picker
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.setArguments(bundle);
-        newFragment.show(getFragmentManager(), "timePicker");
-    }
 
     /*
     * Radio button handler
@@ -230,7 +136,6 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
                     user.setFirst_name(first_name_field.getText().toString());
                     user.setLast_name(last_name_field.getText().toString());
                     userProfile.setGender(gender);
-                    userProfile.setExercise_day_of_week(spinner.getSelectedItemPosition());
                     user.setEmail(email_field.getText().toString());
                     user.setUsername(username_field.getText().toString());
                     user.setRaw_password(password_field.getText().toString());
@@ -258,7 +163,7 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
                 public void handleMessage(Message msg) {
                     // Log in succeeded
                     if(msg.what == 0) {
-                        Intent intent = new Intent(CreateAccountActivity.this, StartProgramActivity.class);
+                        Intent intent = new Intent(CreateAccountActivity.this, SleepTimeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         progressDialog.dismiss();
@@ -274,16 +179,6 @@ public class CreateAccountActivity extends AppCompatActivity implements RefreshV
     /***********************************************************************************************
      * CreateAccountActivity Specific Helpers
      **********************************************************************************************/
-
-    /**
-     * Sets time fields on view
-     */
-    private void setTimeFields() {
-        meditationTimeText.setText(meditationTime);
-        lessonTimeText.setText(lessonTime);
-        wakeUpTimeText.setText(wakeUpTime);
-        goToSleepTimeText.setText(goToSleepTime);
-    }
 
     /**
      * Validates all fields in the add user form and sets an error on the first invalid input

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true" >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="56dp"
+        android:paddingBottom="@dimen/activity_bottom_margin"
+        tools:showIn="@layout/activity_meditation_time"
+        tools:context="justbe.mindfulness.MeditationTimeActivity"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/meditationTimeText"
+            android:padding="10dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/meditations_text_create_account"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_text_size" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:onClick="showTimePickerDialog"
+            android:id="@+id/meditationTime"
+            android:padding="10dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="end"
+            android:textColor="@color/bpTransparent_black"
+            android:textSize="@dimen/small_text_size" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/signUpButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="20dp"
+            android:padding="12dp"
+            android:onClick="meditationNextButtonPressed"
+            android:text="@string/finish"/>
+
+    </LinearLayout>
+</ScrollView>
