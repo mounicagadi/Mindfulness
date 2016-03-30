@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity{
     // audio player variables
     private MeditationMediaPlayer mediaPlayer;
     private TextView lessonButtonText;
+	private Integer weekToDisplay;
     /***********************************************************************************************
      * MainActivity Life Cycle Functions
      **********************************************************************************************/
@@ -101,45 +102,32 @@ public class MainActivity extends AppCompatActivity{
             session.setCsrfToken(sessionManager.getCSRFToken());
             session.setSessionId(sessionManager.getSessionID());
         }
-
-
         updateCurrentWeek();
         Integer selectedWeek = user.getCurrent_week();
+
+		if(savedInstanceState == null)
+            weekToDisplay = selectedWeek;
+        else
+            weekToDisplay = savedInstanceState.getInt("displayContentForWeek");
 
 
 
 
         // Media player setup
         setUpMeditationContent(selectedWeek);
-        //mediaPlayer = new MeditationMediaPlayer(this, R.raw.sample, selectedWeek);
-
         // Set the lesson button's text to the current week
         setUpLessonContent(selectedWeek);
-        /* TextView lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
-        lessonButtonText.setText(String.format("Week %d Exercise", selectedWeek));
-
-        // Get completed exercises from db, if this week has been completed give it a green check
-        ExerciseSession[] completedExercises = ServerRequests.getExerciseSessions(this);
-        for (ExerciseSession e : completedExercises) {
-            if (e.getExercise_id() == selectedWeek) {
-                int weeklyLessonImageId = getResources().getIdentifier(
-                        "weeklyLessonButtonImage", "id", getPackageName());
-                ImageView weeklyLessonImage = (ImageView) findViewById(weeklyLessonImageId);
-
-                // Change the lesson to be completed
-                weeklyLessonImage.setImageResource(R.drawable.check_green_2x);
-                weeklyLessonImage.setTag("true");
-
-                break;
-            }
-
-        }*/
+       
 //        // Pebble setup
 //        PebbleCommunicator comms = PebbleCommunicator.getInstance();
 //        if (!comms.checkPebbleConnection()) {
 //            Toast.makeText(App.context(), "No Pebble connection detected!", Toast.LENGTH_LONG).show();
 //        }
         //setUpAlarms("assessment", 4, true);
+		 setUpMeditations();
+        setUpExerciseAlarms();
+
+        System.out.println("******* Main Activity Loaded..!! ********");
 //        setUpAlarms("pebble", 5, false);
     }
 
@@ -147,6 +135,18 @@ public class MainActivity extends AppCompatActivity{
         mediaPlayer = new MeditationMediaPlayer(this, R.raw.sample, weekId);
     }
 
+@Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(sessionManager!=null && user!=null)
+            sessionManager.setUser(user);
+        else if(sessionManager == null){
+            Session session = App.getSession();
+            sessionManager = new SessionManager(App.context());
+            sessionManager.createLoginSession(session.getSessionId(), session.getCsrfToken(),user);
+        }
+
+    }
     public void setUpLessonContent(int weekId){
 
         lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
@@ -176,6 +176,30 @@ public class MainActivity extends AppCompatActivity{
     public void onBackPressed() {
     }
 
+@Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+        setUpLessonContent(weekToDisplay);
+        setUpMeditationContent(weekToDisplay);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        // save the week id of the current week being displayed
+        // While accessing previous week content, on screen rotation,
+        // current week's content will be displayed instead of accessed
+        // previous week content
+        outState.putInt("displayContentForWeek",weekToDisplay);
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // get the week id of the current week being displayed
+        weekToDisplay = savedInstanceState.getInt("displayContentForWeek");
+    }
     /***********************************************************************************************
      * MainActivity Button Handlers
      **********************************************************************************************/
@@ -229,18 +253,7 @@ public class MainActivity extends AppCompatActivity{
             popupWindow.setTouchable(true);
 
             setupPopupTextFields(pw_view, popupWindow);
-            //pw_view.setOnClickListener(popupListener);
-            /*popupWindow.setTouchInterceptor(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
 
-                    if (v instanceof TextView){
-                        Log.v("Popup","selected is a textview ");
-                    }
-                        //popupWindow.dismiss();
-                    return true;
-                }
-            });*/
 
             popupWindow.showAtLocation(pw_view, Gravity.CENTER, 0, 0);
         } catch (Exception e) {
@@ -260,6 +273,7 @@ public class MainActivity extends AppCompatActivity{
         Boolean checked = Boolean.valueOf(checkMarkView.getTag().toString());
         String weekText  = lessonButtonText.getText().toString();
         String week = weekText.split(" ")[1];
+		Log.v("Main Activity","lessonButtonPressed: week = "+ week);
 
         // Change the lesson to be completed
         if (!checked) {
@@ -499,8 +513,9 @@ public class MainActivity extends AppCompatActivity{
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    populateWeekContent(weekId);
-                    loadLessonContent(weekId);
+				weekToDisplay = weekId;
+                    populateWeekContent(weekToDisplay);
+                    loadLessonContent(weekToDisplay);
                     Toast.makeText(getApplicationContext(),
                             "Week "+weekId+" content loaded..! ", Toast.LENGTH_LONG).show();
 
@@ -570,5 +585,112 @@ public class MainActivity extends AppCompatActivity{
             e.printStackTrace();
 
         }
-    }*/
+*/
+public void setUpMeditations(){
+        Date meditationTime = user.getMeditation_time();
+        String s = meditationTime.toString();
+        // convert 'Thu Jan 01 22:30:00 EST 1970' to 22:30:00
+        String time = s.split(" ")[3];
+        int hour = Integer.parseInt(time.split(":")[0]);
+        int min = Integer.parseInt(time.split(":")[1]);
+        int sec = Integer.parseInt(time.split(":")[2]);
+        System.out.println("User medi time: "+ meditationTime);
+
+        try{
+
+            if (null == meditationTime) {
+                Toast toast = Toast.makeText(App.context(), "You need to set a meditation time!", Toast.LENGTH_LONG);
+                toast.show();
+                return;
+            }
+
+            AlarmManager alarmManager = (AlarmManager)App.context().getSystemService(Context.ALARM_SERVICE);
+            PendingIntent cancelIntent = PendingIntent.getBroadcast(App.context(), 0,
+                    new Intent(App.context(), MeditationAlarmReceiver.class), 0);
+            alarmManager.cancel(cancelIntent);
+
+            //schedule the alarm
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY,hour);
+            calendar.set(Calendar.MINUTE,min);
+            calendar.set(Calendar.SECOND,sec);
+            Calendar now = Calendar.getInstance();
+            Log.v("Time before adding day",""+calendar.getTime());
+
+            if(now.after(calendar)) {
+                System.out.println("Meditation time crossed. Skipping for the day");
+                calendar.add(Calendar.DATE, 1);
+            }
+
+            Log.v("Time after adding day",""+calendar.getTime());
+            Intent intent = new Intent(MainActivity.this, MeditationAlarmReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    MainActivity.this, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void setUpExerciseAlarms(){
+
+        Date exerciseTime = user.getExercise_time();
+        int weekDayID = user.getExercise_day_of_week();
+
+        int calendarDayID = Util.getCalendarDayId(weekDayID);
+        String timeString = exerciseTime.toString();
+
+        String time = timeString.split(" ")[3];
+        int hour = Integer.parseInt(time.split(":")[0]);
+        int min = Integer.parseInt(time.split(":")[1]);
+        int sec = Integer.parseInt(time.split(":")[2]);
+
+        try{
+
+            if (null == exerciseTime) {
+                Toast toast = Toast.makeText(App.context(), "You need to set a exercise time!", Toast.LENGTH_LONG);
+                toast.show();
+                return;
+            }
+
+            AlarmManager alarmManager = (AlarmManager)App.context().getSystemService(Context.ALARM_SERVICE);
+            PendingIntent cancelIntent = PendingIntent.getBroadcast(App.context(), 0,
+                    new Intent(App.context(), LessonAlarmReceiver.class), 0);
+            alarmManager.cancel(cancelIntent);
+
+            //schedule the alarm
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY,hour);
+            calendar.set(Calendar.MINUTE,min);
+            calendar.set(Calendar.SECOND,sec);
+            calendar.set(Calendar.DAY_OF_WEEK, calendarDayID);  // notification day
+            Calendar now = Calendar.getInstance();
+            Log.v("Time before adding day",""+calendar.getTime());
+
+            if(now.after(calendar)) {
+                System.out.println("Exercise time crossed. Skipping for the day");
+                calendar.add(Calendar.DATE, 1);
+            }
+
+            Log.v("Time after adding day",""+calendar.getTime());
+            Intent intent = new Intent(MainActivity.this, LessonAlarmReceiver.class);
+            intent.putExtra("currentWeek",user.getCurrent_week());
+            Log.v("Main Activity", "lesson notification: week = " + user.getCurrent_week());
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    MainActivity.this, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY*7, pendingIntent);
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 }
