@@ -1,6 +1,8 @@
 package justbe.mindfulness;
 
+import android.app.AlarmManager;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,12 +11,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import justbe.mindfulness.models.User;
@@ -76,6 +81,8 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
                 userProfile.setExercise_day_of_week(spinner.getSelectedItemPosition());
                 ServerRequests.updateUserWithUserProfile(user, userProfile, getApplicationContext());
                 user = App.getSession().getUser();
+				// update exercise notifications with change in preferred week day
+                updateExerciseNotifications(user.getExercise_time().toString(), user.getExercise_day_of_week());
             }
 
             @Override
@@ -154,10 +161,14 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
             case R.id.meditationRow:
                 meditationTime = Util.dateToDisplayString(time);
                 userProfile.setMeditation_time(Util.dateToUserProfileString(time));
+				// update meditation notifications with change in preferred meditation time
+                updateMeditationNotifications(userProfile.getMeditation_time().toString());
                 break;
             case R.id.lessonRow:
                 lessonTime = Util.dateToDisplayString(time);
                 userProfile.setExercise_time(Util.dateToUserProfileString(time));
+				// update exercise notifications with change in lesson time
+                updateExerciseNotifications(userProfile.getExercise_time().toString(), userProfile.getExercise_day_of_week());
                 break;
             case R.id.wakeUpRow:
                 wakeUpTime = Util.dateToDisplayString(time);
@@ -174,6 +185,128 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
         user = App.getSession().getUser();
     }
 
+	// on change of meditation time, notification time should also be updated
+    public void updateMeditationNotifications(String meditationTime){
+
+        System.out.println("Updated meditation time " + meditationTime);
+
+
+        int hour = 0, min = 0, sec = 0;
+        if(meditationTime.contains(" ")){
+            String time = meditationTime.split(" ")[3];
+            hour = Integer.parseInt(time.split(":")[0]);
+            min = Integer.parseInt(time.split(":")[1]);
+            sec = Integer.parseInt(time.split(":")[2]);
+        }else{
+            hour = Integer.parseInt(meditationTime.split(":")[0]);
+            min = Integer.parseInt(meditationTime.split(":")[1]);
+        }
+
+
+        System.out.println("User medi time: "+ meditationTime);
+
+        try{
+
+            if (null == meditationTime) {
+                Toast toast = Toast.makeText(App.context(), "You need to set a meditation time!", Toast.LENGTH_LONG);
+                toast.show();
+                return;
+            }
+
+            AlarmManager alarmManager = (AlarmManager)App.context().getSystemService(Context.ALARM_SERVICE);
+            PendingIntent cancelIntent = PendingIntent.getBroadcast(App.context(), 0,
+                    new Intent(App.context(), MeditationAlarmReceiver.class), 0);
+            alarmManager.cancel(cancelIntent);
+
+            //schedule the alarm
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY,hour);
+            calendar.set(Calendar.MINUTE,min);
+            //calendar.set(Calendar.SECOND,0);
+            calendar.set(Calendar.SECOND,sec);
+            Calendar now = Calendar.getInstance();
+            Log.v("Time before adding day", "" + calendar.getTime());
+
+            if(now.after(calendar)) {
+                System.out.println("Meditation time crossed. Skipping for the day");
+                calendar.add(Calendar.DATE, 1);
+            }
+
+            Log.v("Time after adding day",""+calendar.getTime());
+            Intent intent = new Intent(PreferencesActivity.this, MeditationAlarmReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    PreferencesActivity.this, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public void updateExerciseNotifications(String exerciseTime, int weekDayID){
+
+        System.out.println("Updated exercise time " + exerciseTime);
+
+        int hour = 0, min = 0, sec = 0;
+        if(exerciseTime.contains(" ")){
+            String time = exerciseTime.split(" ")[3];
+            hour = Integer.parseInt(time.split(":")[0]);
+            min = Integer.parseInt(time.split(":")[1]);
+            sec = Integer.parseInt(time.split(":")[2]);
+        }else{
+            hour = Integer.parseInt(exerciseTime.split(":")[0]);
+            min = Integer.parseInt(exerciseTime.split(":")[1]);
+        }
+
+        int calendarDayID = Util.getCalendarDayId(weekDayID);
+
+        try{
+
+            if (null == exerciseTime) {
+                Toast toast = Toast.makeText(App.context(), "You need to set a exercise time!", Toast.LENGTH_LONG);
+                toast.show();
+                return;
+            }
+
+            AlarmManager alarmManager = (AlarmManager)App.context().getSystemService(Context.ALARM_SERVICE);
+            PendingIntent cancelIntent = PendingIntent.getBroadcast(App.context(), 0,
+                    new Intent(App.context(), LessonAlarmReceiver.class), 0);
+            alarmManager.cancel(cancelIntent);
+
+            //schedule the alarm
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY,hour);
+            calendar.set(Calendar.MINUTE,min);
+            calendar.set(Calendar.SECOND,sec);
+            calendar.set(Calendar.DAY_OF_WEEK, calendarDayID);  // notification day
+            Calendar now = Calendar.getInstance();
+            Log.v("Time before adding day", "" + calendar.getTime());
+
+            if(now.after(calendar)) {
+                System.out.println("Exercise time crossed. Skipping for the day");
+                calendar.add(Calendar.DATE, 1);
+            }
+
+            Log.v("Time after adding day",""+calendar.getTime());
+            Intent intent = new Intent(PreferencesActivity.this, LessonAlarmReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    PreferencesActivity.this, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY*7, pendingIntent);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+
+    }
     /**
      * Sets time fields on view
      */
