@@ -229,4 +229,26 @@ public class Util {
         return exercise;
     }
 
+ public static int getCalendarDayId(int weekDayId){
+        int calendarDayID = 0;
+        switch(weekDayId){
+
+            case 0: calendarDayID = 2; //monday
+                break;
+            case 1: calendarDayID = 3; //tuesday
+                break;
+            case 2: calendarDayID = 4; //wednesday
+                break;
+            case 3: calendarDayID = 5; //thursday
+                break;
+            case 4: calendarDayID = 6; //friday
+                break;
+            case 5: calendarDayID = 7; //saturday
+                break;
+            case 6: calendarDayID = 1; //sunday
+                break;
+        }
+
+        return calendarDayID;
+    }
 }
