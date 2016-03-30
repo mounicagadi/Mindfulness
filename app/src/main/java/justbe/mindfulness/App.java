@@ -41,6 +41,7 @@ public class App extends android.app.Application {
 
         // Load the Session
         App.session = new Session(this.getApplicationContext());
+		Log.v("Session ","App session created");
     }
 
     /**
