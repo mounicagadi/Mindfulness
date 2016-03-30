@@ -3,6 +3,7 @@ package justbe.mindfulness;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -42,6 +43,7 @@ public class SessionManager {
         editor.putString(KEY_SessionID, sessionID);
         editor.putString(KEY_CSRFToken, csrfToken);
         editor.commit();
+		Log.v("Session Manager"," Shared Preferences set for user "+ user.getUsername());
     }
 
     /**
@@ -81,6 +83,7 @@ public class SessionManager {
         Gson gson = new Gson();
         String mUser = gson.toJson(user);
         editor.putString(KEY_User, mUser);
+		editor.commit();
     }
 
     /**
