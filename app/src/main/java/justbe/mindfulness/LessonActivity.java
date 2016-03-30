@@ -60,6 +60,7 @@ public class LessonActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String weekData =intent.getStringExtra("week");
+ Log.v("Lesson Activity", "lesson intent data: week = " + weekData);
         int weekId = 0;
         System.out.println("Lesson Activity: "+ weekData);
 
