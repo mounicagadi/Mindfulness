@@ -102,6 +102,20 @@ public class MainActivity extends AppCompatActivity{
             session.setCsrfToken(sessionManager.getCSRFToken());
             session.setSessionId(sessionManager.getSessionID());
         }
+
+        Intent lessonIntent = getIntent();
+        if(lessonIntent!=null){
+            Log.v("Main Activity","From Lesson Notification");
+            Boolean completed = Boolean.parseBoolean(lessonIntent.getStringExtra("lessonCompleted"));
+            if(completed){
+                String week = lessonIntent.getStringExtra("week");
+                Log.v("Main Activity","Lesson Notification completed for "+week);
+                int weekIdCompleted = Integer.parseInt(week);
+                ServerRequests.completeExerciseSession(weekIdCompleted, this);
+            }
+
+        }
+
         updateCurrentWeek();
         Integer selectedWeek = user.getCurrent_week();
 
@@ -125,7 +139,7 @@ public class MainActivity extends AppCompatActivity{
 //        }
         //setUpAlarms("assessment", 4, true);
 		 setUpMeditations();
-        setUpExerciseAlarms();
+        setUpExerciseAlarms(selectedWeek);
 
         System.out.println("******* Main Activity Loaded..!! ********");
 //        setUpAlarms("pebble", 5, false);
@@ -138,15 +152,34 @@ public class MainActivity extends AppCompatActivity{
 @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(sessionManager!=null && user!=null)
+    Log.v("ON DESTROY", "called");
+        if(sessionManager!=null && user!=null) {
+            Log.v("ON DESTROY", "session manager not null");
             sessionManager.setUser(user);
-        else if(sessionManager == null){
+        }else if(sessionManager == null){
+            Log.v("ON DESTROY","session manager null");
             Session session = App.getSession();
             sessionManager = new SessionManager(App.context());
             sessionManager.createLoginSession(session.getSessionId(), session.getCsrfToken(),user);
         }
 
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.v("ON STOP", "called");
+        if(sessionManager!=null && user!=null) {
+            Log.v("ON STOP", "session manager not null");
+            sessionManager.setUser(user);
+        }else if(sessionManager == null){
+            Log.v("ON STOP","session manager null");
+            Session session = App.getSession();
+            sessionManager = new SessionManager(App.context());
+            sessionManager.createLoginSession(session.getSessionId(), session.getCsrfToken(),user);
+        }
+    }
+
     public void setUpLessonContent(int weekId){
 
         lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
@@ -185,13 +218,13 @@ public class MainActivity extends AppCompatActivity{
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+    public void onSaveInstanceState(Bundle outState) {
         // save the week id of the current week being displayed
         // While accessing previous week content, on screen rotation,
         // current week's content will be displayed instead of accessed
         // previous week content
         outState.putInt("displayContentForWeek",weekToDisplay);
-        super.onSaveInstanceState(outState, outPersistentState);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -226,7 +259,15 @@ public class MainActivity extends AppCompatActivity{
      * @param view The View
      */
     public void preferencesButtonPressed(View view) {
+
+        int checkMarkViewId = getResources().getIdentifier(
+                "weeklyLessonButtonImage", "id", getPackageName());
+        ImageView checkMarkView = (ImageView) findViewById(checkMarkViewId);
+        // The tag of the ImageView tells us if the lesson is completed or not
+        Boolean checked = Boolean.valueOf(checkMarkView.getTag().toString());
+
         Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
+        intent.putExtra("checked",""+checked);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
@@ -593,7 +634,7 @@ public void setUpMeditations(){
         String time = s.split(" ")[3];
         int hour = Integer.parseInt(time.split(":")[0]);
         int min = Integer.parseInt(time.split(":")[1]);
-        int sec = Integer.parseInt(time.split(":")[2]);
+        //int sec = Integer.parseInt(time.split(":")[2]);
         System.out.println("User medi time: "+ meditationTime);
 
         try{
@@ -613,7 +654,7 @@ public void setUpMeditations(){
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY,hour);
             calendar.set(Calendar.MINUTE,min);
-            calendar.set(Calendar.SECOND,sec);
+            calendar.set(Calendar.SECOND,0);
             Calendar now = Calendar.getInstance();
             Log.v("Time before adding day",""+calendar.getTime());
 
@@ -626,7 +667,8 @@ public void setUpMeditations(){
             Intent intent = new Intent(MainActivity.this, MeditationAlarmReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(
                     MainActivity.this, 0, intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent.FLAG_UPDATE_CURRENT
+            );
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY, pendingIntent);
 
@@ -637,7 +679,7 @@ public void setUpMeditations(){
         }
     }
 
-    public void setUpExerciseAlarms(){
+    public void setUpExerciseAlarms(int selectedWeek){
 
         Date exerciseTime = user.getExercise_time();
         int weekDayID = user.getExercise_day_of_week();
@@ -648,7 +690,7 @@ public void setUpMeditations(){
         String time = timeString.split(" ")[3];
         int hour = Integer.parseInt(time.split(":")[0]);
         int min = Integer.parseInt(time.split(":")[1]);
-        int sec = Integer.parseInt(time.split(":")[2]);
+        //int sec = Integer.parseInt(time.split(":")[2]);
 
         try{
 
@@ -667,7 +709,7 @@ public void setUpMeditations(){
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY,hour);
             calendar.set(Calendar.MINUTE,min);
-            calendar.set(Calendar.SECOND,sec);
+            calendar.set(Calendar.SECOND,0);
             calendar.set(Calendar.DAY_OF_WEEK, calendarDayID);  // notification day
             Calendar now = Calendar.getInstance();
             Log.v("Time before adding day",""+calendar.getTime());
@@ -677,14 +719,23 @@ public void setUpMeditations(){
                 calendar.add(Calendar.DATE, 1);
             }
 
-            Log.v("Time after adding day",""+calendar.getTime());
+            // see if lesson already completed
+            int checkMarkViewId = getResources().getIdentifier(
+                    "weeklyLessonButtonImage", "id", getPackageName());
+            ImageView checkMarkView = (ImageView) findViewById(checkMarkViewId);
+            // The tag of the ImageView tells us if the lesson is completed or not
+            Boolean checked = Boolean.valueOf(checkMarkView.getTag().toString());
+
+            Log.v("Time after adding day", "" + calendar.getTime());
             Intent intent = new Intent(MainActivity.this, LessonAlarmReceiver.class);
-            intent.putExtra("currentWeek",user.getCurrent_week());
-            Log.v("Main Activity", "lesson notification: week = " + user.getCurrent_week());
+            intent.putExtra("currentWeek",""+selectedWeek);
+            intent.putExtra("checked",""+checked);
+            Log.v("Main Activity", "lesson notification: week = " + selectedWeek);
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(
                     MainActivity.this, 0, intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                  PendingIntent.FLAG_UPDATE_CURRENT
+            );
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY*7, pendingIntent);
 

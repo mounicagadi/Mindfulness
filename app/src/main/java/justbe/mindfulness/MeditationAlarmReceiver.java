@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -33,20 +34,20 @@ public class MeditationAlarmReceiver extends BroadcastReceiver {
         int icon = R.drawable.lotus_2x;
         //Notification notification = new Notification(icon, "Custom Notification", System.currentTimeMillis());
 
-        System.out.println("Notification 1");
+
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
 
-        System.out.println("Notification 2");
+
 
         RemoteViews contentView = new RemoteViews(context.getApplicationContext().getPackageName(), R.layout.custom_notification);
-        System.out.println("Notification 2-1");
+
         contentView.setTextViewText(R.id.title, (context.getString(R.string.app_name)));
         contentView.setTextViewText(R.id.text, "Pending daily meditation");
         //contentView.setPendingIntentTemplate(R.id.okButton,);
         //notification.contentView = contentView;
 
-        System.out.println("Notification 3");
+
 /*
 
         Intent notificationIntent = new Intent(context, MainActivity.class);
@@ -61,7 +62,10 @@ public class MeditationAlarmReceiver extends BroadcastReceiver {
                 0, notificationIntent,
                 PendingIntent.FLAG_CANCEL_CURRENT);
 
-        System.out.println("Notification 4");
+
+        long[] pattern = {500,500,500,500,500,500,500,500,500};
+        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setContentIntent(contentIntent)
@@ -69,7 +73,11 @@ public class MeditationAlarmReceiver extends BroadcastReceiver {
                 .setContentTitle("Mindfulness")
                 .setContentText("Pending Meditation Notification")
                 .setSmallIcon(icon)
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setLights(Color.BLUE, 500, 500)
+                .setVibrate(pattern)
+                .setStyle(new NotificationCompat.InboxStyle())
+                .setSound(alarmSound);
 
         System.out.println("Notification 5");
         notificationManager.notify(notificationID, builder.build());

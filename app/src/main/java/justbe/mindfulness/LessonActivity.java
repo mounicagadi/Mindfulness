@@ -40,6 +40,8 @@ public class LessonActivity extends AppCompatActivity {
      */
 
     TextView lessonTitle, lessonContent;
+    Boolean completed;
+    int weekId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +59,13 @@ public class LessonActivity extends AppCompatActivity {
         lessonContent = (TextView) findViewById(R.id.lesson_content);
 
         User user = App.getSession().getUser();
+        Log.v("Notification user","user= "+user);
 
         Intent intent = getIntent();
-        String weekData =intent.getStringExtra("week");
- Log.v("Lesson Activity", "lesson intent data: week = " + weekData);
-        int weekId = 0;
-        System.out.println("Lesson Activity: "+ weekData);
+        String weekData =getIntent().getExtras().getString("week");
+        Log.v("Lesson Activity", "lesson intent data: week = " + weekData);
+
+
 
         if(weekData == null)
             weekId = user.getCurrent_week();
@@ -72,7 +75,7 @@ public class LessonActivity extends AppCompatActivity {
 
 
         // Creates exercise session in database if it does not exist yet
-        Boolean completed = getIntent().getExtras().getBoolean("completed");
+        completed = getIntent().getExtras().getBoolean("completed");
         Exercise weekExercise = Util.getExerciseForWeek(weekId);
 
         Log.v("Lesson Activity", "" + weekId);
@@ -82,7 +85,25 @@ public class LessonActivity extends AppCompatActivity {
      if (!completed) {
             // TODO: get currently selected week instead of current program week
             int week = weekId;
+            completed = true;
             ServerRequests.completeExerciseSession(week, this);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Log.v("Lesson Activity","...Back button pressed");
+                Intent homeIntent = new Intent(this, MainActivity.class);
+                homeIntent.putExtra("lessonCompleted", "" + completed);
+                homeIntent.putExtra("week",""+weekId);
+
+                startActivity(homeIntent);
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

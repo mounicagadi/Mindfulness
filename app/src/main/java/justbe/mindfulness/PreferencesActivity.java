@@ -196,7 +196,7 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
             String time = meditationTime.split(" ")[3];
             hour = Integer.parseInt(time.split(":")[0]);
             min = Integer.parseInt(time.split(":")[1]);
-            sec = Integer.parseInt(time.split(":")[2]);
+            //sec = Integer.parseInt(time.split(":")[2]);
         }else{
             hour = Integer.parseInt(meditationTime.split(":")[0]);
             min = Integer.parseInt(meditationTime.split(":")[1]);
@@ -223,7 +223,7 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
             calendar.set(Calendar.HOUR_OF_DAY,hour);
             calendar.set(Calendar.MINUTE,min);
             //calendar.set(Calendar.SECOND,0);
-            calendar.set(Calendar.SECOND,sec);
+            calendar.set(Calendar.SECOND,0);
             Calendar now = Calendar.getInstance();
             Log.v("Time before adding day", "" + calendar.getTime());
 
@@ -257,7 +257,7 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
             String time = exerciseTime.split(" ")[3];
             hour = Integer.parseInt(time.split(":")[0]);
             min = Integer.parseInt(time.split(":")[1]);
-            sec = Integer.parseInt(time.split(":")[2]);
+            //sec = Integer.parseInt(time.split(":")[2]);
         }else{
             hour = Integer.parseInt(exerciseTime.split(":")[0]);
             min = Integer.parseInt(exerciseTime.split(":")[1]);
@@ -282,7 +282,7 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY,hour);
             calendar.set(Calendar.MINUTE,min);
-            calendar.set(Calendar.SECOND,sec);
+            calendar.set(Calendar.SECOND,0);
             calendar.set(Calendar.DAY_OF_WEEK, calendarDayID);  // notification day
             Calendar now = Calendar.getInstance();
             Log.v("Time before adding day", "" + calendar.getTime());
@@ -293,10 +293,20 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
             }
 
             Log.v("Time after adding day",""+calendar.getTime());
+
+            String currentWeek = user.getCurrent_week().toString();
+            Boolean checked = Boolean.parseBoolean(getIntent().getStringExtra("checked"));
+
             Intent intent = new Intent(PreferencesActivity.this, LessonAlarmReceiver.class);
+            intent.putExtra("currentWeek",""+currentWeek);
+            intent.putExtra("checked",""+checked);
+
+            Log.v("Preferences", "" + currentWeek);
+            Log.v("Preferences",""+checked);
+
             PendingIntent pendingIntent = PendingIntent.getBroadcast(
                     PreferencesActivity.this, 0, intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    0);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY*7, pendingIntent);
 
