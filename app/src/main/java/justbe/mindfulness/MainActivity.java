@@ -131,6 +131,8 @@ public class MainActivity extends AppCompatActivity{
         setUpMeditationContent(selectedWeek);
         // Set the lesson button's text to the current week
         setUpLessonContent(selectedWeek);
+
+       
        
 //        // Pebble setup
 //        PebbleCommunicator comms = PebbleCommunicator.getInstance();
@@ -140,9 +142,11 @@ public class MainActivity extends AppCompatActivity{
         //setUpAlarms("assessment", 4, true);
 		 setUpMeditations();
         setUpExerciseAlarms(selectedWeek);
-
+		//set up assesment alarm
+        setUpAssessmentAlarm();
+		
         System.out.println("******* Main Activity Loaded..!! ********");
-//        setUpAlarms("pebble", 5, false);
+
     }
 
     public void setUpMeditationContent(int weekId){
@@ -153,7 +157,11 @@ public class MainActivity extends AppCompatActivity{
     protected void onDestroy() {
         super.onDestroy();
     Log.v("ON DESTROY", "called");
-        if(sessionManager!=null && user!=null) {
+
+        if(App.getSession().getUser()!=null){
+            sessionManager.setUser(App.getSession().getUser());
+        }
+        else if(sessionManager!=null && user!=null) {
             Log.v("ON DESTROY", "session manager not null");
             sessionManager.setUser(user);
         }else if(sessionManager == null){
@@ -169,11 +177,14 @@ public class MainActivity extends AppCompatActivity{
     protected void onStop() {
         super.onStop();
         Log.v("ON STOP", "called");
-        if(sessionManager!=null && user!=null) {
-            Log.v("ON STOP", "session manager not null");
+        if(App.getSession().getUser()!=null){
+            sessionManager.setUser(App.getSession().getUser());
+        }
+        else if(sessionManager!=null && user!=null) {
+            Log.v("ON DESTROY", "session manager not null");
             sessionManager.setUser(user);
         }else if(sessionManager == null){
-            Log.v("ON STOP","session manager null");
+            Log.v("ON DESTROY","session manager null");
             Session session = App.getSession();
             sessionManager = new SessionManager(App.context());
             sessionManager.createLoginSession(session.getSessionId(), session.getCsrfToken(),user);
@@ -739,9 +750,63 @@ public void setUpMeditations(){
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY*7, pendingIntent);
 
-
         }catch(Exception e){
             e.printStackTrace();
         }
     }
+
+	public void setUpAssessmentAlarm(){
+
+        Date sleepTime = user.getGo_to_sleep_time();
+
+        try{
+
+            if (null == sleepTime) {
+                Toast toast = Toast.makeText(App.context(), "You need to set a exercise time!", Toast.LENGTH_LONG);
+                toast.show();
+                return;
+            }
+            String timeString = sleepTime.toString();
+
+            String time = timeString.split(" ")[3];
+            int hour = Integer.parseInt(time.split(":")[0]);
+            int min = Integer.parseInt(time.split(":")[1]);
+
+            AlarmManager alarmManager = (AlarmManager)App.context().getSystemService(Context.ALARM_SERVICE);
+            PendingIntent cancelIntent = PendingIntent.getBroadcast(App.context(), 0,
+                    new Intent(App.context(), AssessmentNotification.class), 0);
+            alarmManager.cancel(cancelIntent);
+
+            //schedule the alarm
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY,hour);
+            calendar.add(Calendar.HOUR, -2);
+            calendar.set(Calendar.MINUTE, min);
+            calendar.set(Calendar.SECOND, 0);
+
+            Calendar now = Calendar.getInstance();
+            Log.v("Time before adding day",""+calendar.getTime());
+
+            if(now.after(calendar)) {
+                System.out.println("Assessment time crossed. Skipping for the day");
+                calendar.add(Calendar.DATE, 1);
+            }
+
+            Log.v("Time after adding day", "" + calendar.getTime());
+            Intent intent = new Intent(MainActivity.this, AssessmentNotification.class);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    MainActivity.this, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+            );
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
+	
 }

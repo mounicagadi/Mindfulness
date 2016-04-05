@@ -177,6 +177,8 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
             case R.id.goToSleepRow:
                 goToSleepTime = Util.dateToDisplayString(time);
                 userProfile.setGo_to_sleep_time(Util.dateToUserProfileString(time));
+				// update assessment notifications with change in sleep time time
+                updateAssessmentAlarm(userProfile.getGo_to_sleep_time().toString());
                 break;
             default:
                 throw new RuntimeException("Attempted to set time for unknown field");
@@ -240,14 +242,63 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY, pendingIntent);
 
-
-
         }catch(Exception e){
             e.printStackTrace();
         }
 
     }
 
+public void updateAssessmentAlarm(String sleepTime){
+
+        try{
+
+            if (null == sleepTime) {
+                Toast toast = Toast.makeText(App.context(), "You need to set a exercise time!", Toast.LENGTH_LONG);
+                toast.show();
+                return;
+            }
+            String timeString = sleepTime;
+
+            String time = timeString.split(" ")[3];
+            int hour = Integer.parseInt(time.split(":")[0]);
+            int min = Integer.parseInt(time.split(":")[1]);
+
+            AlarmManager alarmManager = (AlarmManager)App.context().getSystemService(Context.ALARM_SERVICE);
+            PendingIntent cancelIntent = PendingIntent.getBroadcast(App.context(), 0,
+                    new Intent(App.context(), AssessmentNotification.class), 0);
+            alarmManager.cancel(cancelIntent);
+
+            //schedule the alarm
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY,hour);
+            calendar.add(Calendar.HOUR, -2);
+            calendar.set(Calendar.MINUTE, min);
+            calendar.set(Calendar.SECOND, 0);
+
+            Calendar now = Calendar.getInstance();
+            Log.v("Time before adding day",""+calendar.getTime());
+
+            if(now.after(calendar)) {
+                System.out.println("Assessment time crossed. Skipping for the day");
+                calendar.add(Calendar.DATE, 1);
+            }
+
+            Log.v("Time after adding day", "" + calendar.getTime());
+            Intent intent = new Intent(PreferencesActivity.this, AssessmentNotification.class);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    PreferencesActivity.this, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+            );
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+
+    }
     public void updateExerciseNotifications(String exerciseTime, int weekDayID){
 
         System.out.println("Updated exercise time " + exerciseTime);
