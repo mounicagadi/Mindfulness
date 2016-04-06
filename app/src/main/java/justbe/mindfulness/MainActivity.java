@@ -1,18 +1,18 @@
 package justbe.mindfulness;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import java.text.DateFormat;
+import java.util.ArrayList;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -25,9 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.ProgressBar;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,9 +51,6 @@ public class MainActivity extends AppCompatActivity{
     /**
      * Fields
      */
-    private Activity activity;
-    private ProgressBar progressBar;
-
     private PopupWindow popupWindow;
     private User user;
     private SessionManager sessionManager;
@@ -67,6 +61,8 @@ public class MainActivity extends AppCompatActivity{
     private MeditationMediaPlayer mediaPlayer;
     private TextView lessonButtonText;
 	private Integer weekToDisplay;
+    ArrayList<String> ar = new ArrayList<String>();
+
     /***********************************************************************************************
      * MainActivity Life Cycle Functions
      **********************************************************************************************/
@@ -124,8 +120,10 @@ public class MainActivity extends AppCompatActivity{
         else
             weekToDisplay = savedInstanceState.getInt("displayContentForWeek");
 
-
-
+        /*
+        * List days on Main Activity page, starting from the day the user first signed up
+        * */
+        listDaysOnMainActivity();
 
         // Media player setup
         setUpMeditationContent(selectedWeek);
@@ -140,7 +138,7 @@ public class MainActivity extends AppCompatActivity{
 //            Toast.makeText(App.context(), "No Pebble connection detected!", Toast.LENGTH_LONG).show();
 //        }
         //setUpAlarms("assessment", 4, true);
-		 setUpMeditations();
+        setUpMeditations();
         setUpExerciseAlarms(selectedWeek);
 		//set up assesment alarm
         setUpAssessmentAlarm();
@@ -168,7 +166,7 @@ public class MainActivity extends AppCompatActivity{
             Log.v("ON DESTROY","session manager null");
             Session session = App.getSession();
             sessionManager = new SessionManager(App.context());
-            sessionManager.createLoginSession(session.getSessionId(), session.getCsrfToken(),user);
+            sessionManager.createLoginSession(session.getSessionId(), session.getCsrfToken(), user);
         }
 
     }
@@ -214,7 +212,6 @@ public class MainActivity extends AppCompatActivity{
         }
 
     }
-
 
     @Override
     public void onBackPressed() {
@@ -263,6 +260,55 @@ public class MainActivity extends AppCompatActivity{
             mediaPlayer.setAudioButtonImageResource(R.drawable.pause);
             mediaPlayer.setAudioPlaying(true);
         }
+    }
+
+    /*
+    List the days on Main Activity page starting from the day the user first created his/her account
+     */
+    public void listDaysOnMainActivity()
+    {
+        TextView weekday0;
+        TextView weekday1;
+        TextView weekday2;
+        TextView weekday3;
+        TextView weekday4;
+        TextView weekday5;
+        TextView weekday6;
+
+        Resources res = getResources();
+        Calendar c = Calendar.getInstance();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", java.util.Locale.getDefault());
+        Date date = null;
+
+        weekday0 = (TextView)findViewById(R.id.MeditationText0);
+        weekday1 = (TextView)findViewById(R.id.MeditationText1);
+        weekday2 = (TextView)findViewById(R.id.MeditationText2);
+        weekday3 = (TextView)findViewById(R.id.MeditationText3);
+        weekday4 = (TextView)findViewById(R.id.MeditationText4);
+        weekday5 = (TextView)findViewById(R.id.MeditationText5);
+        weekday6 = (TextView)findViewById(R.id.MeditationText6);
+
+        try {
+            date = format.parse(user.getCreated_at());
+            c.setTime(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int day_created = c.get(Calendar.DAY_OF_WEEK);
+        String[] days = res.getStringArray(R.array.main_activity_days);
+
+        for(int i = day_created-1; i<7; i++)
+            ar.add(days[i]);
+        for(int i = 0; i<day_created-1; i++)
+            ar.add(days[i]);
+        weekday0.setText(ar.get(0));
+        weekday1.setText(ar.get(1));
+        weekday2.setText(ar.get(2));
+        weekday3.setText(ar.get(3));
+        weekday4.setText(ar.get(4));
+        weekday5.setText(ar.get(5));
+        weekday6.setText(ar.get(6));
+
     }
 
     /**
@@ -370,6 +416,7 @@ public class MainActivity extends AppCompatActivity{
         String stringId = view.getResources().getResourceName(view.getId());
         stringId = stringId.substring(stringId.length() - 1);
 
+        // Get the selected week day id
         int selectedDay = Integer.valueOf(stringId);
         // get the current week day id
         int currentDay = getCurrentWeekDayId();
@@ -379,7 +426,7 @@ public class MainActivity extends AppCompatActivity{
         *  If current day is Wednesday, the user can only access meditation and
         *  reading lessons of  Sunday, Monday, Tuesday and Wednesday
         *  */
-        if(currentDay!=6 && selectedDay <= currentDay || selectedDay ==6)
+        if(selectedDay <= currentDay)
             mediaPlayer.updateSelectedDay(Integer.valueOf(stringId));
 
     }
@@ -388,15 +435,14 @@ public class MainActivity extends AppCompatActivity{
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
 
-
         switch(day){
-            case 1: return 6;  // Sunday
-            case 2: return 0;  // Monday
-            case 3: return 1;  // Tuesday
-            case 4: return 2;  // Wednesday
-            case 5: return 3;  // Thursday
-            case 6: return 4;  // Friday
-            case 7: return 5;  // Saturday
+            case 1: return ar.indexOf("SU");  // Sunday
+            case 2: return ar.indexOf("M");   // Monday
+            case 3: return ar.indexOf("T");   // Tuesday
+            case 4: return ar.indexOf("W");   // Wednesday
+            case 5: return ar.indexOf("TH");  // Thursday
+            case 6: return ar.indexOf("F");   // Friday
+            case 7: return ar.indexOf("S");   // Saturday
         }
         return -1;
     }

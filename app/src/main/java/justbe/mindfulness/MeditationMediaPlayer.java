@@ -12,6 +12,12 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import justbe.mindfulness.models.MeditationSession;
 import justbe.mindfulness.models.User;
 
@@ -24,6 +30,7 @@ public class MeditationMediaPlayer {
      * Fields
      */
     private MediaPlayer mediaPlayer;
+    private User user;
     private View containerView;
     private Context context;
     private boolean audioPlaying;
@@ -37,6 +44,7 @@ public class MeditationMediaPlayer {
     private MeditationSession meditationSession;
     private Integer selectedWeek;
     private Integer mediaID;
+    ArrayList<Integer> ar = new ArrayList<Integer>();
 
     /**
      * MeditationMediaPlayer Constructor
@@ -63,13 +71,11 @@ public class MeditationMediaPlayer {
 
         // set meditation
         meditationSession = new MeditationSession();
+        updatedDaysList();
         meditationSession.setPercent_completed(1.0);
-        selectedDay = Util.getCurrentDayOfTheWeek();
+        selectedDay = ar.indexOf(Util.getCurrentDayOfTheWeek());
         updateSelectedDay(selectedDay);
-
-
         setMeditationCompletion(selectedWeek);
-
     }
 
     /**
@@ -104,6 +110,30 @@ public class MeditationMediaPlayer {
      */
     public void setAudioButtonImageResource(int resourceID) {
         audioButton.setImageResource(resourceID);
+    }
+
+    public void updatedDaysList()
+    {
+        Calendar c = Calendar.getInstance();
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", java.util.Locale.getDefault());
+        Date date = null;
+        int day;
+
+        try {
+            date = format.parse(user.getCreated_at());
+            c.setTime(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int day_created = c.get(Calendar.DAY_OF_WEEK);
+        if(day_created == 1)
+            day = 6;
+        else
+            day = day_created - 2;
+        for(int i = day; i<7; i++)
+            ar.add(i);
+        for(int i = 0; i<day; i++)
+            ar.add(i);
     }
 
     /**

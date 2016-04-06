@@ -17,6 +17,7 @@
     <string name="continue_button">Continue</string>
     <string name="next">Next</string>
     <string name="finish">Finish</string>
+    <string name="snooze">Snooze</string>
     <string name="submit_button">Submit</string>
     <string name="setup">Setup</string>
     <string name="pendingMorning">Pending Morning Assessment</string>
@@ -62,6 +63,7 @@
 
 
     <string name="start">Start</string>
+    <string name="end">End</string>
     <string name="welcome_msg">Welcome to “JustBe”</string>
      <string name="start_info">
 
@@ -151,11 +153,23 @@ Communicate your feedback and questions to justbe@gmail.com\r\n\r\n
     <string name="week_eight_text">Week 8</string>
     <string name="this_week_text">This Week</string>
 
-    <string name="s_text">S</string>
+    <string name="su_text">SU</string>
     <string name="m_text">M</string>
     <string name="t_text">T</string>
+    <string name="th_text">TH</string>
     <string name="w_text">W</string>
     <string name="f_text">F</string>
+    <string name="s_text">S</string>
+
+    <string-array name="main_activity_days">
+        <item>SU</item>
+        <item>M</item>
+        <item>T</item>
+        <item>W</item>
+        <item>TH</item>
+        <item>F</item>
+        <item>S</item>
+    </string-array>
 
     <!-- Text String -->
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.

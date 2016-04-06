@@ -1,6 +1,7 @@
 package justbe.mindfulness;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * Static Context class to give the app's context to classes that are not Activity or Service
@@ -41,7 +42,7 @@ public class App extends android.app.Application {
 
         // Load the Session
         App.session = new Session(this.getApplicationContext());
-		Log.v("Session ","App session created");
+		Log.v("Session ", "App session created");
     }
 
     /**
