@@ -11,6 +11,7 @@
     <dimen name="normal_text_size">25sp</dimen>
     <dimen name="large_text_size">30sp</dimen>
     <dimen name="lesson_title_text_size">35sp</dimen>
+	<dimen name="lesson_title_text_size_medium">30sp</dimen>
     <dimen name="activity_vertical_margin">16sp</dimen>
 
     <dimen name="popup_check_mark_size">20dp</dimen>

@@ -1,8 +1,11 @@
 package justbe.mindfulness;
 
+import android.content.Context;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
@@ -20,8 +23,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import justbe.mindfulness.models.ExerciseSession;
 import justbe.mindfulness.models.User;
@@ -29,34 +34,50 @@ import justbe.mindfulness.models.UserProfile;
 
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
+
+
+    @Mock
+    Context mMockContext;
+
+    String first_name = "ababab";
+    String last_name = "ababab";
+    String username = "ababab";
+    Integer gender = 0;
+    Date exercise_time;
+
+    Date meditation_time;
+    Date wake_up_time;
+    Date go_to_sleep_time;
+    UserProfile userProfile;
+    User user;
 
     @Rule
     public IntentsTestRule mActivityRule = new IntentsTestRule(MainActivity.class);
-    private UserProfile userProfile;
 
-    @Before
-    public void setUp() {
-
+    public MainActivityTest() {
+        super(MainActivity.class);
 
         userProfile = new UserProfile();
         userProfile.setCurrent_week(1);
-        userProfile.setGo_to_sleep_time(Calendar.getInstance().getTime().toString());
-        userProfile.setWake_up_time(Calendar.getInstance().getTime().toString());
-        userProfile.setGo_to_sleep_time(Calendar.getInstance().getTime().toString());
+        userProfile.setGo_to_sleep_time(Util.dateToUserProfileString(Calendar.getInstance().getTime()));
+        userProfile.setWake_up_time(Util.dateToUserProfileString(Calendar.getInstance().getTime()));
+        userProfile.setGo_to_sleep_time(Util.dateToUserProfileString(Calendar.getInstance().getTime()));
         userProfile.setExercise_day_of_week(1);
-        userProfile.setExercise_time(Calendar.getInstance().getTime().toString());
+        userProfile.setExercise_time(Util.dateToUserProfileString(Calendar.getInstance().getTime()));
         userProfile.setGender(1);
-        userProfile.setMeditation_time(Calendar.getInstance().getTime().toString());
+        String medTime  = (Util.dateToUserProfileString(Calendar.getInstance().getTime()));
+        userProfile.setMeditation_time(medTime);
 
 
-        User user =  new User();
+        user =  new User();
         user.addUserProfileData(userProfile);
         user.setUsername("abababa");
         user.setCreated_at(Calendar.getInstance().getTime().toString());
         ExerciseSession exercise = new ExerciseSession();
         exercise.setExercise_id(11);
         user.setEmail("ababab@gmail.com");
+        user.setMeditation_time(medTime);
         App.getSession().setUser(user);
 
     }
@@ -87,8 +108,9 @@ public class MainActivityTest {
     //test WeeklyLessonButton on the main page
     @Test
     public void testWeeklyLessonButton() {
+        int currentWeek = user.getCurrent_week();
         onView(withId(R.id.weeklyLessonButton)).check(matches(isDisplayed()));
-        onView(allOf(withId(R.id.weeklyLessonButtonText), withText("Week 1 Exercise")))
+        onView(allOf(withId(R.id.weeklyLessonButtonText), withText("Week " + currentWeek+" Exercise")))
                 .check(matches(isDisplayed()));
         onView(withId(R.id.weeklyLessonButton)).perform(click());
         intended(hasComponent(LessonActivity.class.getName()));

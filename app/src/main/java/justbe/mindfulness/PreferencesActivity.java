@@ -1,4 +1,4 @@
-package justbe.mindfulness;
+	package justbe.mindfulness;
 
 import android.app.AlarmManager;
 import android.app.DialogFragment;
@@ -259,9 +259,16 @@ public void updateAssessmentAlarm(String sleepTime){
             }
             String timeString = sleepTime;
 
-            String time = timeString.split(" ")[3];
-            int hour = Integer.parseInt(time.split(":")[0]);
-            int min = Integer.parseInt(time.split(":")[1]);
+             int hour = 0, min = 0, sec = 0;
+            if(timeString.contains(" ")){
+                String time = timeString.split(" ")[3];
+                hour = Integer.parseInt(time.split(":")[0]);
+                min = Integer.parseInt(time.split(":")[1]);
+                //sec = Integer.parseInt(time.split(":")[2]);
+            }else{
+                hour = Integer.parseInt(timeString.split(":")[0]);
+                min = Integer.parseInt(timeString.split(":")[1]);
+            }
 
             AlarmManager alarmManager = (AlarmManager)App.context().getSystemService(Context.ALARM_SERVICE);
             PendingIntent cancelIntent = PendingIntent.getBroadcast(App.context(), 0,
@@ -271,9 +278,9 @@ public void updateAssessmentAlarm(String sleepTime){
             //schedule the alarm
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY,hour);
-            calendar.add(Calendar.HOUR, -2);
+            calendar.add(Calendar.HOUR, -1);
             calendar.set(Calendar.MINUTE, min);
-            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.SECOND, sec);
 
             Calendar now = Calendar.getInstance();
             Log.v("Time before adding day",""+calendar.getTime());

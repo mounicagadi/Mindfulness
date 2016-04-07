@@ -99,18 +99,29 @@ public class MainActivity extends AppCompatActivity{
             session.setSessionId(sessionManager.getSessionID());
         }
 
-        Intent lessonIntent = getIntent();
-        if(lessonIntent!=null){
-            Log.v("Main Activity","From Lesson Notification");
-            Boolean completed = Boolean.parseBoolean(lessonIntent.getStringExtra("lessonCompleted"));
-            if(completed){
-                String week = lessonIntent.getStringExtra("week");
-                Log.v("Main Activity","Lesson Notification completed for "+week);
-                int weekIdCompleted = Integer.parseInt(week);
-                ServerRequests.completeExerciseSession(weekIdCompleted, this);
-            }
+        Intent intent = getIntent();
+        if(intent!=null){
+            String source = intent.getStringExtra("source");
+            if(null != source){
+                Log.v("TAG","Reached here after assessment completion");
+                Log.v("From Assessment", "selectedWeek = " + selectedWeek);
+                if(null == selectedWeek)
+                    selectedWeek = Integer.parseInt(intent.getStringExtra("userWeek"));
+                Log.v("From Assessment", "selectedWeek fetched from intent= " + selectedWeek);
 
-        }
+            }else {
+
+
+
+                Log.v("Main Activity", "From Lesson Notification");
+                Boolean completed = Boolean.parseBoolean(intent.getStringExtra("lessonCompleted"));
+                if (completed) {
+                    String week = intent.getStringExtra("week");
+                    Log.v("Main Activity", "Lesson Notification completed for " + week);
+                    int weekIdCompleted = Integer.parseInt(week);
+                    ServerRequests.completeExerciseSession(weekIdCompleted, this);
+                }
+            }
 
         updateCurrentWeek();
         Integer selectedWeek = user.getCurrent_week();
@@ -196,18 +207,21 @@ public class MainActivity extends AppCompatActivity{
 
         // Get completed exercises from db, if this week has been completed give it a green check
         ExerciseSession[] completedExercises = ServerRequests.getExerciseSessions(this);
-        for (ExerciseSession e : completedExercises) {
-            if (e.getExercise_id() == weekId) {
-                int weeklyLessonImageId = getResources().getIdentifier(
-                        "weeklyLessonButtonImage", "id", getPackageName());
-                ImageView weeklyLessonImage = (ImageView) findViewById(weeklyLessonImageId);
+        if(null!=completedExercises) {
+            for (ExerciseSession e : completedExercises) {
+                if (e.getExercise_id() == weekId) {
+                    int weeklyLessonImageId = getResources().getIdentifier(
+                            "weeklyLessonButtonImage", "id", getPackageName());
+                    ImageView weeklyLessonImage = (ImageView) findViewById(weeklyLessonImageId);
 
-                // Change the lesson to be completed
-                weeklyLessonImage.setImageResource(R.drawable.check_green_2x);
-                weeklyLessonImage.setTag("true");
+                    // Change the lesson to be completed
+                    weeklyLessonImage.setImageResource(R.drawable.check_green_2x);
+                    weeklyLessonImage.setTag("true");
 
-                break;
-            }
+                    break;
+                }
+
+           }
 
         }
 
@@ -826,7 +840,7 @@ public void setUpMeditations(){
             //schedule the alarm
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY,hour);
-            calendar.add(Calendar.HOUR, -2);
+            calendar.add(Calendar.HOUR, -1);
             calendar.set(Calendar.MINUTE, min);
             calendar.set(Calendar.SECOND, 0);
 

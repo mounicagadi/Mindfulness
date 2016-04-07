@@ -81,15 +81,40 @@ public class MeditationMediaPlayer {
     /**
      * Start the media player
      */
-    public void start() {
+   public void start() {
+        audioPlaying = true;
+        if(null == mediaPlayer)
+            initMediaPlayer();
+
         mediaPlayer.start();
+        /*Log.v("Med Player","start");
+        Log.v("Med Player", "start isPlaying  = " + mediaPlayer.isPlaying());*/
     }
 
     /**
      * Stops the media player
      */
     public void stop(){
-        mediaPlayer.stop();
+      currentTime = mediaPlayer.getCurrentPosition();
+
+        if(currentTime < totalTime){
+            mediaPlayer.pause();
+            /*Log.v("Med Player","paused");
+            Log.v("Med Player", "paused isPlaying  = " + mediaPlayer.isPlaying());*/
+
+        }else{
+            mediaPlayer.stop();
+
+            /*Log.v("Med Player","stopped");
+            Log.v("Med Player", "stop isPlaying  = " + mediaPlayer.isPlaying());
+*/
+        }
+        audioPlaying  = false;
+
+
+
+
+
     }
 
     /**
@@ -98,6 +123,9 @@ public class MeditationMediaPlayer {
     public boolean getAudioPlaying() { return this.audioPlaying; }
     public void setAudioPlaying(boolean audioPlaying) { this.audioPlaying = audioPlaying; }
 
+public double getCurrentTime(){
+        return currentTime;
+    }
     /**
      * Getter and Setter for mediaID
      */
@@ -162,7 +190,8 @@ public class MeditationMediaPlayer {
     }
 
     private void initMediaPlayer() {
-        mediaPlayer.release();
+        if(null!=mediaPlayer)
+             mediaPlayer.release();
         // TODO: change the meditation file based on day selected
         mediaPlayer = MediaPlayer.create(context, mediaID);
         mediaPlayer.setOnCompletionListener(endOfMeditationListener);
@@ -190,10 +219,30 @@ public class MeditationMediaPlayer {
     private Runnable UpdateCurrentTime = new Runnable() {
         public void run() {
             currentTime = mediaPlayer.getCurrentPosition();
-            Util.setTextViewToTime(currentAudioTimeText, currentTime);
+            Log.v("M-PLAYER ","Inside UpdateCurrentTime");
+            Log.v("Pos ",""+mediaPlayer.getCurrentPosition());
+            if(mediaPlayer.isPlaying()){
+                Log.v("M-PLAYER ","Play Time "+mediaPlayer.getCurrentPosition());
+            }else
+                Log.v("M-PLAYER ","Pause Time "+mediaPlayer.getCurrentPosition());
 
-            seekBar.setProgress((int)currentTime);
-            audioInfoUpdater.postDelayed(this, 100);
+
+            //Log.v("M-PLAYER ", "In Thread Current TIME: " + currentTime);
+            if(mediaPlayer!=null && audioPlaying){
+
+                Log.v("M-Player", "play update : " + currentTime);
+                Util.setTextViewToTime(currentAudioTimeText, currentTime);
+                seekBar.setProgress((int) currentTime);
+
+                audioInfoUpdater.postDelayed(this, 100);
+
+                //currentTime = getCurrentTime();
+                //Log.v("Med Player","isPlaying = "+mediaPlayer.isPlaying());
+                //Log.v("Med Player", "cur pos = " + currentTime);
+
+            }
+          //audioInfoUpdater.postDelayed(UpdateCurrentTime, 100);
+
         }
     };
 
@@ -233,6 +282,9 @@ public class MeditationMediaPlayer {
 
                     audioPlaying = false;
                     audioButton.setImageResource(R.drawable.play);
+					mediaPlayer.stop();
+                    mediaPlayer.release();
+                    mediaPlayer = null;
 
                     if(!selectedCompleted) {
                         currentDayImageView.setImageResource(R.drawable.check_green_2x);
@@ -254,6 +306,7 @@ public class MeditationMediaPlayer {
         for(int i=0;i<7;i++)
             updatedNotCompleted(i);
 
+        if(null!=meditationSessions){
         for(MeditationSession m : meditationSessions) {
             int meditationCurrentWeekValue = (m.getMeditation_id() - (selectedWeek * 10));
             System.out.println("Current Week : " + user.getCurrent_week());
@@ -265,6 +318,7 @@ public class MeditationMediaPlayer {
                 completeMeditation(day);
             }
 
+        }
         }
     }
 
