@@ -76,18 +76,23 @@ public class MultiChoiceAssessmentActivity extends AppCompatActivity {
         // See SliderAssessmentActivity for a example of adding a
         // response to the flowManager
 
-        String value = "";
-       for(int i = 0; i< checkedOptions.size();i++){
-           if(checkedOptions.get(i))
-               value = value+multiChoiceQuestion.getChoices()[i]+"$#";
-       }
         Integer questionID = flowManager.getQuestionID();
         Integer assessmentID = flowManager.getAssessmentID();
         String question = multiChoiceQuestion.getQuestionText();
+        for(int i = 0; i< checkedOptions.size();i++){
+            if(checkedOptions.get(i)){
+                Response multiChoiceResponse = new Response(questionID,assessmentID,checkedOptions.get(i));
+                flowManager.addResponse(multiChoiceResponse);
+                System.out.println("Multi Assessment: " + question + " --> " + checkedOptions.get(i));
+            }
 
-        Response multiChoiceResponse = new Response(questionID,assessmentID,value,question);
-        System.out.println("Assessment: "+question+" --> "+value);
-        flowManager.addResponse(multiChoiceResponse);
+        }
+
+
+
+
+
+
         flowManager.startNextAssessmentQuestion();
     }
 }

@@ -94,13 +94,13 @@ public class DropdownAssessmentActivity extends AppCompatActivity
         // responses in AssessmentFlowManager.
         // See SliderAssessmentActivity for a example of adding a
         // response to the flowManager
-        String value =  ""+spinner.getSelectedItem();
+        String value =  (String) spinner.getSelectedItem();
         Integer questionId = flowManager.getQuestionID();
         Integer assessmentId = flowManager.getAssessmentID();
         String question =  dropdownQuestion.getQuestionText();
 
-        Response dropDownResponse = new Response(questionId,assessmentId,value, question);
-        System.out.println("Assessment: "+question+" --> "+value);
+        Response dropDownResponse = new Response(questionId,assessmentId,value);
+        System.out.println("Drop Down Assessment: "+question+" --> "+value);
         flowManager.addResponse(dropDownResponse);
         flowManager.startNextAssessmentQuestion();
     }

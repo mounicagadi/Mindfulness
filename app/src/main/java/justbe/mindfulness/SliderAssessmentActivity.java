@@ -98,13 +98,13 @@ public class SliderAssessmentActivity extends AppCompatActivity
      * @param view The view
      */
     public void nextPressed(View view) {
-        String value = ""+seekBar.getProgress();
+        Integer emotion = seekBar.getProgress();
         Integer questionID = flowManager.getQuestionID();
         Integer assessmentID = flowManager.getAssessmentID();
         String question = sliderQuestion.getQuestionText();
-        Response sliderResponse = new Response(questionID, assessmentID, value, question);
+        Response sliderResponse = new Response(questionID, assessmentID, emotion);
 
-        System.out.println("Assessment: "+question+" --> "+value);
+        System.out.println("Slider Assessment: "+question+" --> "+emotion);
         flowManager.addResponse(sliderResponse);
         flowManager.startNextAssessmentQuestion();
     }

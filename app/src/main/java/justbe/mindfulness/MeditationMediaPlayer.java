@@ -72,6 +72,7 @@ public class MeditationMediaPlayer {
         // set meditation
         meditationSession = new MeditationSession();
         updatedDaysList();
+		user = App.getSession().getUser();
         meditationSession.setPercent_completed(1.0);
         selectedDay = ar.indexOf(Util.getCurrentDayOfTheWeek());
         updateSelectedDay(selectedDay);
@@ -142,6 +143,10 @@ public double getCurrentTime(){
 
     public void updatedDaysList()
     {
+		Log.v("In Med updated before ", "User null? " + (null == user));
+        user = App.getSession().getUser();
+        Log.v("In Med updated after ", "User null? " + (null == user));
+
         Calendar c = Calendar.getInstance();
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", java.util.Locale.getDefault());
         Date date = null;

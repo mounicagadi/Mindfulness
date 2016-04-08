@@ -226,6 +226,19 @@ public class MainActivity extends AppCompatActivity{
         }
 
     }
+	
+	
+	@Override
+    protected void onPause() {
+        super.onPause();
+        Log.v("On pause ", "User null? " + (null == user));
+        App.getSession().setUser(user);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+    }
 
     @Override
     public void onBackPressed() {
@@ -235,6 +248,8 @@ public class MainActivity extends AppCompatActivity{
     protected void onPostResume() {
         super.onPostResume();
 
+    Log.v("On Resume ", "User null? " + (null == user));
+   user =  App.getSession().getUser();
         setUpLessonContent(weekToDisplay);
         setUpMeditationContent(weekToDisplay);
     }
