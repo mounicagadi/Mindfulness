@@ -5,14 +5,17 @@ import android.content.Context;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import justbe.mindfulness.models.Assessment;
 import justbe.mindfulness.models.ExerciseSession;
 import justbe.mindfulness.models.MeditationSession;
+import justbe.mindfulness.models.Response;
 import justbe.mindfulness.models.User;
 import justbe.mindfulness.models.UserProfile;
 import justbe.mindfulness.rest.GenericHttpRequestTask;
@@ -95,18 +98,30 @@ public class ServerRequests {
      **********************************************************************************************/
 
     /**
-     *  Creates a assessment in the database
+     *  Creates a assessment in the database.
+     *  Update the start time, create time and updated time
+     *  Return the created assessment
      *  @param context The view that calls this, used to present specific errors
      *  @return The newly created assessment
      */
-    public static Assessment createAssessment(Context context) {
+    public static Assessment createAssessment(Context context, User user) {
         Assessment assessment = new Assessment();
+        Date created_date= new Date();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
+        String created_at = sdf.format(created_date.getTime());
+
+        Map<String, String> startingAssessmentMap = new HashMap<String, String>();
+        startingAssessmentMap.put("created_at", created_at);
+        startingAssessmentMap.put("updated_at", created_at);
+        startingAssessmentMap.put("start_time", created_at);
+        startingAssessmentMap.put("user_id", user.getId().toString());
 
         // Create an HTTPRequestTask that sends a Map Object and Returns a Assessment Object
         GenericHttpRequestTask<Assessment, Assessment> task
                 = new GenericHttpRequestTask(Map.class, Assessment.class);
 
-        task.execute("/api/v1/assessment/", HttpMethod.POST, null);
+        task.execute("/api/v1/assessment/", HttpMethod.POST, startingAssessmentMap);
 
         try {
             ResponseEntity<Assessment> result = task.waitForResponse();
@@ -147,19 +162,27 @@ public class ServerRequests {
      *  @param context The view that calls this, used to present specific errors
      *  @return Tbe updated assessment
      */
-    public static Assessment updateAssessmentWithStartTime(Assessment assessment, Date date, Context context) {
+    public static Assessment updateAssessmentWithCompleteTime(int assessment_id, Context context) {
         Assessment updatedAssessment = new Assessment();
 
         // Create an HTTPRequestTask that sends a Assessment Object and Returns a Assessment Object
         GenericHttpRequestTask<Assessment, Assessment> task
                 = new GenericHttpRequestTask(Assessment.class, Assessment.class);
 
-        // Create request
-        int assessmentID = assessment.getId();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Map<String, String> startingTimeMap = new HashMap<String, String>();
-        startingTimeMap.put("starting_time", sdf.format(date));
-        task.execute("/api/v1/assessment/" + assessmentID + "/", HttpMethod.PATCH, startingTimeMap);
+        /*
+        * Update the assessment with completed time
+        * Use the assessment_id to identify the assessment and update the time
+        * Return the updated assessment object
+        * */
+
+        Date completed_date= new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
+        String completed_at = sdf.format(completed_date.getTime());
+
+        Map<String, String> completedTimeMap = new HashMap<String, String>();
+        completedTimeMap.put("complete_time", completed_at);
+
+        task.execute("/api/v1/assessment/" + assessment_id + "/", HttpMethod.PATCH, completedTimeMap);
 
         try {
             ResponseEntity<Assessment> result = task.waitForResponse();
@@ -180,6 +203,59 @@ public class ServerRequests {
     // design is still not finalized it was considered out of scope for this iteration.
 
     // Currently the API call that would need to be implemented is "/api/v1/response/"
+
+    public static void submitUserAssessment(User user,List<Response> responses, Context context)
+    {
+        /*for(Response res : responses)
+        {
+            System.out.println(res.get_boolean()+","+res.getAssessment_id()+","+res.getEmotion()+","+res.getCreated_at()+","+res.getQuestion_id()+","+res.getType()+","+res.getPercent()+",");
+        }*/
+        GenericHttpRequestTask<Response, Response> task;
+        Response re = new Response();
+        re.set_boolean(true);
+        re.setAssessment_id(12999);
+        re.setEmotion(1);
+        re.setCreated_at(user.getCreated_at());
+        re.setUpdated_at(user.getUpdated_at());
+        //re.setNumber("1");
+        re.setPercent(50.01f);
+        re.setQuestion_id(1);
+        re.setType(1);
+        /*for(Response res : re)
+        {
+            System.out.println(res.get_boolean()+","+res.getAssessment_id()+","+res.getEmotion()+","+res.getCreated_at()+","+res.getQuestion_id()+","+res.getType()+","+res.getPercent()+",");
+        }*/
+        System.out.println(re.get_boolean()+","+re.getAssessment_id()+","+re.getEmotion()+","+re.getCreated_at()+","+re.getQuestion_id()+","+re.getType()+","+re.getPercent()+",");
+        Boolean success;
+        task = new GenericHttpRequestTask(Response.class, Response.class);
+
+        task.execute("/api/v1/response/", HttpMethod.POST, re);
+
+        try {
+            ResponseEntity<Response> result = task.waitForResponse();
+            RestUtil.checkResponseHazardously(result);
+            success = true;
+        } catch (Exception e) {
+            new UserPresentableException(e).alert(context);
+            success = false;
+        }
+        /*for(Response res : responses)
+        {
+            task = new GenericHttpRequestTask(Response.class, Response.class);
+
+            task.execute("/api/v1/response/", HttpMethod.PUT, res);
+
+            try {
+                ResponseEntity<Response> result = task.waitForResponse();
+                RestUtil.checkResponseHazardously(result);
+                success = true;
+            } catch (Exception e) {
+                new UserPresentableException(e).alert(context);
+                success = false;
+                break;
+            }
+        }*/
+    }
 
     /***********************************************************************************************
      * Meditation API Calls
@@ -272,6 +348,8 @@ public class ServerRequests {
         }
         return success;
     }
+
+
 
     /***********************************************************************************************
      * Exercise API Calls

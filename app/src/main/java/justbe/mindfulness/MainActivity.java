@@ -99,18 +99,19 @@ public class MainActivity extends AppCompatActivity{
             session.setSessionId(sessionManager.getSessionID());
         }
 
+        updateCurrentWeek();
+        Integer selectedWeek = user.getCurrent_week();
         Intent intent = getIntent();
-        if(intent!=null){
+        if(intent!=null) {
             String source = intent.getStringExtra("source");
-            if(null != source){
-                Log.v("TAG","Reached here after assessment completion");
+            if (null != source) {
+                Log.v("TAG", "Reached here after assessment completion");
                 Log.v("From Assessment", "selectedWeek = " + selectedWeek);
-                if(null == selectedWeek)
+                if (null == selectedWeek)
                     selectedWeek = Integer.parseInt(intent.getStringExtra("userWeek"));
                 Log.v("From Assessment", "selectedWeek fetched from intent= " + selectedWeek);
 
-            }else {
-
+            } else {
 
 
                 Log.v("Main Activity", "From Lesson Notification");
@@ -122,9 +123,8 @@ public class MainActivity extends AppCompatActivity{
                     ServerRequests.completeExerciseSession(weekIdCompleted, this);
                 }
             }
+        }
 
-        updateCurrentWeek();
-        Integer selectedWeek = user.getCurrent_week();
 
 		if(savedInstanceState == null)
             weekToDisplay = selectedWeek;

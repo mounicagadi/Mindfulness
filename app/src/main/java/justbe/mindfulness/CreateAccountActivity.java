@@ -42,11 +42,6 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText confirm_password_field;
     private Integer gender = DEFAULT_GENDER;
     private RadioGroup gender_group;
-	private String meditationTime;
-    private String lessonTime;
-    private String wakeUpTime;
-    private String goToSleepTime;
-
     private ProgressDialog progressDialog;
     private static Handler createAccountHandler;
 

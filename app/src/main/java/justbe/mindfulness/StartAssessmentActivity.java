@@ -1,16 +1,22 @@
 package justbe.mindfulness;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import justbe.mindfulness.models.Assessment;
+import justbe.mindfulness.models.User;
+
 /**
  * Activity the user lands on after clicking on a notification
  * The user has the option to take the assessment now or put it off for later
  */
 public class StartAssessmentActivity extends AppCompatActivity {
+    private Context context;
+    private User user;
 
     /***********************************************************************************************
      * StartAssessmentActivity Life Cycle Functions
@@ -26,6 +32,7 @@ public class StartAssessmentActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Assessment");
         getSupportActionBar().setDisplayShowCustomEnabled(true);
+        user = App.getSession().getUser();
     }
 
     /***********************************************************************************************
@@ -48,9 +55,10 @@ public class StartAssessmentActivity extends AppCompatActivity {
             managerFactory.addDayAssessmentQuestions();
         }
 
+        Assessment assessment = ServerRequests.createAssessment(context, user);
         AssessmentFlowManager flowManager = AssessmentFlowManager.getInstance(this);
 
-        flowManager.setAssessmentID(1);
+        flowManager.setAssessmentID(assessment.getId());
         flowManager.startNextAssessmentQuestion();
     }
 

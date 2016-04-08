@@ -5,12 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import justbe.mindfulness.models.Assessment;
 import justbe.mindfulness.models.AssessmentQuestion;
 import justbe.mindfulness.models.Response;
 import justbe.mindfulness.models.User;
@@ -114,8 +114,6 @@ public final class AssessmentFlowManager {
      */
     public void addResponse(Response response) { responses.add(response); }
 
-
-
     /**
      * Starts the next assessment question provided there is one.
      * Otherwise goes back to the MainActivity
@@ -134,18 +132,17 @@ public final class AssessmentFlowManager {
             questionID = 0;
 
             // This is where responses should be saved to the database
-            ServerRequests serverRequests =  new ServerRequests();
             User user  = App.getSession().getUser();
-           // serverRequests.submitUserAssessment(user, responses);
-
-			if(null == user){
+            Assessment updated_assessment = ServerRequests.updateAssessmentWithCompleteTime(sInstance.getAssessmentID(), context);
+            //ServerRequests.submitUserAssessment(user, responses, context);
+            if(null == user){
                 Log.v("Start Assessment","Session user is null");
                 SessionManager sessionManager = new SessionManager(context.getApplicationContext());
                 user = sessionManager.getUser();
                 App.getSession().setUser(user);
                 Log.v("Start Assessment", "Session user from session manager"+user.getId());
             }
-			System.out.println("Assessment completed for User: " + user.getId());
+            System.out.println("Assessment completed for User: " + user.getId());
             // Go back to the main activity when done
             Intent intent = new Intent(context, MainActivity.class);
             intent.putExtra("source","assessment");
