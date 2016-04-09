@@ -134,7 +134,10 @@ public final class AssessmentFlowManager {
             // This is where responses should be saved to the database
             User user  = App.getSession().getUser();
             Assessment updated_assessment = ServerRequests.updateAssessmentWithCompleteTime(sInstance.getAssessmentID(), context);
-            //ServerRequests.submitUserAssessment(user, responses, context);
+            Log.v("Assessment","Before submission");
+            ServerRequests.submitUserAssessment(user, responses, context);
+            Log.v("Assessment", "After submission");
+
             if(null == user){
                 Log.v("Start Assessment","Session user is null");
                 SessionManager sessionManager = new SessionManager(context.getApplicationContext());
@@ -146,8 +149,9 @@ public final class AssessmentFlowManager {
             // Go back to the main activity when done
             Intent intent = new Intent(context, MainActivity.class);
             intent.putExtra("source","assessment");
-            intent.putExtra("userWeek",user.getCurrent_week());
+            intent.putExtra("userWeek", user.getCurrent_week());
             context.startActivity(intent);
+
             ((Activity) context).finish();
         }
     }

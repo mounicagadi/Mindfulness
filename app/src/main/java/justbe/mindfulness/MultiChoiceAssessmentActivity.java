@@ -3,11 +3,15 @@ package justbe.mindfulness;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import justbe.mindfulness.models.MultiChoiceQuestion;
 import justbe.mindfulness.models.Response;
@@ -79,19 +83,24 @@ public class MultiChoiceAssessmentActivity extends AppCompatActivity {
         Integer questionID = flowManager.getQuestionID();
         Integer assessmentID = flowManager.getAssessmentID();
         String question = multiChoiceQuestion.getQuestionText();
-        for(int i = 0; i< checkedOptions.size();i++){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
+
+
+        System.out.println("Multi Assessment: Options selected: " + checkedOptions.size());
+        Response multiChoiceResponse = null;
+        for(int i = 0; i< listView.getCount();i++){
+            System.out.println("Item:" + i + " value=" + checkedOptions.get(i));
             if(checkedOptions.get(i)){
-                Response multiChoiceResponse = new Response(questionID,assessmentID,checkedOptions.get(i));
+                multiChoiceResponse = new Response(questionID,assessmentID,checkedOptions.get(i),0);
+                System.out.println("Selected value: " + multiChoiceQuestion.getChoices()[i]);
+                String created_at = sdf.format(Calendar.getInstance().getTime());
+                multiChoiceResponse.setCreated_at(created_at);
+
                 flowManager.addResponse(multiChoiceResponse);
-                System.out.println("Multi Assessment: " + question + " --> " + checkedOptions.get(i));
+                System.out.println("Multi Assessment: "+"Question ID: "+questionID+"  " + question + " --> " + checkedOptions.get(i));
             }
 
         }
-
-
-
-
-
 
         flowManager.startNextAssessmentQuestion();
     }

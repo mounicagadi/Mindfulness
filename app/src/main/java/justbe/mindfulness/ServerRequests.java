@@ -1,6 +1,7 @@
 package justbe.mindfulness;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -206,44 +207,33 @@ public class ServerRequests {
 
     public static void submitUserAssessment(User user,List<Response> responses, Context context)
     {
+        Log.v("In Server Requests"," Assessment Responses");
         /*for(Response res : responses)
         {
-            System.out.println(res.get_boolean()+","+res.getAssessment_id()+","+res.getEmotion()+","+res.getCreated_at()+","+res.getQuestion_id()+","+res.getType()+","+res.getPercent()+",");
+            System.out.println(res.get_boolean()+",\nAssessment ID: "+res.getAssessment_id()+",\nNumber"+res.getNumber()+",\nEmotion:"+res.getEmotion()+",\nCreatedAt:"+res.getCreated_at()+",\nQuestion ID:"+res.getQuestion_id()+",\nResponse Type: "+res.getType()+",\nPercent: "+res.getPercent()+",");
         }*/
         GenericHttpRequestTask<Response, Response> task;
-        Response re = new Response();
-        re.set_boolean(true);
-        re.setAssessment_id(12999);
-        re.setEmotion(1);
-        re.setCreated_at(user.getCreated_at());
-        re.setUpdated_at(user.getUpdated_at());
-        //re.setNumber("1");
-        re.setPercent(50.01f);
-        re.setQuestion_id(1);
-        re.setType(1);
-        /*for(Response res : re)
-        {
-            System.out.println(res.get_boolean()+","+res.getAssessment_id()+","+res.getEmotion()+","+res.getCreated_at()+","+res.getQuestion_id()+","+res.getType()+","+res.getPercent()+",");
-        }*/
-        System.out.println(re.get_boolean()+","+re.getAssessment_id()+","+re.getEmotion()+","+re.getCreated_at()+","+re.getQuestion_id()+","+re.getType()+","+re.getPercent()+",");
         Boolean success;
-        task = new GenericHttpRequestTask(Response.class, Response.class);
-
-        task.execute("/api/v1/response/", HttpMethod.POST, re);
-
-        try {
-            ResponseEntity<Response> result = task.waitForResponse();
-            RestUtil.checkResponseHazardously(result);
-            success = true;
-        } catch (Exception e) {
-            new UserPresentableException(e).alert(context);
-            success = false;
-        }
-        /*for(Response res : responses)
+        Map<String, String> responsePushToDBMap = new HashMap<String, String>();
+        for(Response res : responses)
         {
-            task = new GenericHttpRequestTask(Response.class, Response.class);
+            responsePushToDBMap.put("type",res.getType().toString());
+            responsePushToDBMap.put("\"boolean\"",res.get_boolean().toString());
+            responsePushToDBMap.put("\"number\"",res.getNumber().toString());
+            responsePushToDBMap.put("emotion",res.getEmotion().toString());
+            responsePushToDBMap.put("percent",res.getPercent().toString());
+            responsePushToDBMap.put("question_id",res.getQuestion_id().toString());
+            responsePushToDBMap.put("created_at",res.getCreated_at().toString());
+            responsePushToDBMap.put("updated_at",res.getCreated_at().toString());
+            responsePushToDBMap.put("assessment_id",res.getAssessment_id().toString());
+            //responsePushToDBMap.put("assessment_id",""+12735);
+            responsePushToDBMap.put("category","");
 
-            task.execute("/api/v1/response/", HttpMethod.PUT, res);
+            Log.v("Server Requests", "Reponse Push");
+
+            task = new GenericHttpRequestTask(Map.class, Response.class);
+
+            task.execute("/api/v1/response/", HttpMethod.POST, responsePushToDBMap);
 
             try {
                 ResponseEntity<Response> result = task.waitForResponse();
@@ -254,7 +244,7 @@ public class ServerRequests {
                 success = false;
                 break;
             }
-        }*/
+        }
     }
 
     /***********************************************************************************************

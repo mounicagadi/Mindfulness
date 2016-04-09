@@ -8,6 +8,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import justbe.mindfulness.models.Response;
 import justbe.mindfulness.models.SliderQuestion;
 
@@ -102,9 +105,14 @@ public class SliderAssessmentActivity extends AppCompatActivity
         Integer questionID = flowManager.getQuestionID();
         Integer assessmentID = flowManager.getAssessmentID();
         String question = sliderQuestion.getQuestionText();
-        Response sliderResponse = new Response(questionID, assessmentID, emotion);
+        Response sliderResponse = new Response(questionID, assessmentID, emotion,2);
 
-        System.out.println("Slider Assessment: "+question+" --> "+emotion);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
+        String created_at = sdf.format(Calendar.getInstance().getTime());
+
+        sliderResponse.setCreated_at(created_at);
+
+        System.out.println("Slider Assessment: Question ID: "+questionID+" "+question+" --> "+emotion);
         flowManager.addResponse(sliderResponse);
         flowManager.startNextAssessmentQuestion();
     }

@@ -24,7 +24,7 @@ public class Response extends PlainOldDBO<Response> {
      * @param assessment_id The assessment this response belongs to
      * @param number The value of the response
      */
-     public Response(Integer question_id, Integer assessment_id,String number) {
+     public Response(Integer question_id, Integer assessment_id,String number, int type) {
         this.question_id = question_id;
         this.assessment_id = assessment_id;
         this.number = number;
@@ -32,11 +32,11 @@ public class Response extends PlainOldDBO<Response> {
         this.emotion = 0;
         this.percent = 0f;
         // Set the type to number response
-        this.type = 1;
+        this.type = type;
     }
 
 
-    public Response(Integer question_id, Integer assessment_id,Integer emotion) {
+    public Response(Integer question_id, Integer assessment_id,Integer emotion,int type) {
         this.question_id = question_id;
         this.assessment_id = assessment_id;
         this.emotion = emotion;
@@ -45,10 +45,10 @@ public class Response extends PlainOldDBO<Response> {
         this.percent = 0f;
 
         // Set the type to number response
-        this.type = 1;
+        this.type = type;
     }
 
-    public Response(Integer question_id, Integer assessment_id,Float percent) {
+    public Response(Integer question_id, Integer assessment_id,Float percent,int type) {
         this.question_id = question_id;
         this.assessment_id = assessment_id;
         this.percent = percent;
@@ -56,10 +56,10 @@ public class Response extends PlainOldDBO<Response> {
         this.number = "";
         this._boolean = false;
         // Set the type to number response
-        this.type = 1;
+        this.type = type;
     }
 
-    public Response(Integer question_id, Integer assessment_id,Boolean _boolean) {
+    public Response(Integer question_id, Integer assessment_id,Boolean _boolean,int type) {
         this.question_id = question_id;
         this.assessment_id = assessment_id;
         this._boolean = _boolean;
@@ -67,7 +67,7 @@ public class Response extends PlainOldDBO<Response> {
         this.number = "";
         this.percent = 0f;
         // Set the type to number response
-        this.type = 1;
+        this.type =type;
     }
 
     /**
@@ -132,4 +132,9 @@ public class Response extends PlainOldDBO<Response> {
 
     /*public String getQuestion() {return question; }
     public void setQuestion(String question) {this.question = question;}*/
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

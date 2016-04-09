@@ -9,6 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import justbe.mindfulness.models.DropdownQuestion;
 import justbe.mindfulness.models.Response;
 
@@ -95,12 +98,18 @@ public class DropdownAssessmentActivity extends AppCompatActivity
         // See SliderAssessmentActivity for a example of adding a
         // response to the flowManager
         String value =  (String) spinner.getSelectedItem();
+        value = value.split(" ")[0];
         Integer questionId = flowManager.getQuestionID();
         Integer assessmentId = flowManager.getAssessmentID();
         String question =  dropdownQuestion.getQuestionText();
 
-        Response dropDownResponse = new Response(questionId,assessmentId,value);
-        System.out.println("Drop Down Assessment: "+question+" --> "+value);
+        Response dropDownResponse = new Response(questionId,assessmentId,value,1);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
+
+        String created_at = sdf.format(Calendar.getInstance().getTime());
+        dropDownResponse.setCreated_at(created_at);
+
+        System.out.println("Drop Down Assessment: Question ID: "+questionId+" "+question+" --> "+value);
         flowManager.addResponse(dropDownResponse);
         flowManager.startNextAssessmentQuestion();
     }
