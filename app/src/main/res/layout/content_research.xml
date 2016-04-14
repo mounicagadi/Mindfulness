@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="justbe.mindfulness.ResearchActivity"
+    tools:showIn="@layout/activity_research">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/researchStudyText"
+        android:padding="10dp"
+        android:gravity="center"
+        android:text="@string/resarch_study"
+        android:textColor="@color/black"
+        android:textSize="@dimen/small_text_size"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="106dp" />
+
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/researchStudy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_below="@+id/researchStudyText"
+        android:layout_centerHorizontal="true">
+
+
+
+    <RadioButton android:id="@+id/yes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/yes"
+        android:onClick="onResearchStudyButtonClicked"
+        android:layout_below="@+id/researchStudyText"
+        android:layout_toLeftOf="@+id/no"
+        android:layout_toStartOf="@+id/no"
+
+        android:layout_marginRight="28dp"
+        android:layout_marginEnd="10dp" />
+
+    <RadioButton android:id="@+id/no"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/no"
+        android:checked="true"
+    android:onClick="onResearchStudyButtonClicked"
+        android:layout_alignTop="@+id/yes"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="90dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginLeft="25dp"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/researchStudyInfo"
+        android:padding="10dp"
+        android:text="@string/resarch_study_info"
+        android:textColor="@color/black"
+        android:textSize="@dimen/small_text_size"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="107dp" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/sleepNextButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="31dp"
+        android:padding="12dp"
+        android:onClick="researchStudyNextButtonPressed"
+        android:text="@string/next_button"
+        android:layout_below="@+id/researchStudy"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

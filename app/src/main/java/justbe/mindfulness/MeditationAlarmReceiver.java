@@ -13,7 +13,10 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RemoteViews;
 
 import java.util.Calendar;
@@ -32,7 +35,7 @@ public class MeditationAlarmReceiver extends BroadcastReceiver {
         Log.v("Med: ", " inside " + Calendar.getInstance().getTime());
 
         int icon = R.drawable.lotus_2x;
-        //Notification notification = new Notification(icon, "Custom Notification", System.currentTimeMillis());
+        Notification notification = new Notification(icon, "Pending Daily Meditation", System.currentTimeMillis());
 
 
         NotificationManager notificationManager = (NotificationManager) context
@@ -40,47 +43,64 @@ public class MeditationAlarmReceiver extends BroadcastReceiver {
 
 
 
-        RemoteViews contentView = new RemoteViews(context.getApplicationContext().getPackageName(), R.layout.custom_notification);
 
-        contentView.setTextViewText(R.id.title, (context.getString(R.string.app_name)));
+
+
+
+
+
+
+        Intent okIntent = new Intent(context, okButtonListener.class);
+        okIntent.putExtra("NotificationID", "" + notificationID);
+        PendingIntent pendingOkIntent = PendingIntent.getBroadcast(context, 0, okIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+
+        Intent snoozeIntent = new Intent(context, snoozeButtonListener.class);
+
+
+
+
+        snoozeIntent.putExtra("NotificationID", "" + notificationID);
+        PendingIntent pendingSnoozeIntent = PendingIntent.getBroadcast(context, 0, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+
+
+
+
+        RemoteViews contentView = new RemoteViews(context.getApplicationContext().getPackageName(), R.layout.custom_notification);
+        /*contentView.setTextViewText(R.id.title, (context.getString(R.string.app_name)));*/
+        contentView.setImageViewResource(R.id.imageView,R.drawable.lotus_2x);
         contentView.setTextViewText(R.id.text, "Pending daily meditation");
         //contentView.setPendingIntentTemplate(R.id.okButton,);
-        //notification.contentView = contentView;
+        contentView.setOnClickPendingIntent(R.id.okButton, pendingOkIntent);
+        contentView.setOnClickPendingIntent(R.id.snoozeButton, pendingSnoozeIntent);
 
+        notification.contentView = contentView;
 
-/*
-
-        Intent notificationIntent = new Intent(context, MainActivity.class);
-        notificationIntent.setAction("play");
-        notificationIntent.putExtra("meditationNotificationIntent", "true");
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-*/
-
-        Intent notificationIntent = new Intent(context, MainActivity.class);
-        notificationIntent.putExtra("meditationNotificationIntent", "true");
-        PendingIntent contentIntent = PendingIntent.getActivity(context,
-                0, notificationIntent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
-
-
-        long[] pattern = {500,500,500,500,500,500,500,500,500};
+        long[] pattern = {500, 500, 500, 500, 500, 500, 500, 500, 500};
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setContentIntent(contentIntent)
-                //.setContent(contentView)
-                .setContentTitle("Mindfulness")
-                .setContentText("Pending Meditation Notification")
-                .setSmallIcon(icon)
-                .setAutoCancel(true)
-                .setLights(Color.BLUE, 500, 500)
-                .setVibrate(pattern)
-                .setStyle(new NotificationCompat.InboxStyle())
-                .setSound(alarmSound);
 
-        System.out.println("Notification 5");
-        notificationManager.notify(notificationID, builder.build());
+
+
+
+
+
+
+
+
+
+
+        /*notification.flags |= Notification.FLAG_AUTO_CANCEL; //clear the notification
+        notification.flags |= Notification.COLOR_DEFAULT; // LED*/
+        notification.vibrate = pattern; //Vibration
+        notification.sound = alarmSound; // Sound
+
+
+        notificationManager.notify(notificationID, notification);
         notificationID++;
 
 
@@ -90,62 +110,137 @@ public class MeditationAlarmReceiver extends BroadcastReceiver {
 
 
 
-    public static class SnoozeMeditation extends BroadcastReceiver {
 
-        static int snoozeCount = 0;
+
+
+    public static class okButtonListener extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+
+
+
+            Log.d("Med Notification", "ok button pressed");
+
+
+
+
+
+
+
+
+
+
+            String notID = intent.getExtras().getString("NotificationID");
+            Log.v("Notification ID",": "+notID);
+
+
+
+
+            NotificationManager nMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            //nMgr.cancelAll();
+            if(null == notID)
+                nMgr.cancelAll();
+            else{
+                Integer notificationId = Integer.parseInt(notID);
+                nMgr.cancel(notificationId);
+            }
+
+
+
+
+
+            //nMgr.cancel(notificationID);
+            Intent notificationIntent = new Intent();
+            notificationIntent.setClassName("justbe.mindfulness", "justbe.mindfulness.MainActivity");
+            notificationIntent.putExtra("meditationNotificationIntent", "true");
+            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(notificationIntent);
+
+
+
+            Log.d("Med Notification", "Main Activity invoked");
+
+
+
+
+        }
+
+    }
+
+    public static class snoozeButtonListener extends BroadcastReceiver {
+
+        static int snoozeCount = 1;
+        @Override
+        public void onReceive(Context snoozeContext, Intent intent) {
+            Log.d("Med Notification", "snooze button pressed");
+
+
+            String notID = intent.getExtras().getString("NotificationID");
+            Log.v("Notification ID", ": " + notID);
+
+            NotificationManager nMgr = (NotificationManager) snoozeContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            if(null == notID)
+                nMgr.cancelAll();
+            else{
+                Integer notificationId = Integer.parseInt(notID);
+                Log.v("Notification ID int ", notID);
+                nMgr.cancel(notificationId);
+            }
+
+
+
+
+            Log.v("Snooze count", ""+snoozeCount);
             snoozeCount++;
-            if(!(snoozeCount>3)){
-                Log.v("Snooze Meditation","Count: "+snoozeCount);
+            if(snoozeCount>3) {
+             Log.v("Snooze","3rd time snooze. Dismissing notification");
+                nMgr.cancelAll();
+                return;
+            }
 
-                Calendar calendar = Calendar.getInstance();
-                //schedule next notification at 30 minutes from now
-                calendar.add(Calendar.MINUTE,30);
-                String currentTime = calendar.getTime().toString();
 
-                String time = currentTime.split(" ")[3];
-                int hour = Integer.parseInt(time.split(":")[0]);
-                int min = Integer.parseInt(time.split(":")[1]);
-                int sec = Integer.parseInt(time.split(":")[2]);
+            String currentTime = Util.dateToDisplayString(Calendar.getInstance().getTime());
+            System.out.println("Current time: " + currentTime);
+            int hour = 0, min = 0, sec = 0;
+            if(currentTime.contains(" ")){
+                String time = currentTime.split(" ")[0];
+                hour = Integer.parseInt(time.split(":")[0]);
+                min = Integer.parseInt(time.split(":")[1]);
+                if(currentTime.split(" ")[1].equals("PM"))
+                    hour+=12;
+            }
 
-                calendar.set(Calendar.HOUR_OF_DAY,hour);
-                calendar.set(Calendar.MINUTE,min);
-                calendar.set(Calendar.SECOND,sec);
 
-                Intent snoozeIntent = new Intent(context, MeditationAlarmReceiver.class);
-                PendingIntent pendingSnoozeIntent = PendingIntent.getBroadcast(
-                        context, 0, snoozeIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT);
+            min=min+2;
+            Log.v("Med snooze hour",""+hour);
+            Log.v("Med snooze min",""+min);
 
-                AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-                alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, calendar.getTimeInMillis(), pendingSnoozeIntent);
+            try{
 
-            }else
-                Log.v("Snooze Meditation","Meditation snoozed 3 times. Dismissed");
+                AlarmManager snoozeAlarmManager = (AlarmManager)snoozeContext.getSystemService(Context.ALARM_SERVICE);
+
+                //schedule the alarm
+                Calendar snoozeTime = Calendar.getInstance();
+                Log.v("Snooze Time Before", "" + snoozeTime.getTimeInMillis());
+                snoozeTime.set(Calendar.HOUR_OF_DAY,hour);
+                snoozeTime.set(Calendar.MINUTE, min);
+                snoozeTime.set(Calendar.SECOND, 0);
+
+
+                Log.v("Snooze Time", "" + snoozeTime.getTime());
+
+                Log.v("Snooze Time After",""+snoozeTime.getTimeInMillis());
+                Intent snooze = new Intent(snoozeContext, MeditationAlarmReceiver.class);
+                PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(
+                        snoozeContext, notificationID, snooze,0);
+                snoozeAlarmManager.set(AlarmManager.RTC_WAKEUP, snoozeTime.getTimeInMillis(), snoozePendingIntent);
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }
 
         }
-
     }
-
-    public static class TakeMeditation extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            Log.v("Meditation Notification","Accepted meditation session");
-
-
-            Intent startMeditationIntent = new Intent(context, MainActivity.class);
-            startMeditationIntent.putExtra("meditationNotificationIntent","play");
-            context.startActivity(startMeditationIntent);
-
-        }
-
-    }
-
-
-
 }
 
 

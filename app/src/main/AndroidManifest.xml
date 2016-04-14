@@ -55,6 +55,12 @@
             android:label="@string/title_activity_meditation_time"
             android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar" />
+
+			<activity
+            android:name=".ThankYouActivity"
+            android:label="@string/epilogue"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="justbe.mindfulness.PreferencesActivity"
             android:label="Preferences"
@@ -90,10 +96,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="justbe.mindfulness.MainActivity" />
         </activity>
+		<activity
+            android:name=".StartAssessmentActivity"
+            android:label="@string/title_activity_start_assessment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".StartProgramActivity" />
 
         
 	 <receiver
-            android:name=".AlarmReceiver"
+            android:name=".AssessmentNotification"
+
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -108,19 +120,66 @@
         </receiver>
         <receiver
             android:name=".LessonAlarmReceiver"
-
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-		
+        <receiver
+            android:name=".MeditationAlarmReceiver$okButtonListener"
+            android:enabled="true">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            -->
+        </receiver>
+        <receiver
+            android:name=".MeditationAlarmReceiver$snoozeButtonListener"
+            android:enabled="true">
+
+            <!--
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            -->
+        </receiver>
+        <receiver
+            android:name=".AssessmentNotification$okButtonListener"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".AssessmentNotification$snoozeButtonListener"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".LessonAlarmReceiver$okButtonListener"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".LessonAlarmReceiver$snoozeButtonListener"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
 
         <activity
-            android:name="justbe.mindfulness.StartAssessmentActivity"
-            android:label="@string/title_activity_start_assessment"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="justbe.mindfulness.StartProgramActivity"></activity>
+            android:name=".ResearchActivity"
+            android:label="@string/title_activity_research"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <activity android:name="justbe.mindfulness.ResponseActivity"/>
     </application>
 

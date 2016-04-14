@@ -171,7 +171,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 public void handleMessage(Message msg) {
                     // Log in succeeded
                     if(msg.what == 0) {
-                        Intent intent = new Intent(CreateAccountActivity.this, SleepTimeActivity.class);
+                        Intent intent = new Intent(CreateAccountActivity.this, ResearchActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         progressDialog.dismiss();

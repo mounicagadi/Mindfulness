@@ -3,46 +3,80 @@
     android:id="@+id/layout"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@color/colorPrimary">
 
-    <TextView android:id="@+id/title"
+   <!-- <TextView android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Notification"
-        style="Custom Notification Title"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold|italic"
+        android:textIsSelectable="false" />-->
+
 
     <TextView android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Notification content"
-        style="Custom Notification Text"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/title" />
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        android:typeface="serif"
+        android:textStyle="italic"
 
+
+
+
+        android:layout_alignBottom="@+id/snoozeButton"
+        android:layout_centerHorizontal="true" />
+    <!--android:layout_below="@+id/title"-->
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:text="OK"
+        android:text="Take Now"
         android:id="@+id/okButton"
-        android:onClick="okButtonClick"
-        android:layout_below="@+id/title"
+        android:visibility="visible"
+        android:textStyle="italic"
+        android:background="@drawable/mybutton"
+        android:layout_alignParentTop="true"
+
+        android:layout_marginRight="5dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="46dp" />
+        android:layout_alignParentStart="true" />
+
+
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Snooze"
-        android:onClick="snoozeButtonClick"
+        android:width="65dp"
+        android:visibility="visible"
+        android:background="@drawable/mybutton"
+
         android:id="@+id/snoozeButton"
-        android:layout_alignBottom="@+id/okButton"
+        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textStyle="italic" />
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/imageView"
+        android:layout_above="@+id/text"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/text"
+        android:layout_alignEnd="@+id/text"
+        android:layout_alignLeft="@+id/text"
+        android:layout_alignStart="@+id/text" />
+
 
 
 </RelativeLayout>

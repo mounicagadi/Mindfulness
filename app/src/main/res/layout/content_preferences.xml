@@ -134,6 +134,35 @@
                 android:textColor="@color/bpTransparent_black"
                 android:textSize="@dimen/normal_text_size" />
         </TableRow>
+	<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp" >
+            <View style="@style/Divider" />
+        </LinearLayout>
+        <TableRow
+            android:id="@+id/currentResearchStudyRow"
+            android:clickable="false"
+            android:background="@drawable/clickable_table_row_selector">
+            <TextView
+                android:id="@+id/currentResearchStudyText"
+                android:padding="8dp"
+                android:layout_marginStart="5dp"
+                android:text="@string/research_study_text"
+                android:textColor="@color/black"
+                android:textSize="@dimen/normal_text_size" />
+
+            <TextView
+                android:id="@+id/currentResearchStudy"
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:width="0dp"
+                android:text="No"
+                android:layout_marginEnd="5dp"
+                android:background="@color/bpTransparent"
+                android:gravity="end"
+                android:textColor="@color/bpTransparent_black"
+                android:textSize="@dimen/normal_text_size" />
+        </TableRow>
 
         <LinearLayout
             android:layout_width="match_parent"

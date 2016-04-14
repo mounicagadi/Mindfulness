@@ -41,12 +41,14 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
     private TextView currentFirstname;
     private TextView currentLastname;
     private TextView currentGender;
+    private TextView currentResearchStudy;
     private TextView meditationTimeText;
     private TextView lessonTimeText;
     private TextView wakeUpTimeText;
     private TextView goToSleepTimeText;
 
     private String gender_string;
+    private String research_study_string;
     private String meditationTime;
     private String lessonTime;
     private String wakeUpTime;
@@ -110,6 +112,7 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
         currentFirstname = (TextView) findViewById(R.id.currentFirstname);
         currentLastname = (TextView) findViewById(R.id.currentLastname);
         currentGender = (TextView) findViewById(R.id.currentGender);
+        currentResearchStudy = (TextView)findViewById(R.id.currentResearchStudy);
         meditationTimeText = (TextView) findViewById(R.id.meditationTime);
         lessonTimeText = (TextView) findViewById(R.id.lessonTime);
         wakeUpTimeText = (TextView) findViewById(R.id.wakeUpTime);
@@ -124,6 +127,7 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
         currentFirstname.setText(user.getFirst_name());
         currentLastname.setText(user.getLast_name());
         currentGender.setText(getGenderString(user.getGender()));
+       currentResearchStudy.setText(getResearchStudyString(user.getResearch_study()));
         meditationTime = Util.dateToDisplayString(user.getMeditation_time());
         lessonTime = Util.dateToDisplayString(user.getExercise_time());
         wakeUpTime = Util.dateToDisplayString(user.getWake_up_time());
@@ -152,6 +156,14 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
         return gender_string;
     }
 
+public String getResearchStudyString(boolean research_study)
+    {
+        if(research_study)
+            research_study_string = "Yes";
+        else
+            research_study_string = "No";
+        return research_study_string;
+    }
     /**
      * Saves the time from the Time Picker
      */
@@ -178,7 +190,9 @@ public class PreferencesActivity extends AppCompatActivity implements RefreshVie
                 goToSleepTime = Util.dateToDisplayString(time);
                 userProfile.setGo_to_sleep_time(Util.dateToUserProfileString(time));
 				// update assessment notifications with change in sleep time time
-                updateAssessmentAlarm(userProfile.getGo_to_sleep_time().toString());
+				Log.v("Pref Activity","Research Study? "+userProfile.getResearch_study());
+                if(userProfile.getResearch_study())
+                    updateAssessmentAlarm(userProfile.getGo_to_sleep_time().toString());
                 break;
             default:
                 throw new RuntimeException("Attempted to set time for unknown field");
@@ -347,7 +361,7 @@ public void updateAssessmentAlarm(String sleepTime){
 
             if(now.after(calendar)) {
                 System.out.println("Exercise time crossed. Skipping for the day");
-                calendar.add(Calendar.DATE, 1);
+                calendar.add(Calendar.DATE, 7);
             }
 
             Log.v("Time after adding day",""+calendar.getTime());
@@ -356,7 +370,7 @@ public void updateAssessmentAlarm(String sleepTime){
             Boolean checked = Boolean.parseBoolean(getIntent().getStringExtra("checked"));
 
             Intent intent = new Intent(PreferencesActivity.this, LessonAlarmReceiver.class);
-            intent.putExtra("currentWeek",""+currentWeek);
+            intent.putExtra("week",""+currentWeek);
             intent.putExtra("checked",""+checked);
 
             Log.v("Preferences", "" + currentWeek);
@@ -364,7 +378,7 @@ public void updateAssessmentAlarm(String sleepTime){
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(
                     PreferencesActivity.this, 0, intent,
-                    0);
+			PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                     AlarmManager.INTERVAL_DAY*7, pendingIntent);
 

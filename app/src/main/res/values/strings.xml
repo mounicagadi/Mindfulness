@@ -37,6 +37,7 @@
     <string name="birthday_text">Birthday</string>
     <string name="age_text">Age</string>
     <string name="gender_text">Gender</string>
+	<string name="research_study_text">Part of \nResearch Study?</string>
     <string name="male_text">Male</string>
     <string name="female_text">Female</string>
     <string name="other_text">Other</string>
@@ -51,6 +52,9 @@
     <string name="storingResponses">Storing Responses</string>
     <string name="loggingOut">Logging Out</string>
     <string name="pleaseWait">Please wait...</string>
+	<string name="resarch_study">Do you choose to be a part of\n reserach study?</string>
+    <string name="resarch_study_info">Note: \nIf you choose to be part of research study, only then you will be receiving notifications for Daily Assessments.</string>
+
 
     <string name="title_activity_preferences">Preferences</string>
     <string name="meditations_text">Meditation Time</string>
@@ -62,6 +66,7 @@
 
     <string name="title_activity_lesson">Weekly Lesson</string>
     <string name="title_activity_assessment">Assessment</string>
+	<string name="epilogue">Thank you.</string>
 
 
     <string name="start">Start</string>

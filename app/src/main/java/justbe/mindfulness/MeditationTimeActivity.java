@@ -1,10 +1,14 @@
 package justbe.mindfulness;
 
+import android.app.AlarmManager;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -103,11 +107,57 @@ public class MeditationTimeActivity extends AppCompatActivity implements Refresh
      * @param view The View
      */
     public void meditationNextButtonPressed(View view) {
+        setUpMeditations();
 
         Intent intent = new Intent(MeditationTimeActivity.this, StartProgramActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
+ public void setUpMeditations(){
+        String timeString = meditationTime;
+        // convert 'Thu Jan 01 22:30:00 EST 1970' to 22:30:00
+        int hour = 0, min = 0;
+        String time = timeString.split(" ")[0];
+        hour = Integer.parseInt(time.split(":")[0]);
+        min = Integer.parseInt(time.split(":")[1]);
+        System.out.println("User medi time: " + meditationTime);
+
+        try{
+
+
+            AlarmManager alarmManager = (AlarmManager)App.context().getSystemService(Context.ALARM_SERVICE);
+            PendingIntent cancelIntent = PendingIntent.getBroadcast(App.context(), 0,
+                    new Intent(App.context(), MeditationAlarmReceiver.class), 0);
+            alarmManager.cancel(cancelIntent);
+
+            //schedule the alarm
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY,hour);
+            calendar.set(Calendar.MINUTE,min);
+            calendar.set(Calendar.SECOND,0);
+            Calendar now = Calendar.getInstance();
+            Log.v("Time before adding day", "" + calendar.getTime());
+
+            if(now.after(calendar)) {
+                System.out.println("Meditation time crossed. Skipping for the day");
+                calendar.add(Calendar.DATE, 1);
+            }
+
+            Log.v("Time after adding day",""+calendar.getTime());
+            Intent intent = new Intent(MeditationTimeActivity.this, MeditationAlarmReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                    MeditationTimeActivity.this, 0, intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT
+            );
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, pendingIntent);
+
+
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
 
 }

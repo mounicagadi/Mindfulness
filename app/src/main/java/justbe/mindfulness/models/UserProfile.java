@@ -13,6 +13,7 @@ public class UserProfile extends PlainOldDBO<User> {
     private String go_to_sleep_time;
     private Integer gender;
     private Integer current_week;
+	private boolean research_study;
 
     /**
      * UserProfile Constructor that creates a default UserProfile object with default values
@@ -43,6 +44,7 @@ public class UserProfile extends PlainOldDBO<User> {
         setGo_to_sleep_time(Util.dateToUserProfileString(user.getGo_to_sleep_time()));
         setGender(user.getGender());
         setCurrent_week(user.getCurrent_week());
+		setResearch_study(user.getResearch_study());
     }
 
     public String getBirthday() { return birthday; }
@@ -78,4 +80,12 @@ public class UserProfile extends PlainOldDBO<User> {
     public Integer getCurrent_week() { return current_week; }
 
     public void setCurrent_week(Integer current_week) { this.current_week = current_week; }
+	
+	public boolean getResearch_study() {
+        return research_study;
+    }
+
+    public void setResearch_study(boolean research_study) {
+        this.research_study = research_study;
+    }
 }
