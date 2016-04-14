@@ -55,11 +55,11 @@ public class SliderAssessmentActivity extends AppCompatActivity
 
         // Draw scale onto seek bar
         Integer maxSeek = sliderQuestion.getMaxSliderVal();
-        Integer middleSeek = maxSeek / 2;
+        Integer minSeek = sliderQuestion.getMinSliderVal();
 
         // start with seek bar at the middle
         seekBar = (SeekBar)findViewById(R.id.seekBar);
-        seekBar.setProgress(middleSeek);
+        seekBar.setProgress(minSeek);
         seekBar.setMax(maxSeek);
         seekBar.setOnSeekBarChangeListener(SliderAssessmentActivity.this);
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import justbe.mindfulness.models.Assessment;
@@ -53,6 +54,14 @@ public class StartAssessmentActivity extends AppCompatActivity {
             managerFactory.addMorningAssessmentQuestions();
         } else {
             managerFactory.addDayAssessmentQuestions();
+        }
+
+        if (null == user) {
+            Log.v("Start Assessment", "Session user is null");
+            SessionManager sessionManager = new SessionManager(context.getApplicationContext());
+            user = sessionManager.getUser();
+            App.getSession().setUser(user);
+            Log.v("Start Assessment", "Session user from session manager" + user.getId());
         }
 
         Assessment assessment = ServerRequests.createAssessment(context, user);

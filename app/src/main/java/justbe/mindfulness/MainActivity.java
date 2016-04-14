@@ -240,10 +240,6 @@ public class MainActivity extends AppCompatActivity{
     public void onBackPressed() {
     }
 
-    @Override
-    public void onBackPressed() {
-    }
-
 @Override
     protected void onPostResume() {
         super.onPostResume();

@@ -121,6 +121,7 @@
             android:label="@string/title_activity_start_assessment"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="justbe.mindfulness.StartProgramActivity"></activity>
+        <activity android:name="justbe.mindfulness.ResponseActivity"/>
     </application>
 
 </manifest>

@@ -205,15 +205,11 @@ public class ServerRequests {
 
     // Currently the API call that would need to be implemented is "/api/v1/response/"
 
-    public static void submitUserAssessment(User user,List<Response> responses, Context context)
+    public static boolean submitUserAssessment(List<Response> responses, Context context)
     {
         Log.v("In Server Requests"," Assessment Responses");
-        /*for(Response res : responses)
-        {
-            System.out.println(res.get_boolean()+",\nAssessment ID: "+res.getAssessment_id()+",\nNumber"+res.getNumber()+",\nEmotion:"+res.getEmotion()+",\nCreatedAt:"+res.getCreated_at()+",\nQuestion ID:"+res.getQuestion_id()+",\nResponse Type: "+res.getType()+",\nPercent: "+res.getPercent()+",");
-        }*/
         GenericHttpRequestTask<Response, Response> task;
-        Boolean success;
+        Boolean success = false;
         Map<String, String> responsePushToDBMap = new HashMap<String, String>();
         for(Response res : responses)
         {
@@ -226,7 +222,6 @@ public class ServerRequests {
             responsePushToDBMap.put("created_at",res.getCreated_at().toString());
             responsePushToDBMap.put("updated_at",res.getCreated_at().toString());
             responsePushToDBMap.put("assessment_id",res.getAssessment_id().toString());
-            //responsePushToDBMap.put("assessment_id",""+12735);
             responsePushToDBMap.put("category","");
 
             Log.v("Server Requests", "Reponse Push");
@@ -245,6 +240,7 @@ public class ServerRequests {
                 break;
             }
         }
+        return success;
     }
 
     /***********************************************************************************************
