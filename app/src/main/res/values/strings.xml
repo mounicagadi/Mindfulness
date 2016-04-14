@@ -13,6 +13,7 @@
     <string name="title_activity_meditation_time">Meditation Timings</string>
     <string name="title_activity_getting_started">Getting Started</string>
     <string name="title_activity_response">Storing Responses</string>
+	<string name="title_activity_research">Research Study</string>
     <string name="create_account_text">Create Account</string>
     <string name="not_a_member">Not a member?</string>
     <string name="continue_button">Continue</string>
