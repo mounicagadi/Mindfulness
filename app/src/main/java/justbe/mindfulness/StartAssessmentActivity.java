@@ -56,7 +56,7 @@ public class StartAssessmentActivity extends AppCompatActivity {
             managerFactory.addDayAssessmentQuestions();
         }
 
-        if (null == user) {
+        if (user.getId() == null) {
             Log.v("Start Assessment", "Session user is null");
             SessionManager sessionManager = new SessionManager(App.context().getApplicationContext());
             user = sessionManager.getUser();

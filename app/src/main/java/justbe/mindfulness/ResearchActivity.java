@@ -2,8 +2,6 @@ package justbe.mindfulness;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -51,27 +49,26 @@ public class ResearchActivity extends AppCompatActivity {
             case R.id.yes:
                 if (checked) {
                     research_study = true;
-                    Log.v("Research Study",""+research_study);
+                    Log.v("Research Study",""+true);
                     break;
                 }
             case R.id.no:
                 if (checked) {
                     research_study = false;
-                    Log.v("Research Study",""+research_study);
+                    Log.v("Research Study",""+false);
                     break;
                 }
         }
-
-        userProfile.setResearch_study(research_study);
-        user.setResearch_study(research_study);
-        ServerRequests.updateUserWithUserProfile(user, userProfile, getApplicationContext());
-        user = App.getSession().getUser();
 
     }
 
 
     public void researchStudyNextButtonPressed(View view) {
-
+        userProfile.setResearch_study(research_study);
+        user.setResearch_study(research_study);
+        ServerRequests.updateUserWithUserProfile(user, userProfile, getApplicationContext());
+        user = App.getSession().getUser();
+        System.out.println(research_study + "Research value......");
         Intent intent = new Intent(ResearchActivity.this, SleepTimeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);

@@ -139,6 +139,8 @@ public final class AssessmentFlowManager {
     public static List<Response> getResponses() {
         return responses;
     }
+
+    public static void emptyResponses() { responses.clear();}
     /**
      * Starts the next assessment question provided there is one.
      * Otherwise goes back to the MainActivity

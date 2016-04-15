@@ -53,7 +53,7 @@ public class ResponseActivity extends AppCompatActivity {
                 if (response_success) {
                     Log.v("Assessment", "After submission");
 
-                    if (null == user) {
+                    if (user.getId() == null) {
                         Log.v("End Assessment", "Session user is null");
                         SessionManager sessionManager = new SessionManager(context.getApplicationContext());
                         user = sessionManager.getUser();
@@ -61,6 +61,7 @@ public class ResponseActivity extends AppCompatActivity {
                         Log.v("End Assessment", "Session user from session manager" + user.getId());
                     }
                     System.out.println("Assessment completed for User: " + user.getId());
+                    AssessmentFlowManager.emptyResponses();
                     // Go back to the main activity when done
                     Intent intent = new Intent(ResponseActivity.this, MainActivity.class);
                     intent.putExtra("source", "assessment");

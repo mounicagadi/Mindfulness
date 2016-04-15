@@ -40,7 +40,7 @@ public class Response extends PlainOldDBO<Response> {
         this.question_id = question_id;
         this.assessment_id = assessment_id;
         this.emotion = emotion;
-        this.number = "";
+        this.number = "0";
         this._boolean = false;
         this.percent = 0f;
 
@@ -53,7 +53,7 @@ public class Response extends PlainOldDBO<Response> {
         this.assessment_id = assessment_id;
         this.percent = percent;
         this.emotion = 0;
-        this.number = "";
+        this.number = "0";
         this._boolean = false;
         // Set the type to number response
         this.type = type;
@@ -64,7 +64,7 @@ public class Response extends PlainOldDBO<Response> {
         this.assessment_id = assessment_id;
         this._boolean = _boolean;
         this.emotion = 0;
-        this.number = "";
+        this.number = "0";
         this.percent = 0f;
         // Set the type to number response
         this.type =type;

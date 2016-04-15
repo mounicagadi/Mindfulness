@@ -213,14 +213,15 @@ public class ServerRequests {
         Map<String, String> responsePushToDBMap = new HashMap<String, String>();
         for(Response res : responses)
         {
+            int number = Math.round(Float.parseFloat(res.getNumber()));
             responsePushToDBMap.put("type",res.getType().toString());
-            responsePushToDBMap.put("\"boolean\"",res.get_boolean().toString());
-            responsePushToDBMap.put("\"number\"",res.getNumber().toString());
+            responsePushToDBMap.put("boolean",res.get_boolean().toString());
+            responsePushToDBMap.put("number",number+"");
             responsePushToDBMap.put("emotion",res.getEmotion().toString());
             responsePushToDBMap.put("percent",res.getPercent().toString());
             responsePushToDBMap.put("question_id",res.getQuestion_id().toString());
-            responsePushToDBMap.put("created_at",res.getCreated_at().toString());
-            responsePushToDBMap.put("updated_at",res.getCreated_at().toString());
+            responsePushToDBMap.put("created_at",res.getCreated_at());
+            responsePushToDBMap.put("updated_at",res.getCreated_at());
             responsePushToDBMap.put("assessment_id",res.getAssessment_id().toString());
             responsePushToDBMap.put("category","");
 
