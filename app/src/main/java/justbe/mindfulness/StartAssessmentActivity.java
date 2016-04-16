@@ -48,21 +48,17 @@ public class StartAssessmentActivity extends AppCompatActivity {
         // Create new assessment here
 
         AssessmentFlowManagerFactory managerFactory = new AssessmentFlowManagerFactory(this);
-        // Get the correct assessment flow
-        Intent intent = getIntent();
-        if (intent.getExtras().getBoolean("isMorningAssessment")) {
-            managerFactory.addMorningAssessmentQuestions();
-        } else {
-            managerFactory.addDayAssessmentQuestions();
-        }
 
-        if (user.getId() == null) {
+        managerFactory.addMorningAssessmentQuestions();
+        context = App.context();
+        if (user == null) {
             Log.v("Start Assessment", "Session user is null");
-            SessionManager sessionManager = new SessionManager(App.context().getApplicationContext());
+            SessionManager sessionManager = new SessionManager(context.getApplicationContext());
             user = sessionManager.getUser();
             App.getSession().setUser(user);
             Log.v("Start Assessment", "Session user from session manager" + user.getId());
         }
+
 
         Assessment assessment = ServerRequests.createAssessment(context, user);
         AssessmentFlowManager flowManager = AssessmentFlowManager.getInstance(this);

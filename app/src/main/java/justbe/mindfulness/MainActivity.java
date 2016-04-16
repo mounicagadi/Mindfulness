@@ -154,7 +154,8 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void setUpMeditationContent(int weekId){
-        mediaPlayer = new MeditationMediaPlayer(this, R.raw.sample, weekId);
+        int meditationFileId = Util.getMeditationFile(weekId);
+        mediaPlayer = new MeditationMediaPlayer(this, meditationFileId, weekId);
     }
 
 @Override

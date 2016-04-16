@@ -389,4 +389,33 @@ public class Util {
 
         return calendarDayID;
     }
+
+
+    public static int getMeditationFile(int weekId){
+
+        int medFileId=0;
+        switch(weekId){
+
+            case 1: medFileId = R.raw.meditation1; //week 1
+                break;
+            case 2: medFileId = R.raw.meditation2; //week 2
+                break;
+            case 3: medFileId = R.raw.meditation3; //week 3
+                break;
+            case 4: medFileId = R.raw.meditation4; //week 4
+                break;
+            case 5: medFileId = R.raw.meditation5; //week 5
+                break;
+            case 6: medFileId = R.raw.meditation6; //week 6
+                break;
+            case 7: medFileId = R.raw.meditation7; //week 7
+                break;
+            case 8: medFileId = R.raw.meditation8; //week 8
+                break;
+        }
+
+        return medFileId;
+
+    }
+
 }

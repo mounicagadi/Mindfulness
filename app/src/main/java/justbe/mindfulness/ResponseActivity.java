@@ -30,6 +30,7 @@ public class ResponseActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.title_activity_response));
+        context = App.context();
 
         responses = AssessmentFlowManager.getResponses();
 
