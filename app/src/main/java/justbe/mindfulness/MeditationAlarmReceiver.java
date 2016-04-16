@@ -28,7 +28,7 @@ import justbe.mindfulness.models.User;
  * Created by amit on 27-03-2016.
  */
 public class MeditationAlarmReceiver extends BroadcastReceiver {
-    static  int notificationID = 001;
+    static  int notificationID = 101;
     @Override
     public void onReceive(Context context, Intent intent) {
 
@@ -40,14 +40,6 @@ public class MeditationAlarmReceiver extends BroadcastReceiver {
 
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
-
-
-
-
-
-
-
-
 
 
         Intent okIntent = new Intent(context, okButtonListener.class);
@@ -83,17 +75,6 @@ public class MeditationAlarmReceiver extends BroadcastReceiver {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
 
-
-
-
-
-
-
-
-
-
-
-
         /*notification.flags |= Notification.FLAG_AUTO_CANCEL; //clear the notification
         notification.flags |= Notification.COLOR_DEFAULT; // LED*/
         notification.vibrate = pattern; //Vibration
@@ -122,14 +103,6 @@ public class MeditationAlarmReceiver extends BroadcastReceiver {
             Log.d("Med Notification", "ok button pressed");
 
 
-
-
-
-
-
-
-
-
             String notID = intent.getExtras().getString("NotificationID");
             Log.v("Notification ID",": "+notID);
 
@@ -145,20 +118,13 @@ public class MeditationAlarmReceiver extends BroadcastReceiver {
                 nMgr.cancel(notificationId);
             }
 
-
-
-
-
-            //nMgr.cancel(notificationID);
+        //nMgr.cancel(notificationID);
             Intent notificationIntent = new Intent();
             notificationIntent.setClassName("justbe.mindfulness", "justbe.mindfulness.MainActivity");
             notificationIntent.putExtra("meditationNotificationIntent", "true");
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(notificationIntent);
-
-
-
-            Log.d("Med Notification", "Main Activity invoked");
+          Log.d("Med Notification", "Main Activity invoked");
 
 
 
@@ -199,15 +165,13 @@ public class MeditationAlarmReceiver extends BroadcastReceiver {
             }
 
 
-            String currentTime = Util.dateToDisplayString(Calendar.getInstance().getTime());
+            String currentTime = Calendar.getInstance().getTime().toString();
             System.out.println("Current time: " + currentTime);
             int hour = 0, min = 0, sec = 0;
             if(currentTime.contains(" ")){
-                String time = currentTime.split(" ")[0];
+                String time = currentTime.split(" ")[3];
                 hour = Integer.parseInt(time.split(":")[0]);
                 min = Integer.parseInt(time.split(":")[1]);
-                if(currentTime.split(" ")[1].equals("PM"))
-                    hour+=12;
             }
 
 

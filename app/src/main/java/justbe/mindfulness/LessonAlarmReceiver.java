@@ -20,7 +20,7 @@ import justbe.mindfulness.models.User;
 
 public class LessonAlarmReceiver extends BroadcastReceiver {
 
-    static  int notificationID = 001;
+    static  int notificationID = 501;
 
     
     @Override
@@ -143,15 +143,13 @@ public class LessonAlarmReceiver extends BroadcastReceiver {
                 return;
             }
 
-            String currentTime = Util.dateToDisplayString(Calendar.getInstance().getTime());
+            String currentTime = Calendar.getInstance().getTime().toString();
             System.out.println("Current time: " + currentTime);
             int hour = 0, min = 0, sec = 0;
             if(currentTime.contains(" ")){
-                String time = currentTime.split(" ")[0];
+                String time = currentTime.split(" ")[3];
                 hour = Integer.parseInt(time.split(":")[0]);
                 min = Integer.parseInt(time.split(":")[1]);
-                if(currentTime.split(" ")[1].equals("PM"))
-                    hour+=12;
             }
             min+=2;
             Log.v("Assessment snooze hour",""+hour);

@@ -28,7 +28,7 @@ public class SleepTimeActivity extends AppCompatActivity implements RefreshViewL
     private TextView wakeUpTimeText;
     private TextView goToSleepTimeText;
     private String wakeUpTime;
-    private String goToSleepTime;
+    private String goToSleepTime,goToSleepTimeForNotification;
 
 
 
@@ -89,7 +89,10 @@ public class SleepTimeActivity extends AppCompatActivity implements RefreshViewL
                 break;
             case R.id.goToSleepTime:
                 goToSleepTime = Util.dateToDisplayString(time);
-                userProfile.setGo_to_sleep_time(Util.dateToUserProfileString(time));
+                goToSleepTimeForNotification = time.toString();
+                Log.v("Sleep Time",time.toString());
+                Log.v("Sleep Time parsed",Util.dateToDisplayString(time));
+                userProfile.setGo_to_sleep_time(Util.dateToDisplayString(time));
                 break;
             default:
                 throw new RuntimeException("Attempted to set time for unknown field");
@@ -132,16 +135,15 @@ public class SleepTimeActivity extends AppCompatActivity implements RefreshViewL
     }
 
 public void setUpAssessmentAlarm(){
-
-
-        try{
-
-            String timeString = goToSleepTime;
-
-            int hour = 0, min = 0;
-            String time = timeString.split(" ")[0];
+        String timeString = goToSleepTimeForNotification;
+    try{
+        System.out.println("Sleep time: " + timeString);
+        int hour = 0, min = 0, sec = 0;
+        if(timeString.contains(" ")){
+            String time = timeString.split(" ")[3];
             hour = Integer.parseInt(time.split(":")[0]);
             min = Integer.parseInt(time.split(":")[1]);
+        }
 
             AlarmManager alarmManager = (AlarmManager)App.context().getSystemService(Context.ALARM_SERVICE);
             PendingIntent cancelIntent = PendingIntent.getBroadcast(App.context(), 0,
@@ -180,3 +182,4 @@ public void setUpAssessmentAlarm(){
 
     }
 }
+

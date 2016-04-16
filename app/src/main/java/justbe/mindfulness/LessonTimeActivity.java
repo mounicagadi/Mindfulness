@@ -31,7 +31,7 @@ public class LessonTimeActivity extends AppCompatActivity implements RefreshView
     private UserProfile userProfile;
     private Spinner spinner;
     private TextView lessonTimeText;
-    private String lessonTime;
+    private String lessonTime,lessonTimeForNotification;
 	private int lessonDayOfWeek;
 
     @Override
@@ -98,6 +98,7 @@ public class LessonTimeActivity extends AppCompatActivity implements RefreshView
         switch (buttonID) {
             case R.id.lessonTime:
                 lessonTime = Util.dateToDisplayString(time);
+                lessonTimeForNotification = time.toString();
                 userProfile.setExercise_time(Util.dateToUserProfileString(time));
                 break;
             default:
@@ -145,12 +146,15 @@ public class LessonTimeActivity extends AppCompatActivity implements RefreshView
 
 public void scheduleExerciseAlarms(){
         int calendarDayID = Util.getCalendarDayId(lessonDayOfWeek);
-        String timeString = lessonTime;
+        String timeString = lessonTimeForNotification;
 
-        int hour = 0, min = 0;
-        String time = timeString.split(" ")[0];
-        hour = Integer.parseInt(time.split(":")[0]);
-        min = Integer.parseInt(time.split(":")[1]);
+        System.out.println("Sleep time: " + timeString);
+        int hour = 0, min = 0, sec = 0;
+        if(timeString.contains(" ")){
+            String time = timeString.split(" ")[3];
+            hour = Integer.parseInt(time.split(":")[0]);
+            min = Integer.parseInt(time.split(":")[1]);
+        }
         //int sec = Integer.parseInt(time.split(":")[2]);
 
         try{

@@ -27,7 +27,7 @@ public class MeditationTimeActivity extends AppCompatActivity implements Refresh
     private User user;
     private UserProfile userProfile;
     private TextView meditationTimeText;
-    private String meditationTime;
+    private String meditationTime,meditationTimeForNotification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,7 @@ public class MeditationTimeActivity extends AppCompatActivity implements Refresh
         switch (buttonID) {
             case R.id.meditationTime:
                 meditationTime = Util.dateToDisplayString(time);
+                meditationTimeForNotification = time.toString();
                 userProfile.setMeditation_time(Util.dateToUserProfileString(time));
                 break;
             default:
@@ -116,16 +117,17 @@ public class MeditationTimeActivity extends AppCompatActivity implements Refresh
     }
 
  public void setUpMeditations(){
-        String timeString = meditationTime;
+        String timeString = meditationTimeForNotification;
         // convert 'Thu Jan 01 22:30:00 EST 1970' to 22:30:00
-        int hour = 0, min = 0;
-        String time = timeString.split(" ")[0];
-        hour = Integer.parseInt(time.split(":")[0]);
-        min = Integer.parseInt(time.split(":")[1]);
-        System.out.println("User medi time: " + meditationTime);
+         System.out.println("Sleep time: " + timeString);
+         int hour = 0, min = 0, sec = 0;
+         if(timeString.contains(" ")){
+             String time = timeString.split(" ")[3];
+             hour = Integer.parseInt(time.split(":")[0]);
+             min = Integer.parseInt(time.split(":")[1]);
+         }
 
         try{
-
 
             AlarmManager alarmManager = (AlarmManager)App.context().getSystemService(Context.ALARM_SERVICE);
             PendingIntent cancelIntent = PendingIntent.getBroadcast(App.context(), 0,
