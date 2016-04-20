@@ -76,6 +76,7 @@ public class LessonTimeActivity extends AppCompatActivity implements RefreshView
 
         // Set the fields to the user's values
         lessonTime = Util.dateToDisplayString(new Date());
+        lessonTimeForNotification = (new Date()).toString();
         setTimeFields();
     }
 

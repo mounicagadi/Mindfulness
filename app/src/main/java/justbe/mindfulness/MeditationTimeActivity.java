@@ -47,6 +47,7 @@ public class MeditationTimeActivity extends AppCompatActivity implements Refresh
         userProfile = new UserProfile(user);
         // Set the fields to the user's values
         meditationTime = Util.dateToDisplayString(new Date());
+        meditationTimeForNotification = (new Date()).toString();
         setTimeFields();
     }
 

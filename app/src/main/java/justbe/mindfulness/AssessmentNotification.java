@@ -144,7 +144,7 @@ public class AssessmentNotification extends BroadcastReceiver {
                 hour = Integer.parseInt(time.split(":")[0]);
                 min = Integer.parseInt(time.split(":")[1]);
             }
-            min+=2;
+            min+=5;
             Log.v("Assessment snooze hour",""+hour);
             Log.v("Assessment snooze min",""+min);
 

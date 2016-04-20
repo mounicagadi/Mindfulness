@@ -175,7 +175,7 @@ public class MeditationAlarmReceiver extends BroadcastReceiver {
             }
 
 
-            min=min+2;
+            min=min+5;
             Log.v("Med snooze hour",""+hour);
             Log.v("Med snooze min",""+min);
 

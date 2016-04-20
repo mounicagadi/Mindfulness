@@ -53,7 +53,7 @@
     <string name="storingResponses">Storing Responses</string>
     <string name="loggingOut">Logging Out</string>
     <string name="pleaseWait">Please wait...</string>
-	<string name="resarch_study">Do you choose to be a part of\n reserach study?</string>
+	<string name="resarch_study">Are you part of reserach study?</string>
     <string name="resarch_study_info">Note: \nIf you choose to be part of research study, only then you will be receiving notifications for Daily Assessments.</string>
 
 

@@ -137,6 +137,46 @@
                 android:hint="@string/confim_password_text"/>
         </android.support.design.widget.TextInputLayout>
 
+        <TextView
+            android:id="@+id/researchStudyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/resarch_study"
+            android:textColor="@color/black"
+            android:textSize="@dimen/small_text_size" />
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/researchStudy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="28dp"
+                android:onClick="onResearchStudyButtonClicked"
+                android:text="@string/yes" />
+
+            <RadioButton
+                android:id="@+id/no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginRight="90dp"
+                android:checked="true"
+                android:onClick="onResearchStudyButtonClicked"
+                android:text="@string/no" />
+
+        </RadioGroup>
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/createAccountButton"
             android:layout_width="match_parent"

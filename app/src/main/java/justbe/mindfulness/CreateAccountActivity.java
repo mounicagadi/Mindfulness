@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,6 +33,7 @@ public class CreateAccountActivity extends AppCompatActivity {
      * Fields
      */
     private int DEFAULT_GENDER = 0;
+    private boolean DEFAULT_RESEARCH_STUDY = false;
     private User user;
     private UserProfile userProfile;
     private EditText first_name_field;
@@ -42,6 +44,8 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText confirm_password_field;
     private Integer gender = DEFAULT_GENDER;
     private RadioGroup gender_group;
+    private RadioGroup research_study_group;
+    private Boolean research_study = DEFAULT_RESEARCH_STUDY;
     private ProgressDialog progressDialog;
     private static Handler createAccountHandler;
 
@@ -79,6 +83,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         first_name_field = (EditText) findViewById(R.id.editFirstname);
         last_name_field = (EditText) findViewById(R.id.editLastname);
         gender_group = (RadioGroup) findViewById(R.id.genderRow);
+        research_study_group = (RadioGroup) findViewById(R.id.researchStudy);
         email_field = (EditText) findViewById(R.id.editEmail);
         username_field = (EditText) findViewById(R.id.editUsername);
         password_field = (EditText) findViewById(R.id.editPassword);
@@ -128,6 +133,32 @@ public class CreateAccountActivity extends AppCompatActivity {
         }
     }
 
+    /*
+    Research button handler
+     */
+
+    public void onResearchStudyButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.yes:
+                if (checked) {
+                    research_study = true;
+                    Log.v("Research Study", "" + true);
+                    break;
+                }
+            case R.id.no:
+                if (checked) {
+                    research_study = false;
+                    Log.v("Research Study",""+false);
+                    break;
+                }
+        }
+
+    }
+
     /**
      * Callback for when the create account button is pressed
      * @param view The View
@@ -144,6 +175,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                     user.setFirst_name(first_name_field.getText().toString());
                     user.setLast_name(last_name_field.getText().toString());
                     userProfile.setGender(gender);
+                    userProfile.setResearch_study(research_study);
+                    user.setResearch_study(research_study);
                     user.setEmail(email_field.getText().toString());
                     user.setUsername(username_field.getText().toString());
                     user.setRaw_password(password_field.getText().toString());
@@ -171,7 +204,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 public void handleMessage(Message msg) {
                     // Log in succeeded
                     if(msg.what == 0) {
-                        Intent intent = new Intent(CreateAccountActivity.this, ResearchActivity.class);
+                        Intent intent = new Intent(CreateAccountActivity.this, SleepTimeActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         progressDialog.dismiss();
