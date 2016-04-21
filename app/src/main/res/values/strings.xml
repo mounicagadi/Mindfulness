@@ -53,12 +53,13 @@
     <string name="storingResponses">Storing Responses</string>
     <string name="loggingOut">Logging Out</string>
     <string name="pleaseWait">Please wait...</string>
-	<string name="resarch_study">Are you part of reserach study?</string>
+	<string name="resarch_study">Are you part of the research study?</string>
     <string name="resarch_study_info">Note: \nIf you choose to be part of research study, only then you will be receiving notifications for Daily Assessments.</string>
 
 
     <string name="title_activity_preferences">Preferences</string>
     <string name="meditations_text">Meditation Time</string>
+    <string name="meditation">Meditation</string>>
     <string name="lessons_text">Lessons Time</string>
     <string name="lessons_day_text">Lessons Day</string>
     <string name="meditations_text_create_account">What time do you want to meditate daily?</string>
