@@ -68,10 +68,72 @@ public class AssessmentFlowManagerFactory {
     }
 
     /**
+     * Adds all the questions to make the daily assessment flow
+     */
+
+    public void addAssessmentQuestions(){
+
+        addSliderQuestionToManager(context.getString(R.string.satisfactionQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.stressQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.anxietyQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.depressionQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.preoccupiedQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.uncertaintyQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.incontrollQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.curiousityQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.joyfulQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.irritationQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.energeticQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.peacefulQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.judgementalQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.acceptingQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.lonelyQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.silentQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.emotionsQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+        addSliderQuestionToManager(context.getString(R.string.thoughtsQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+
+
+        addDropdownQuestionToManager(context.getString(R.string.sleepQuestion1),
+                context.getResources().getStringArray(R.array.HRS16));
+
+        addSliderQuestionToManager(context.getString(R.string.restQuestion),
+                0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
+
+
+        addDropdownQuestionToManager(context.getString(R.string.drinkingQuestion),
+                context.getResources().getStringArray(R.array.N10));
+        addDropdownQuestionToManager(context.getString(R.string.physicalQuestion2),
+                context.getResources().getStringArray(R.array.HALF5));
+        addDropdownQuestionToManager(context.getString(R.string.physicalQuestion1),
+                context.getResources().getStringArray(R.array.HALF5));
+
+        addMultiChoiceQuestionToManager(context.getString(R.string.selfConnectionQuestion),
+                context.getResources().getStringArray(R.array.selfConnectionChoices));
+    }
+
+    /**
      * Adds all the questions to make the morning survey flow
      * Hardcoded to a unfinished spec from our client
      */
-    public void addMorningAssessmentQuestions() {
+    /*public void addMorningAssessmentQuestions() {
         // Life Satisfaction
         addSliderQuestionToManager(context.getString(R.string.lifeQuestion),
                 0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
@@ -132,10 +194,10 @@ public class AssessmentFlowManagerFactory {
                 context.getResources().getStringArray(R.array.stressManagementChoices));
     }
 
-    /**
+    *//**
      * Adds all the questions to make the day survey flow
      * Hardcoded to a unfinished spec from our client
-     */
+     *//*
     public void addDayAssessmentQuestions() {
         // Emotions
         addEmotionQuestions();
@@ -165,10 +227,10 @@ public class AssessmentFlowManagerFactory {
         addMindfulnessQuestions();
     }
 
-    /**
+    *//**
      * Adds the emotion assessment questions
      * Hardcoded to a unfinished spec from our client
-     */
+     *//*
     public void addEmotionQuestions() {
         String iFeel = context.getString(R.string.iFeel) + " %s.";
         // Angry
@@ -212,10 +274,10 @@ public class AssessmentFlowManagerFactory {
                 0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
     }
 
-    /**
+    *//**
      * Adds the mindfulness assessment questions
      * Hardcoded to a unfinished spec from our client
-     */
+     *//*
     public void addMindfulnessQuestions() {
         addSliderQuestionToManager(context.getString(R.string.mindfulnessQuestion1),
                 0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
@@ -264,5 +326,8 @@ public class AssessmentFlowManagerFactory {
 
         addSliderQuestionToManager(context.getString(R.string.mindfulnessQuestion16),
                 0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
-    }
+    }*/
+
+
+
 }

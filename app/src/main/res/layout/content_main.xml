@@ -239,24 +239,13 @@
         android:id="@+id/audioPlayer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/weekdaysLayout"
         android:layout_marginTop="25dp"
         android:layout_above="@+id/weeklyLessonButton"
         android:layout_marginBottom="95dp"
-        android:background="@color/orange">
-        <ImageButton
-            android:id="@+id/audioButton"
-            android:onClick="audioButtonPressed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/play"
-            android:background="@color/bpTransparent"
-			android:layout_above="@+id/currentTime"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="10dp"
-            android:paddingTop="15dp"/>
+        android:background="@color/orange"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/weekdaysLayout">
 
         <SeekBar
             android:id="@+id/volumeBar"
@@ -287,16 +276,18 @@
 
     </RelativeLayout>
 
+    <!--android:layout_marginTop="25dp"-->
     <TextView
         android:id="@+id/MeditationText"
-        android:layout_marginTop="380dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/bpWhite"
         android:text="@string/meditation"
         android:gravity="bottom|center_horizontal"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/weeklyLessonButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="61dp" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/weeklyLessonButton"
@@ -326,5 +317,16 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"/>
     </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/audioButton"
+        android:onClick="audioButtonPressed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/play"
+        android:background="@color/bpTransparent"
+        android:paddingTop="15dp"
+        android:layout_alignTop="@+id/audioPlayer"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -214,7 +214,60 @@ Communicate your feedback and questions to justbe@gmail.com\r\n\r\n
     </string-array>
     <string name="title_activity_multi_choice_assessment">MultiChoiceAssessment</string>
 
-    <string name="lifeQuestion">Yesterday, I was satisfied with my life.</string>
+
+    <!-- Current set of questions for the daily assessment -->
+
+    <string name="satisfactionQuestion">Today, I feel SATISFIED with my life</string>
+    <string name="stressQuestion">Today, I feel STRESSED</string>
+    <string name="anxietyQuestion">Today, I feel ANXIOUS</string>
+    <string name="depressionQuestion">Today, I feel DEPRESSED</string>
+    <string name="preoccupiedQuestion">Today, I feel PREOCCUPIED with past events</string>
+    <string name="uncertaintyQuestion">Today, I feel UNCERTAIN about the future</string>
+    <string name="incontrollQuestion">Today, I feel IN CONTROL</string>
+    <string name="curiousityQuestion">Today, I feel CURIOUS</string>
+    <string name="joyfulQuestion">Today, I feel JOYFUL</string>
+    <string name="irritationQuestion">Today, I feel IRRITATED</string>
+    <string name="energeticQuestion">Today, I feel ENERGETIC</string>
+    <string name="peacefulQuestion">Today, I feel PEACEFUL</string>
+    <string name="judgementalQuestion">Today, I feel JUDGEMENTAL</string>
+    <string name="acceptingQuestion">Today, I feel ACCEPTING</string>
+    <string name="lonelyQuestion">Today, I feel LONELY</string>
+    <string name="silentQuestion">Today, I enjoyed SILENT MOMENTS</string>
+    <string name="emotionsQuestion">Today, my EMOTIONS bothered me</string>
+    <string name="thoughtsQuestion">Today, my THOUGHTS bothered me</string>
+    <string name="restQuestion">This morning, after waking up I felt RESTED</string>
+
+
+
+    <string name="sleepQuestion1">Last night, I slept ___ hours.</string>
+    <string name="drinkingQuestion">Today, I had ___ alcoholic drinks.</string>
+    <string name="smokingQuestion">Today, I had ___ cigarettes.</string>
+    <string name="physicalQuestion2">Today, I exercised for ___ minutes.</string>
+    <string name="physicalQuestion1">Today, I walked ___ minutes.</string>
+
+
+
+    <string name="selfConnectionQuestion">Today, I CONNECTED WITH MYSELF by</string>
+    <string-array name="selfConnectionChoices">
+        <item>sitting in quiet</item>
+        <item>connecting with nature</item>
+        <item>taking breaths</item>
+        <item>doing things I enjoy</item>
+        <item>journaling</item>
+        <item>listening to music</item>
+        <item>slowing down</item>
+        <item>connecting with my body</item>
+        <item>walking</item>
+        <item>enjoying good food</item>
+        <item>other</item>
+    </string-array>
+
+    <!-- End of questions for daily assessment -->
+
+
+
+
+    <!--<string name="lifeQuestion">Yesterday, I was satisfied with my life.</string>
     <string name="leisureQuestion">Yesterday, I spent ___ hours on my leisure activities.</string>
     <string name="sleepQuestion1">Last night, I slept ___ hours.</string>
     <string name="sleepQuestion2">Today, after my sleep, I feel ___.</string>
@@ -229,9 +282,9 @@ Communicate your feedback and questions to justbe@gmail.com\r\n\r\n
     <string name="socialConnectednessQuestion1">Yesterday, I spent ___ hours with my friends or family.</string>
     <string name="socialConnectednessQuestion2">During my social interactions yesterday, I was able to relate to the person/s around me.</string>
     <string name="socialConnectednessQuestion3">During my social interactions yesterday, I felt isolated from others.</string>
-    <string name="stressManagementQuestion">Yesterday, I used this techniques to deal with my stress:</string>
+    <string name="stressManagementQuestion">Yesterday, I used this techniques to deal with my stress:</string>-->
 
-    <string-array name="stressManagementChoices">
+    <!--<string-array name="stressManagementChoices">
         <item>Took deep breaths</item>
         <item>Checked in with my body</item>
         <item>Took a moment to slow down</item>
@@ -241,7 +294,7 @@ Communicate your feedback and questions to justbe@gmail.com\r\n\r\n
         <item>Used drugs or alcohol to deal with stress</item>
         <item>Used food to improve my mood</item>
         <item>Talked to people I trust to feel better</item>
-    </string-array>
+    </string-array>-->
 
     <string name="iFeel">I feel</string>
     <string name="angry">angry</string>
@@ -254,7 +307,7 @@ Communicate your feedback and questions to justbe@gmail.com\r\n\r\n
     <string name="energetic">energetic</string>
     <string name="bored">bored</string>
     <string name="lonely">lonely</string>
-    <string name="stressQuestion">I feel stressed.</string>
+    <!--<string name="stressQuestion">I feel stressed.</string>
     <string name="ruminationQuestion1">It is hard for me to switch off my negative thoughts.</string>
     <string name="ruminationQuestion2">It is hard for you to focus on anything but my negative thoughts</string>
     <string name="ruminationQuestion3">I am dwelling on upsetting past events.</string>
@@ -276,7 +329,7 @@ Communicate your feedback and questions to justbe@gmail.com\r\n\r\n
     <string name="mindfulnessQuestion14">My emotions are very important to me.</string>
     <string name="mindfulnessQuestion15">I get very affected by my emotions.</string>
     <string name="mindfulnessQuestion16">I am trying to avoid certain types of emotions.</string>
-
+-->
     <string name="notAtAll">Not At All</string>
     <string name="extremely">Extremely</string>
     <string name="veryRested">Very Rested</string>
@@ -375,5 +428,20 @@ Communicate your feedback and questions to justbe@gmail.com\r\n\r\n
         <item>15</item>
         <item>16</item>
     </string-array>
+
+    <string-array name="N10">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+
     <string name="title_activity_start_assessment">StartAssessmentActivity</string>
 </resources>
