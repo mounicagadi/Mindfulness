@@ -200,7 +200,22 @@ public class Util {
                             "\u2022 Try practicing the same time every day (e.g., 1st thing in the morning or during your lunch break before a meal). This will help you form a habit.\r\n\r\n" +
                             "\u2022 If you skip a day, do not waste time on feeling guilty, simply get right back into it.\r\n\r\n" +
                             "In addition to daily meditation, whenever you remember during your day, bring awareness to your breath. Do not interrupt what you are doing. Instead, simply shift your awareness and take five conscious breaths. Remember, the practice is of no judgement and simply noticing. The goal of daily practice is to train you to become aware right where you are in your life and not only during quiet meditation times.\r\n\r\n" +
-                            "As an inspiration, there is a beautiful poem by the 13th century Persian poet Rumi about the breath. \r\n\r\nONLY BREATH \r\n\r\nNot Christian or Jew or Muslim, not Hindu, \r\nBuddhist, sufi, or zen. Not any religion\r\n\r\n or cultural system. I am not from the East\r\nor the West, not out of the ocean or up\r\n\r\n from the ground, not\r\nnatural or ethereal, not\r\n composed of elements at all. I do not exist,\r\n\r\n am not an entity in this world or the next,\r\n did not descend from Adam or Eve or any\r\n\r\n origin story. My place is placeless, a trace\r\n of the traceless. Neither body or soul.\r\n\r\n I belong to the beloved, have seen the two\r\n worlds as one and that one call to and know,\r\n\r\n first, last, outer, inner, only that\r\n breath breathing human being.\r\n\r\n" +
+                            "As an inspiration, there is a beautiful poem by the 13th century Persian poet Rumi about the breath. \r\n\r\n" +
+                            "ONLY BREATH " +
+                            "\r\n\r\nNot Christian or Jew or Muslim, not Hindu, " +
+                            "\r\nBuddhist, sufi, or zen. Not any religion" +
+                            "\r\n\r\n or cultural system. I am not from the East" +
+                            "\r\nor the West, not out of the ocean or up" +
+                            "\r\n\r\n from the ground, not natural or ethereal, not" +
+                            "\r\ncomposed of elements at all. I do not exist," +
+                            "\r\n\r\n am not an entity in this world or the next," +
+                            "\r\n did not descend from Adam or Eve or any" +
+                            "\r\n\r\n origin story. My place is placeless, a trace" +
+                            "\r\n of the traceless. Neither body or soul." +
+                            "\r\n\r\n I belong to the beloved, have seen the two" +
+                            "\r\n worlds as one and that one call to and know," +
+                            "\r\n\r\n first, last, outer, inner, only that" +
+                            "\r\nabreath breathing human being.\r\n\r\n" +
                             "Enjoy your practice!\r\n");
                 break;
             case 2: exercise = new Exercise("WEEK 2: KNOW YOUR BODY",
