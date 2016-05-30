@@ -3,8 +3,11 @@ package justbe.mindfulness;
 import android.app.AlarmManager;
 import android.app.DialogFragment;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +20,7 @@ import java.util.Date;
 
 import justbe.mindfulness.models.User;
 import justbe.mindfulness.models.UserProfile;
+import justbe.mindfulness.rest.UserPresentableException;
 
 /**
  * Created by Nikhil Reddy on 27-03-2016.
@@ -28,6 +32,9 @@ public class MeditationTimeActivity extends AppCompatActivity implements Refresh
     private UserProfile userProfile;
     private TextView meditationTimeText;
     private String meditationTime,meditationTimeForNotification;
+    private ProgressDialog progressDialog;
+    private static Handler logoutHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,9 +119,11 @@ public class MeditationTimeActivity extends AppCompatActivity implements Refresh
     public void meditationNextButtonPressed(View view) {
         setUpMeditations();
 
-        Intent intent = new Intent(MeditationTimeActivity.this, StartProgramActivity.class);
+        //Intent intent = new Intent(MeditationTimeActivity.this, StartProgramActivity.class);
+        /*Intent intent = new Intent(MeditationTimeActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
+        startActivity(intent);*/
+        logout();
     }
 
  public void setUpMeditations(){
@@ -162,6 +171,71 @@ public class MeditationTimeActivity extends AppCompatActivity implements Refresh
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+
+    public void logout() {
+        // Display the logging in spinner
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle(getString(R.string.creatingAccount));
+        progressDialog.setMessage(getString(R.string.pleaseLogin));
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        // Run logout within a thread
+        final Context context = MeditationTimeActivity.this;
+        final Thread logoutThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Boolean success = false;
+                try {
+                    success = App.getSession().invalidate();
+                } catch (Exception e) {
+                    new UserPresentableException(e).alert(context);
+                }
+
+                // Attempt to logout
+                if(success) {
+                    logoutHandler.sendEmptyMessage(0);
+                } else {
+                    logoutHandler.sendEmptyMessage(1);
+                }
+            }
+        });
+
+        // Start the thread and wait till its done
+        logoutThread.start();
+
+        // Handler to deal with the result of the login thread
+        logoutHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                // Logout succeeded
+                if(msg.what == 0) {
+                    // clear data from shared preferences
+                    SessionManager sessionManager = new SessionManager(getApplicationContext());
+                    sessionManager.logoutUser();
+
+                    try {
+                        logoutThread.sleep(25);
+                    } catch (InterruptedException e) {
+                        //e.printStackTrace();
+                    }finally{
+                        // Go to Login
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        progressDialog.dismiss();
+                        finish();
+                    }
+
+                } else { // Logout failed
+                    new UserPresentableException(
+                            getString(R.string.cannot_logout),
+                            getString(R.string.cannot_logout_message)).alert(context);
+                }
+            }
+        };
     }
 
 }
