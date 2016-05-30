@@ -216,19 +216,18 @@ public class MeditationTimeActivity extends AppCompatActivity implements Refresh
                     SessionManager sessionManager = new SessionManager(getApplicationContext());
                     sessionManager.logoutUser();
 
-                    try {
-                        logoutThread.sleep(25);
-                    } catch (InterruptedException e) {
-                        //e.printStackTrace();
-                    }finally{
                         // Go to Login
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
+                    try {
+                        logoutThread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        //e.printStackTrace();
+                    }finally {
                         progressDialog.dismiss();
                         finish();
                     }
-
                 } else { // Logout failed
                     new UserPresentableException(
                             getString(R.string.cannot_logout),
