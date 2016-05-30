@@ -49,7 +49,7 @@ public class StartAssessmentActivity extends AppCompatActivity {
 
         AssessmentFlowManagerFactory managerFactory = new AssessmentFlowManagerFactory(this);
 
-        managerFactory.addMorningAssessmentQuestions();
+        managerFactory.addAssessmentQuestions();
         context = App.context();
         if (user == null) {
             Log.v("Start Assessment", "Session user is null");
