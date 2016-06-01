@@ -48,6 +48,7 @@ public class MeditationMediaPlayer {
 
     /**
      * MeditationMediaPlayer Constructor
+     *
      * @param context
      * @param mediaID
      * @param selectedWeek
@@ -57,7 +58,7 @@ public class MeditationMediaPlayer {
         this.context = context;
         this.mediaID = mediaID;
         this.selectedWeek = selectedWeek;
-        this.containerView = ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content);
+        this.containerView = ((Activity) context).getWindow().getDecorView().findViewById(android.R.id.content);
 
         // create media player
         mediaPlayer = MediaPlayer.create(context, mediaID);
@@ -72,7 +73,7 @@ public class MeditationMediaPlayer {
         // set meditation
         meditationSession = new MeditationSession();
         updatedDaysList();
-		user = App.getSession().getUser();
+        user = App.getSession().getUser();
         meditationSession.setPercent_completed(1.0);
         selectedDay = ar.indexOf(Util.getCurrentDayOfTheWeek());
         updateSelectedDay(selectedDay);
@@ -82,38 +83,27 @@ public class MeditationMediaPlayer {
     /**
      * Start the media player
      */
-   public void start() {
+    public void start() {
         audioPlaying = true;
-        if(null == mediaPlayer)
+        if (null == mediaPlayer)
             initMediaPlayer();
 
         mediaPlayer.start();
-        /*Log.v("Med Player","start");
-        Log.v("Med Player", "start isPlaying  = " + mediaPlayer.isPlaying());*/
+
     }
 
     /**
      * Stops the media player
      */
-    public void stop(){
-      currentTime = mediaPlayer.getCurrentPosition();
+    public void stop() {
+        currentTime = mediaPlayer.getCurrentPosition();
 
-        if(currentTime < totalTime){
+        if (currentTime < totalTime) {
             mediaPlayer.pause();
-            /*Log.v("Med Player","paused");
-            Log.v("Med Player", "paused isPlaying  = " + mediaPlayer.isPlaying());*/
-
-        }else{
+        } else {
             mediaPlayer.stop();
-
-            /*Log.v("Med Player","stopped");
-            Log.v("Med Player", "stop isPlaying  = " + mediaPlayer.isPlaying());
-*/
         }
-        audioPlaying  = false;
-
-
-
+        audioPlaying = false;
 
 
     }
@@ -121,29 +111,40 @@ public class MeditationMediaPlayer {
     /**
      * Getter and Setter for audioPlaying
      */
-    public boolean getAudioPlaying() { return this.audioPlaying; }
-    public void setAudioPlaying(boolean audioPlaying) { this.audioPlaying = audioPlaying; }
+    public boolean getAudioPlaying() {
+        return this.audioPlaying;
+    }
 
-public double getCurrentTime(){
+    public void setAudioPlaying(boolean audioPlaying) {
+        this.audioPlaying = audioPlaying;
+    }
+
+    public double getCurrentTime() {
         return currentTime;
     }
+
     /**
      * Getter and Setter for mediaID
      */
-    public Integer getMediaID() { return this.mediaID; }
-    public void setMediaID(Integer mediaID) { this.mediaID = mediaID; }
+    public Integer getMediaID() {
+        return this.mediaID;
+    }
+
+    public void setMediaID(Integer mediaID) {
+        this.mediaID = mediaID;
+    }
 
     /**
      * Sets the media player play/pause button to a resource
+     *
      * @param resourceID The resource to set the audioButton to
      */
     public void setAudioButtonImageResource(int resourceID) {
         audioButton.setImageResource(resourceID);
     }
 
-    public void updatedDaysList()
-    {
-		Log.v("In Med updated before ", "User null? " + (null == user));
+    public void updatedDaysList() {
+        Log.v("In Med updated before ", "User null? " + (null == user));
         user = App.getSession().getUser();
         Log.v("In Med updated after ", "User null? " + (null == user));
 
@@ -159,21 +160,22 @@ public double getCurrentTime(){
             e.printStackTrace();
         }
         int day_created = c.get(Calendar.DAY_OF_WEEK);
-        if(day_created == 1)
+        if (day_created == 1)
             day = 6;
         else
             day = day_created - 2;
-        for(int i = day; i<7; i++)
+        for (int i = day; i < 7; i++)
             ar.add(i);
-        for(int i = 0; i<day; i++)
+        for (int i = 0; i < day; i++)
             ar.add(i);
     }
 
     /**
      * Colors the currently selected day, updates selectedDay and audio file
+     *
      * @param newDay the newly selected day
      */
-    public void updateSelectedDay(Integer newDay){
+    public void updateSelectedDay(Integer newDay) {
         int currentTextViewId = context.getResources().getIdentifier(
                 "MeditationText" + selectedDay, "id", context.getPackageName());
         int newTextViewId = context.getResources().getIdentifier(
@@ -183,7 +185,7 @@ public double getCurrentTime(){
         // remove styling from current day
         TextView currentDayTextView = (TextView) containerView.findViewById(currentTextViewId);
         currentDayTextView.setTextColor(ContextCompat.getColor(context, R.color.transparentLightGreen));
-        currentDayTextView.setBackgroundColor(ContextCompat.getColor(context, R.color.bpTransparent)) ;
+        currentDayTextView.setBackgroundColor(ContextCompat.getColor(context, R.color.bpTransparent));
 
         // add styling to new day
         TextView newDayTextView = (TextView) containerView.findViewById(newTextViewId);
@@ -195,8 +197,8 @@ public double getCurrentTime(){
     }
 
     private void initMediaPlayer() {
-        if(null!=mediaPlayer)
-             mediaPlayer.release();
+        if (null != mediaPlayer)
+            mediaPlayer.release();
         // TODO: change the meditation file based on day selected
         mediaPlayer = MediaPlayer.create(context, mediaID);
         mediaPlayer.setOnCompletionListener(endOfMeditationListener);
@@ -206,7 +208,7 @@ public double getCurrentTime(){
 
         // Set up progress bar and make it usable
         seekBar.setMax((int) totalTime);
-        seekBar.setProgress((int)currentTime);
+        seekBar.setProgress((int) currentTime);
         seekBar.setOnSeekBarChangeListener(seekBarListener);
 
         // Initialize time indicators
@@ -214,7 +216,7 @@ public double getCurrentTime(){
         Util.setTextViewToTime(totalAudioTimeText, totalTime);
 
         audioInfoUpdater = new Handler();
-        audioInfoUpdater.postDelayed(UpdateCurrentTime,100);
+        audioInfoUpdater.postDelayed(UpdateCurrentTime, 100);
 
         audioPlaying = false;
         audioButton.setImageResource(R.drawable.play);
@@ -224,16 +226,16 @@ public double getCurrentTime(){
     private Runnable UpdateCurrentTime = new Runnable() {
         public void run() {
             currentTime = mediaPlayer.getCurrentPosition();
-            Log.v("M-PLAYER ","Inside UpdateCurrentTime");
-            Log.v("Pos ",""+mediaPlayer.getCurrentPosition());
-            if(mediaPlayer.isPlaying()){
-                Log.v("M-PLAYER ","Play Time "+mediaPlayer.getCurrentPosition());
-            }else
-                Log.v("M-PLAYER ","Pause Time "+mediaPlayer.getCurrentPosition());
+            Log.v("M-PLAYER ", "Inside UpdateCurrentTime");
+            Log.v("Pos ", "" + mediaPlayer.getCurrentPosition());
+            if (mediaPlayer.isPlaying()) {
+                Log.v("M-PLAYER ", "Play Time " + mediaPlayer.getCurrentPosition());
+            } else
+                Log.v("M-PLAYER ", "Pause Time " + mediaPlayer.getCurrentPosition());
 
 
             //Log.v("M-PLAYER ", "In Thread Current TIME: " + currentTime);
-            if(mediaPlayer!=null && audioPlaying){
+            if (mediaPlayer != null && audioPlaying) {
 
                 Log.v("M-Player", "play update : " + currentTime);
                 Util.setTextViewToTime(currentAudioTimeText, currentTime);
@@ -241,12 +243,7 @@ public double getCurrentTime(){
 
                 audioInfoUpdater.postDelayed(this, 100);
 
-                //currentTime = getCurrentTime();
-                //Log.v("Med Player","isPlaying = "+mediaPlayer.isPlaying());
-                //Log.v("Med Player", "cur pos = " + currentTime);
-
             }
-          //audioInfoUpdater.postDelayed(UpdateCurrentTime, 100);
 
         }
     };
@@ -257,7 +254,7 @@ public double getCurrentTime(){
 
                 @Override
                 // Update to position in song user seeks to
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     if (fromUser) {
                         mediaPlayer.seekTo(progress);
                         Util.setTextViewToTime(currentAudioTimeText, progress);
@@ -277,9 +274,9 @@ public double getCurrentTime(){
 
     // Called when the audioPlayer reaches the end of a meditation
     private final MediaPlayer.OnCompletionListener endOfMeditationListener =
-            new MediaPlayer.OnCompletionListener(){
+            new MediaPlayer.OnCompletionListener() {
 
-                public void onCompletion(MediaPlayer mp){
+                public void onCompletion(MediaPlayer mp) {
                     int currentImageViewId = context.getResources().getIdentifier(
                             "MeditationImage" + selectedDay, "id", context.getPackageName());
                     ImageView currentDayImageView = (ImageView) containerView.findViewById(currentImageViewId);
@@ -287,11 +284,11 @@ public double getCurrentTime(){
 
                     audioPlaying = false;
                     audioButton.setImageResource(R.drawable.play);
-					mediaPlayer.stop();
+                    mediaPlayer.stop();
                     mediaPlayer.release();
                     mediaPlayer = null;
 
-                    if(!selectedCompleted) {
+                    if (!selectedCompleted) {
                         currentDayImageView.setImageResource(R.drawable.check_green_2x);
                         currentDayImageView.setTag("true");
                         meditationSession.setMeditation_id(selectedWeek, selectedDay);
@@ -306,33 +303,33 @@ public double getCurrentTime(){
     private void setMeditationCompletion(int selectedWeek) {
         Integer day;
         MeditationSession[] meditationSessions = ServerRequests.getMeditationSessions(context);
-        User user  = App.getSession().getUser();
-        //int currentWeek =  selectedWeek;
-        for(int i=0;i<7;i++)
+        User user = App.getSession().getUser();
+        for (int i = 0; i < 7; i++)
             updatedNotCompleted(i);
 
-        if(null!=meditationSessions){
-        for(MeditationSession m : meditationSessions) {
-            int meditationCurrentWeekValue = (m.getMeditation_id() - (selectedWeek * 10));
-            System.out.println("Current Week : " + user.getCurrent_week());
+        if (null != meditationSessions) {
+            for (MeditationSession m : meditationSessions) {
+                int meditationCurrentWeekValue = (m.getMeditation_id() - (selectedWeek * 10));
+                System.out.println("Current Week : " + user.getCurrent_week());
 
-            if(m.getPercent_completed() == 1.0 && meditationCurrentWeekValue >= 0 && meditationCurrentWeekValue<=6) {
-                //day = m.getMeditation_id() % 10;
-                day = meditationCurrentWeekValue;
-                System.out.println("Meditation completed 1 . ID: "+ m.getMeditation_id());
-                completeMeditation(day);
+                if (m.getPercent_completed() == 1.0 && meditationCurrentWeekValue >= 0 && meditationCurrentWeekValue <= 6) {
+                    //day = m.getMeditation_id() % 10;
+                    day = meditationCurrentWeekValue;
+                    System.out.println("Meditation completed 1 . ID: " + m.getMeditation_id());
+                    completeMeditation(day);
+                }
+
             }
-
-        }
         }
     }
 
     /**
      * Mark meditation as complete by changing the check to green for a day
+     *
      * @param day 0 Monday -> 6 Sunday to mark as complete
      */
-    private void completeMeditation(Integer day){
-        Log.v("Meditation complete for", " "+day);
+    private void completeMeditation(Integer day) {
+        Log.v("Meditation complete for", " " + day);
         int currentImageViewId = context.getResources().getIdentifier(
                 "MeditationImage" + day, "id", context.getPackageName());
         ImageView currentDayImageView = (ImageView) containerView.findViewById(currentImageViewId);
@@ -343,8 +340,8 @@ public double getCurrentTime(){
 
     // previous week content selected by user and if any of meditations
     // are incomplete, update the image as incomplete
-    private void updatedNotCompleted(Integer day){
-        Log.v("Meditation incomplete for", " "+day);
+    private void updatedNotCompleted(Integer day) {
+        Log.v("Meditation incomplete for", " " + day);
         int currentImageViewId = context.getResources().getIdentifier(
                 "MeditationImage" + day, "id", context.getPackageName());
         ImageView currentDayImageView = (ImageView) containerView.findViewById(currentImageViewId);

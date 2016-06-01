@@ -4,6 +4,7 @@
 
     <string name="title_activity_login">Login</string>
     <string name="login_button">Login</string>
+    <string name="pleaseLogin">Please Login back</string>
     <string name="create_account_button">Sign up</string>
     <string name="next_button">Next</string>
     <string name="title_activity_main">Main Activity</string>
@@ -13,7 +14,7 @@
     <string name="title_activity_meditation_time">Meditation Timings</string>
     <string name="title_activity_getting_started">Getting Started</string>
     <string name="title_activity_response">Storing Responses</string>
-	<string name="title_activity_research">Research Study</string>
+    <string name="title_activity_research">Research Study</string>
     <string name="create_account_text">Create Account</string>
     <string name="not_a_member">Not a member?</string>
     <string name="continue_button">Continue</string>
@@ -38,7 +39,7 @@
     <string name="birthday_text">Birthday</string>
     <string name="age_text">Age</string>
     <string name="gender_text">Gender</string>
-	<string name="research_study_text">Part of \nResearch Study?</string>
+    <string name="research_study_text">Part of \nResearch Study?</string>
     <string name="male_text">Male</string>
     <string name="female_text">Female</string>
     <string name="other_text">Other</string>
@@ -53,7 +54,7 @@
     <string name="storingResponses">Storing Responses</string>
     <string name="loggingOut">Logging Out</string>
     <string name="pleaseWait">Please wait...</string>
-	<string name="resarch_study">Are you part of the research study?</string>
+    <string name="resarch_study">Are you part of the research study?</string>
     <string name="resarch_study_info">Note: \nIf you choose to be part of research study, only then you will be receiving notifications for Daily Assessments.</string>
 
 
@@ -68,7 +69,7 @@
 
     <string name="title_activity_lesson">Weekly Lesson</string>
     <string name="title_activity_assessment">Assessment</string>
-	<string name="epilogue">Thank you.</string>
+    <string name="epilogue">Thank you.</string>
 
 
     <string name="start">Start</string>
@@ -238,13 +239,11 @@ Communicate your feedback and questions to justbe@gmail.com\r\n\r\n
     <string name="restQuestion">This morning, after waking up I felt RESTED</string>
 
 
-
     <string name="sleepQuestion1">Last night, I slept ___ hours.</string>
     <string name="drinkingQuestion">Today, I had ___ alcoholic drinks.</string>
     <string name="smokingQuestion">Today, I had ___ cigarettes.</string>
     <string name="physicalQuestion2">Today, I exercised for ___ minutes.</string>
     <string name="physicalQuestion1">Today, I walked ___ minutes.</string>
-
 
 
     <string name="selfConnectionQuestion">Today, I CONNECTED WITH MYSELF by</string>
@@ -263,8 +262,6 @@ Communicate your feedback and questions to justbe@gmail.com\r\n\r\n
     </string-array>
 
     <!-- End of questions for daily assessment -->
-
-
 
 
     <!--<string name="lifeQuestion">Yesterday, I was satisfied with my life.</string>

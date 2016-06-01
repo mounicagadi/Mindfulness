@@ -36,6 +36,7 @@ public class LessonActivity extends AppCompatActivity {
      **********************************************************************************************/
     /**
      * Called when the view is created
+     *
      * @param savedInstanceState Saved Instance State
      */
 
@@ -55,23 +56,21 @@ public class LessonActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        lessonTitle =  (TextView) findViewById(R.id.lesson_title_text);
+        lessonTitle = (TextView) findViewById(R.id.lesson_title_text);
         lessonContent = (TextView) findViewById(R.id.lesson_content);
 
         User user = App.getSession().getUser();
-        Log.v("Notification user","user= "+user);
+        Log.v("Notification user", "user= " + user);
 
         Intent intent = getIntent();
-        String weekData =getIntent().getExtras().getString("week");
+        String weekData = getIntent().getExtras().getString("week");
         Log.v("Lesson Activity", "lesson intent data: week = " + weekData);
 
 
-
-        if(weekData == null)
+        if (weekData == null)
             weekId = user.getCurrent_week();
         else
             weekId = Integer.parseInt(weekData);
-
 
 
         // Creates exercise session in database if it does not exist yet
@@ -82,7 +81,7 @@ public class LessonActivity extends AppCompatActivity {
         lessonTitle.setText(weekExercise.getExerciseName());
         lessonContent.setText(weekExercise.getExerciseContent());
 
-     if (!completed) {
+        if (!completed) {
             // TODO: get currently selected week instead of current program week
             int week = weekId;
             completed = true;
@@ -94,10 +93,10 @@ public class LessonActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Log.v("Lesson Activity","...Back button pressed");
+                Log.v("Lesson Activity", "...Back button pressed");
                 Intent homeIntent = new Intent(this, MainActivity.class);
                 homeIntent.putExtra("lessonCompleted", "" + completed);
-                homeIntent.putExtra("week",""+weekId);
+                homeIntent.putExtra("week", "" + weekId);
 
                 startActivity(homeIntent);
 
@@ -106,8 +105,6 @@ public class LessonActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 
 
 }

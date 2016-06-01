@@ -33,6 +33,7 @@ public class SliderAssessmentActivity extends AppCompatActivity
 
     /**
      * Called when the view is created
+     *
      * @param savedInstanceState Saved Instance State
      */
     @Override
@@ -41,7 +42,7 @@ public class SliderAssessmentActivity extends AppCompatActivity
         setContentView(R.layout.activity_slider_assessment);
 
         // Create the toolbar
-        Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Assessment");
 
@@ -58,7 +59,7 @@ public class SliderAssessmentActivity extends AppCompatActivity
         Integer minSeek = sliderQuestion.getMinSliderVal();
 
         // start with seek bar at the middle
-        seekBar = (SeekBar)findViewById(R.id.seekBar);
+        seekBar = (SeekBar) findViewById(R.id.seekBar);
         seekBar.setProgress(minSeek);
         seekBar.setMax(maxSeek);
         seekBar.setOnSeekBarChangeListener(SliderAssessmentActivity.this);
@@ -75,9 +76,9 @@ public class SliderAssessmentActivity extends AppCompatActivity
      **********************************************************************************************/
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         int interval = 1;
-        progress = ((int)Math.round(progress/interval))*interval;
+        progress = ((int) Math.round(progress / interval)) * interval;
         seekBar.setProgress(progress);
     }
 
@@ -98,6 +99,7 @@ public class SliderAssessmentActivity extends AppCompatActivity
     /**
      * Callback for when the next button is pressed
      * Saves the results from the assessment
+     *
      * @param view The view
      */
     public void nextPressed(View view) {
@@ -105,14 +107,14 @@ public class SliderAssessmentActivity extends AppCompatActivity
         Integer questionID = flowManager.getQuestionID();
         Integer assessmentID = flowManager.getAssessmentID();
         String question = sliderQuestion.getQuestionText();
-        Response sliderResponse = new Response(questionID, assessmentID, emotion,2);
+        Response sliderResponse = new Response(questionID, assessmentID, emotion, 2);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
         String created_at = sdf.format(Calendar.getInstance().getTime());
 
         sliderResponse.setCreated_at(created_at);
 
-        System.out.println("Slider Assessment: Question ID: "+questionID+" "+question+" --> "+emotion);
+        System.out.println("Slider Assessment: Question ID: " + questionID + " " + question + " --> " + emotion);
         flowManager.addResponse(sliderResponse);
         flowManager.startNextAssessmentQuestion();
     }

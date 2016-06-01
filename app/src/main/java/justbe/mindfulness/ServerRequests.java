@@ -34,7 +34,8 @@ public class ServerRequests {
 
     /**
      * Sends the API request to create a new User from a given user object
-     * @param user The user object to send to the database
+     *
+     * @param user    The user object to send to the database
      * @param context The view that calls this, used to present specific errors
      * @return If the call worked then true, else false
      */
@@ -50,7 +51,7 @@ public class ServerRequests {
             RestUtil.checkResponseHazardously(result);
 
             // Authenticate with the server, store session (i.e. login)
-            if( ! App.getSession().authenticate(user.getUsername(), user.getRaw_password()) ) {
+            if (!App.getSession().authenticate(user.getUsername(), user.getRaw_password())) {
                 success = false;
                 throw new UserPresentableException(
                         context.getString(R.string.auth_failed),
@@ -66,9 +67,10 @@ public class ServerRequests {
 
     /**
      * Saves the user profile data to the database and sets its data to the current user
+     *
      * @param userProfile The UserProfile with the new user data
-     * @param user The User to add the data to
-     * @param context The view that calls this, used to present specific errors
+     * @param user        The User to add the data to
+     * @param context     The view that calls this, used to present specific errors
      * @return True if success, else false
      */
     public static Boolean updateUserWithUserProfile(User user, UserProfile userProfile, Context context) {
@@ -99,15 +101,16 @@ public class ServerRequests {
      **********************************************************************************************/
 
     /**
-     *  Creates a assessment in the database.
-     *  Update the start time, create time and updated time
-     *  Return the created assessment
-     *  @param context The view that calls this, used to present specific errors
-     *  @return The newly created assessment
+     * Creates a assessment in the database.
+     * Update the start time, create time and updated time
+     * Return the created assessment
+     *
+     * @param context The view that calls this, used to present specific errors
+     * @return The newly created assessment
      */
     public static Assessment createAssessment(Context context, User user) {
         Assessment assessment = new Assessment();
-        Date created_date= new Date();
+        Date created_date = new Date();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
         String created_at = sdf.format(created_date.getTime());
@@ -136,6 +139,7 @@ public class ServerRequests {
 
     /**
      * Gets the currently pending assessment in the database
+     *
      * @param context The view that calls this, used to present specific errors
      * @return The pending assessment
      */
@@ -159,9 +163,10 @@ public class ServerRequests {
     }
 
     /**
-     *  Creates a assessment in the database
-     *  @param context The view that calls this, used to present specific errors
-     *  @return Tbe updated assessment
+     * Creates a assessment in the database
+     *
+     * @param context The view that calls this, used to present specific errors
+     * @return Tbe updated assessment
      */
     public static Assessment updateAssessmentWithCompleteTime(int assessment_id, Context context) {
         Assessment updatedAssessment = new Assessment();
@@ -176,7 +181,7 @@ public class ServerRequests {
         * Return the updated assessment object
         * */
 
-        Date completed_date= new Date();
+        Date completed_date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault());
         String completed_at = sdf.format(completed_date.getTime());
 
@@ -204,26 +209,23 @@ public class ServerRequests {
     // design is still not finalized it was considered out of scope for this iteration.
 
     // Currently the API call that would need to be implemented is "/api/v1/response/"
-
-    public static boolean submitUserAssessment(List<Response> responses, Context context)
-    {
-        Log.v("In Server Requests"," Assessment Responses");
+    public static boolean submitUserAssessment(List<Response> responses, Context context) {
+        Log.v("In Server Requests", " Assessment Responses");
         GenericHttpRequestTask<Response, Response> task;
         Boolean success = false;
         Map<String, String> responsePushToDBMap = new HashMap<String, String>();
-        for(Response res : responses)
-        {
+        for (Response res : responses) {
             int number = Math.round(Float.parseFloat(res.getNumber()));
-            responsePushToDBMap.put("type",res.getType().toString());
-            responsePushToDBMap.put("boolean",res.get_boolean().toString());
-            responsePushToDBMap.put("number",number+"");
-            responsePushToDBMap.put("emotion",res.getEmotion().toString());
-            responsePushToDBMap.put("percent",res.getPercent().toString());
-            responsePushToDBMap.put("question_id",res.getQuestion_id().toString());
-            responsePushToDBMap.put("created_at",res.getCreated_at());
-            responsePushToDBMap.put("updated_at",res.getCreated_at());
-            responsePushToDBMap.put("assessment_id",res.getAssessment_id().toString());
-            responsePushToDBMap.put("category","");
+            responsePushToDBMap.put("type", res.getType().toString());
+            responsePushToDBMap.put("boolean", res.get_boolean().toString());
+            responsePushToDBMap.put("number", number + "");
+            responsePushToDBMap.put("emotion", res.getEmotion().toString());
+            responsePushToDBMap.put("percent", res.getPercent().toString());
+            responsePushToDBMap.put("question_id", res.getQuestion_id().toString());
+            responsePushToDBMap.put("created_at", res.getCreated_at());
+            responsePushToDBMap.put("updated_at", res.getCreated_at());
+            responsePushToDBMap.put("assessment_id", res.getAssessment_id().toString());
+            responsePushToDBMap.put("category", "");
 
             Log.v("Server Requests", "Reponse Push");
 
@@ -249,9 +251,10 @@ public class ServerRequests {
      **********************************************************************************************/
 
     /**
-     *  Gets all the meditation sessions for the current week
+     * Gets all the meditation sessions for the current week
+     *
      * @param context The view that calls this, used to present specific errors
-     *  @return The meditation sessions from the database
+     * @return The meditation sessions from the database
      */
     public static MeditationSession[] getMeditationSessions(Context context) {
         MeditationSession[] meditationSessions = null;
@@ -277,9 +280,10 @@ public class ServerRequests {
     }
 
     /**
-     *  Updates a meditation session in the database
-     *  @param meditationSession The meditationSession to update on the database
-     *  @param context The view that calls this, used to present specific errors
+     * Updates a meditation session in the database
+     *
+     * @param meditationSession The meditationSession to update on the database
+     * @param context           The view that calls this, used to present specific errors
      */
     public static Boolean updateMeditationSession(MeditationSession meditationSession, Context context) {
         // Create an HTTPRequestTask that sends a MeditationSession Object and Returns a MeditationSession Object
@@ -302,9 +306,10 @@ public class ServerRequests {
     }
 
     /**
-     *  Generates the meditations for the given week in the database for the user
-     *  @param week 1 -> 8 representing the week to create meditations for
-     *  @param context The view that calls this, used to present specific errors
+     * Generates the meditations for the given week in the database for the user
+     *
+     * @param week    1 -> 8 representing the week to create meditations for
+     * @param context The view that calls this, used to present specific errors
      */
     public static Boolean populateDatabaseForWeek(Integer week, Context context) {
         // Create an HTTPRequestTask that sends a MeditationSession Object and Returns a MeditationSession Object
@@ -337,15 +342,15 @@ public class ServerRequests {
     }
 
 
-
     /***********************************************************************************************
      * Exercise API Calls
      **********************************************************************************************/
 
     /**
-     *  Generates the exercise for the given week in the database for the user
-     *  @param week 1 -> 8 representing the week to create an exercise for
-     *  @param context The view that calls this, used to present specific errors
+     * Generates the exercise for the given week in the database for the user
+     *
+     * @param week    1 -> 8 representing the week to create an exercise for
+     * @param context The view that calls this, used to present specific errors
      */
     public static void completeExerciseSession(Integer week, Context context) {
         // Create an HTTPRequestTask that sends an ExerciseSession Object and Returns a ExerciseSession Object
@@ -361,9 +366,10 @@ public class ServerRequests {
     }
 
     /**
-     *  Gets all the exercise sessions for the user
-     *  @param context The view that calls this, used to present specific errors
-     *  @return The exercise sessions from the database
+     * Gets all the exercise sessions for the user
+     *
+     * @param context The view that calls this, used to present specific errors
+     * @return The exercise sessions from the database
      */
     public static ExerciseSession[] getExerciseSessions(Context context) {
         ExerciseSession[] exerciseSessions = null;

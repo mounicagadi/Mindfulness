@@ -45,23 +45,22 @@ public class ResearchActivity extends AppCompatActivity {
         boolean checked = ((RadioButton) view).isChecked();
 
         // Check which radio button was clicked
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.yes:
                 if (checked) {
                     research_study = true;
-                    Log.v("Research Study",""+true);
+                    Log.v("Research Study", "" + true);
                     break;
                 }
             case R.id.no:
                 if (checked) {
                     research_study = false;
-                    Log.v("Research Study",""+false);
+                    Log.v("Research Study", "" + false);
                     break;
                 }
         }
 
     }
-
 
     public void researchStudyNextButtonPressed(View view) {
         userProfile.setResearch_study(research_study);

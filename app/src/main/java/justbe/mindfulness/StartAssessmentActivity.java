@@ -42,6 +42,7 @@ public class StartAssessmentActivity extends AppCompatActivity {
     /**
      * Callback for when the yes button is pressed
      * Starts the assessment
+     *
      * @param view The view
      */
     public void yesButtonPressed(View view) {
@@ -70,6 +71,7 @@ public class StartAssessmentActivity extends AppCompatActivity {
     /**
      * Callback for when the no button is pressed
      * Sends the user back to the main activity
+     *
      * @param view The view
      */
     public void noButtonPressed(View view) {

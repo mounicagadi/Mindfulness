@@ -7,8 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.util.Log;
 import android.support.v7.widget.Toolbar;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import justbe.mindfulness.models.Assessment;
 import justbe.mindfulness.models.Response;
 import justbe.mindfulness.models.User;
@@ -23,6 +25,7 @@ public class ResponseActivity extends AppCompatActivity {
     private Context context;
     private User user;
     private List<Response> responses = new ArrayList<Response>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -2,147 +2,162 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fillViewport="true" >
+    android:fillViewport="true">
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="56dp"
+        android:orientation="vertical"
         android:paddingBottom="@dimen/activity_bottom_margin"
-        tools:showIn="@layout/activity_create_account"
-        tools:context="justbe.mindfulness.CreateAccountActivity"
         android:paddingLeft="24dp"
-        android:paddingRight="24dp">
+        android:paddingRight="24dp"
+        android:paddingTop="56dp"
+        tools:context="justbe.mindfulness.CreateAccountActivity"
+        tools:showIn="@layout/activity_create_account">
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/firstnameRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp">
+
             <EditText
                 android:id="@+id/editFirstname"
-                android:imeOptions="flagNoExtractUi"
-                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:focusable="true"
                 android:hint="@string/first_name_text"
-                android:focusable="true"/>
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/lastnameRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp">
+
             <EditText
                 android:id="@+id/editLastname"
-                android:imeOptions="flagNoExtractUi"
-                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:focusable="true"
                 android:hint="@string/last_name_text"
-                android:focusable="true"/>
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
+
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/genderRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal">
-            <RadioButton android:id="@+id/male"
+
+            <RadioButton
+                android:id="@+id/male"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/male_text"
                 android:checked="true"
-                android:onClick="onGenderButtonClicked"/>
-            <RadioButton android:id="@+id/female"
+                android:onClick="onGenderButtonClicked"
+                android:text="@string/male_text" />
+
+            <RadioButton
+                android:id="@+id/female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/female_text"
-                android:onClick="onGenderButtonClicked"/>
+                android:onClick="onGenderButtonClicked"
+                android:text="@string/female_text" />
         </RadioGroup>
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/emailRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp">
+
             <EditText
                 android:id="@+id/editEmail"
-                android:imeOptions="flagNoExtractUi"
-                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
                 android:layout_weight="1"
+                android:focusable="true"
                 android:hint="@string/email_text"
-                android:focusable="true"/>
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="textEmailAddress"
+                android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/usernameRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
             app:counterEnabled="true"
             app:counterMaxLength="16">
+
             <EditText
                 android:id="@+id/editUsername"
-                android:imeOptions="flagNoExtractUi"
-                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:focusable="true"
                 android:hint="@string/username_text"
-                android:focusable="true"/>
-            </android.support.design.widget.TextInputLayout>
+                android:imeOptions="flagNoExtractUi"
+                android:singleLine="true" />
+        </android.support.design.widget.TextInputLayout>
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/passwordRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp">
+
             <EditText
                 android:id="@+id/editPassword"
-                android:imeOptions="flagNoExtractUi"
-                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:hint="@string/password_text"
+                android:imeOptions="flagNoExtractUi"
                 android:inputType="textPassword"
-                android:hint="@string/password_text"/>
+                android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/confirmPasswordRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp">
+
             <EditText
                 android:id="@+id/editConfirmPassword"
-                android:imeOptions="flagNoExtractUi"
-                android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:hint="@string/confim_password_text"
+                android:imeOptions="flagNoExtractUi"
                 android:inputType="textPassword"
-                android:hint="@string/confim_password_text"/>
+                android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
         <TextView
             android:id="@+id/researchStudyText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/resarch_study"
@@ -170,22 +185,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:layout_marginStart="25dp"
                 android:layout_marginRight="90dp"
+                android:layout_marginStart="25dp"
                 android:checked="true"
                 android:onClick="onResearchStudyButtonClicked"
                 android:text="@string/no" />
 
         </RadioGroup>
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/createAccountButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:layout_marginBottom="20dp"
-            android:padding="12dp"
+            android:layout_marginTop="24dp"
             android:onClick="createAccountPressed"
-            android:text="@string/create_account_button"/>
+            android:padding="12dp"
+            android:text="@string/create_account_button" />
 
     </LinearLayout>
 </ScrollView>

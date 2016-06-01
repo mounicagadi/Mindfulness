@@ -3,10 +3,12 @@ package justbe.mindfulness;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
 import justbe.mindfulness.models.AssessmentQuestion;
 import justbe.mindfulness.models.Response;
 
@@ -140,7 +142,10 @@ public final class AssessmentFlowManager {
         return responses;
     }
 
-    public static void emptyResponses() { responses.clear();}
+    public static void emptyResponses() {
+        responses.clear();
+    }
+
     /**
      * Starts the next assessment question provided there is one.
      * Otherwise goes back to the MainActivity
@@ -158,6 +163,7 @@ public final class AssessmentFlowManager {
             questionID = 0;
             Intent intent = new Intent(context, ResponseActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivity(intent);}
+            context.startActivity(intent);
+        }
     }
 }

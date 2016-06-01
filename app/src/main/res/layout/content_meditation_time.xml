@@ -2,38 +2,39 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fillViewport="true" >
+    android:fillViewport="true">
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="56dp"
+        android:orientation="vertical"
         android:paddingBottom="@dimen/activity_bottom_margin"
-        tools:showIn="@layout/activity_meditation_time"
-        tools:context="justbe.mindfulness.MeditationTimeActivity"
         android:paddingLeft="24dp"
-        android:paddingRight="24dp">
+        android:paddingRight="24dp"
+        android:paddingTop="56dp"
+        tools:context="justbe.mindfulness.MeditationTimeActivity"
+        tools:showIn="@layout/activity_meditation_time">
 
         <TextView
+            android:id="@+id/meditationTimeText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/meditationTimeText"
-            android:padding="10dp"
             android:layout_marginStart="5dp"
+            android:padding="10dp"
             android:text="@string/meditations_text_create_account"
             android:textColor="@color/black"
             android:textSize="@dimen/small_text_size" />
 
         <TextView
+            android:id="@+id/meditationTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="showTimePickerDialog"
-            android:id="@+id/meditationTime"
-            android:padding="10dp"
             android:layout_marginEnd="5dp"
+            android:clickable="true"
             android:gravity="end"
+            android:onClick="showTimePickerDialog"
+            android:padding="10dp"
             android:textColor="@color/bpTransparent_black"
             android:textSize="@dimen/small_text_size" />
 
@@ -41,11 +42,11 @@
             android:id="@+id/signUpButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
             android:layout_marginBottom="20dp"
-            android:padding="12dp"
+            android:layout_marginTop="24dp"
             android:onClick="meditationNextButtonPressed"
-            android:text="@string/finish"/>
+            android:padding="12dp"
+            android:text="@string/finish" />
 
     </LinearLayout>
 </ScrollView>

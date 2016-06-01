@@ -1,13 +1,14 @@
 package justbe.mindfulness;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
+
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -41,12 +42,12 @@ import justbe.mindfulness.models.User;
 /**
  * Main Activity for the app
  * Contains the following features:
- *      - Meditation Media Player
- *      - View Weekly Progress
- *      - View Weekly Lesson
- *      - Go to Preferences
+ * - Meditation Media Player
+ * - View Weekly Progress
+ * - View Weekly Lesson
+ * - Go to Preferences
  */
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     /**
      * Fields
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity{
     // audio player variables
     private MeditationMediaPlayer mediaPlayer;
     private TextView lessonButtonText;
-	private Integer weekToDisplay;
+    private Integer weekToDisplay;
     ArrayList<String> ar = new ArrayList<String>();
 
     /***********************************************************************************************
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * Called when the view is created
+     *
      * @param savedInstanceState Saved Instance State
      */
     @Override
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity{
         updateCurrentWeek();
         Integer selectedWeek = user.getCurrent_week();
         Intent intent = getIntent();
-        if(intent!=null) {
+        if (intent != null) {
             String source = intent.getStringExtra("source");
             if (null != source) {
                 Log.v("TAG", "Reached here after assessment completion");
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity{
         }
 
 
-		if(savedInstanceState == null)
+        if (savedInstanceState == null)
             weekToDisplay = selectedWeek;
         else
             weekToDisplay = savedInstanceState.getInt("displayContentForWeek");
@@ -141,36 +143,25 @@ public class MainActivity extends AppCompatActivity{
         // Set the lesson button's text to the current week
         setUpLessonContent(selectedWeek);
 
-       
-       
-//        // Pebble setup
-//        PebbleCommunicator comms = PebbleCommunicator.getInstance();
-//        if (!comms.checkPebbleConnection()) {
-//            Toast.makeText(App.context(), "No Pebble connection detected!", Toast.LENGTH_LONG).show();
-//        }
-       
-        System.out.println("******* Main Activity Loaded..!! ********");
-
     }
 
-    public void setUpMeditationContent(int weekId){
+    public void setUpMeditationContent(int weekId) {
         int meditationFileId = Util.getMeditationFile(weekId);
         mediaPlayer = new MeditationMediaPlayer(this, meditationFileId, weekId);
     }
 
-@Override
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-    Log.v("ON DESTROY", "called");
+        Log.v("ON DESTROY", "called");
 
-        if(App.getSession().getUser()!=null){
+        if (App.getSession().getUser() != null) {
             sessionManager.setUser(App.getSession().getUser());
-        }
-        else if(sessionManager!=null && user!=null) {
+        } else if (sessionManager != null && user != null) {
             Log.v("ON DESTROY", "session manager not null");
             sessionManager.setUser(user);
-        }else if(sessionManager == null){
-            Log.v("ON DESTROY","session manager null");
+        } else if (sessionManager == null) {
+            Log.v("ON DESTROY", "session manager null");
             Session session = App.getSession();
             sessionManager = new SessionManager(App.context());
             sessionManager.createLoginSession(session.getSessionId(), session.getCsrfToken(), user);
@@ -182,28 +173,27 @@ public class MainActivity extends AppCompatActivity{
     protected void onStop() {
         super.onStop();
         Log.v("ON STOP", "called");
-        if(App.getSession().getUser()!=null){
+        if (App.getSession().getUser() != null) {
             sessionManager.setUser(App.getSession().getUser());
-        }
-        else if(sessionManager!=null && user!=null) {
+        } else if (sessionManager != null && user != null) {
             Log.v("ON DESTROY", "session manager not null");
             sessionManager.setUser(user);
-        }else if(sessionManager == null){
-            Log.v("ON DESTROY","session manager null");
+        } else if (sessionManager == null) {
+            Log.v("ON DESTROY", "session manager null");
             Session session = App.getSession();
             sessionManager = new SessionManager(App.context());
-            sessionManager.createLoginSession(session.getSessionId(), session.getCsrfToken(),user);
+            sessionManager.createLoginSession(session.getSessionId(), session.getCsrfToken(), user);
         }
     }
 
-    public void setUpLessonContent(int weekId){
+    public void setUpLessonContent(int weekId) {
 
         lessonButtonText = (TextView) findViewById(R.id.weeklyLessonButtonText);
         lessonButtonText.setText(String.format("Week %d Exercise", weekId));
 
         // Get completed exercises from db, if this week has been completed give it a green check
         ExerciseSession[] completedExercises = ServerRequests.getExerciseSessions(this);
-        if(null!=completedExercises) {
+        if (null != completedExercises) {
             for (ExerciseSession e : completedExercises) {
                 if (e.getExercise_id() == weekId) {
                     int weeklyLessonImageId = getResources().getIdentifier(
@@ -217,14 +207,13 @@ public class MainActivity extends AppCompatActivity{
                     break;
                 }
 
-           }
+            }
 
         }
 
     }
-	
-	
-	@Override
+
+    @Override
     protected void onPause() {
         super.onPause();
         Log.v("On pause ", "User null? " + (null == user));
@@ -236,12 +225,12 @@ public class MainActivity extends AppCompatActivity{
     public void onBackPressed() {
     }
 
-@Override
+    @Override
     protected void onPostResume() {
         super.onPostResume();
 
-    Log.v("On Resume ", "User null? " + (null == user));
-   user =  App.getSession().getUser();
+        Log.v("On Resume ", "User null? " + (null == user));
+        user = App.getSession().getUser();
         setUpLessonContent(weekToDisplay);
         setUpMeditationContent(weekToDisplay);
     }
@@ -252,7 +241,7 @@ public class MainActivity extends AppCompatActivity{
         // While accessing previous week content, on screen rotation,
         // current week's content will be displayed instead of accessed
         // previous week content
-        outState.putInt("displayContentForWeek",weekToDisplay);
+        outState.putInt("displayContentForWeek", weekToDisplay);
         super.onSaveInstanceState(outState);
     }
 
@@ -268,15 +257,15 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * Callback for when the audio button is pressed
+     *
      * @param view The View
      */
     public void audioButtonPressed(View view) {
-        if(mediaPlayer.getAudioPlaying()) {
+        if (mediaPlayer.getAudioPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.setAudioButtonImageResource(R.drawable.play);
             mediaPlayer.setAudioPlaying(false);
-        }
-        else {
+        } else {
             mediaPlayer.start();
             mediaPlayer.setAudioButtonImageResource(R.drawable.pause);
             mediaPlayer.setAudioPlaying(true);
@@ -286,8 +275,7 @@ public class MainActivity extends AppCompatActivity{
     /*
     List the days on Main Activity page starting from the day the user first created his/her account
      */
-    public void listDaysOnMainActivity()
-    {
+    public void listDaysOnMainActivity() {
         TextView weekday0;
         TextView weekday1;
         TextView weekday2;
@@ -301,13 +289,13 @@ public class MainActivity extends AppCompatActivity{
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", java.util.Locale.getDefault());
         Date date = null;
 
-        weekday0 = (TextView)findViewById(R.id.MeditationText0);
-        weekday1 = (TextView)findViewById(R.id.MeditationText1);
-        weekday2 = (TextView)findViewById(R.id.MeditationText2);
-        weekday3 = (TextView)findViewById(R.id.MeditationText3);
-        weekday4 = (TextView)findViewById(R.id.MeditationText4);
-        weekday5 = (TextView)findViewById(R.id.MeditationText5);
-        weekday6 = (TextView)findViewById(R.id.MeditationText6);
+        weekday0 = (TextView) findViewById(R.id.MeditationText0);
+        weekday1 = (TextView) findViewById(R.id.MeditationText1);
+        weekday2 = (TextView) findViewById(R.id.MeditationText2);
+        weekday3 = (TextView) findViewById(R.id.MeditationText3);
+        weekday4 = (TextView) findViewById(R.id.MeditationText4);
+        weekday5 = (TextView) findViewById(R.id.MeditationText5);
+        weekday6 = (TextView) findViewById(R.id.MeditationText6);
 
         try {
             date = format.parse(user.getCreated_at());
@@ -318,9 +306,9 @@ public class MainActivity extends AppCompatActivity{
         int day_created = c.get(Calendar.DAY_OF_WEEK);
         String[] days = res.getStringArray(R.array.main_activity_days);
 
-        for(int i = day_created-1; i<7; i++)
+        for (int i = day_created - 1; i < 7; i++)
             ar.add(days[i]);
-        for(int i = 0; i<day_created-1; i++)
+        for (int i = 0; i < day_created - 1; i++)
             ar.add(days[i]);
         weekday0.setText(ar.get(0));
         weekday1.setText(ar.get(1));
@@ -334,6 +322,7 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * Callback for when the preferences button is pressed
+     *
      * @param view The View
      */
     public void preferencesButtonPressed(View view) {
@@ -345,13 +334,14 @@ public class MainActivity extends AppCompatActivity{
         Boolean checked = Boolean.valueOf(checkMarkView.getTag().toString());
 
         Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
-        intent.putExtra("checked",""+checked);
+        intent.putExtra("checked", "" + checked);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
     /**
      * Callback for when the calender button is pressed
+     *
      * @param view The view
      */
     public void weekButtonPressed(View view) {
@@ -366,7 +356,7 @@ public class MainActivity extends AppCompatActivity{
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View pw_view = inflater.inflate(R.layout.check_progress_popup,
                     (ViewGroup) findViewById(R.id.checkProgressPopup));
-            popupWindow = new PopupWindow(pw_view,  width, height, true);
+            popupWindow = new PopupWindow(pw_view, width, height, true);
             popupWindow.setBackgroundDrawable(new ColorDrawable());
             popupWindow.setOutsideTouchable(true);
             popupWindow.setTouchable(true);
@@ -382,6 +372,7 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * Callback for when the lesson button is pressed
+     *
      * @param view The view
      */
     public void lessonButtonPressed(View view) {
@@ -390,9 +381,9 @@ public class MainActivity extends AppCompatActivity{
         ImageView checkMarkView = (ImageView) findViewById(checkMarkViewId);
         // The tag of the ImageView tells us if the lesson is completed or not
         Boolean checked = Boolean.valueOf(checkMarkView.getTag().toString());
-        String weekText  = lessonButtonText.getText().toString();
+        String weekText = lessonButtonText.getText().toString();
         String week = weekText.split(" ")[1];
-		Log.v("Main Activity","lessonButtonPressed: week = "+ week);
+        Log.v("Main Activity", "lessonButtonPressed: week = " + week);
 
         // Change the lesson to be completed
         if (!checked) {
@@ -407,7 +398,7 @@ public class MainActivity extends AppCompatActivity{
         startActivity(intent);
     }
 
-    public void loadLessonContent(int weekId){
+    public void loadLessonContent(int weekId) {
         int checkMarkViewId = getResources().getIdentifier(
                 "weeklyLessonButtonImage", "id", getPackageName());
         ImageView checkMarkView = (ImageView) findViewById(checkMarkViewId);
@@ -419,20 +410,15 @@ public class MainActivity extends AppCompatActivity{
             checkMarkView.setImageResource(R.drawable.check_green_2x);
             checkMarkView.setTag("true");
         }
-        /*System.out.println("Lesson Change Processing");
-        Intent intent = new Intent(MainActivity.this, LessonActivity.class);
-        intent.putExtra("completed", checked);
-        intent.putExtra("week", ""+weekId);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);*/
     }
 
 
     /**
      * Callback for when any weekday is pressed
+     *
      * @param view The view
      */
-    public void changeWeekdayButtonPressed (View view) {
+    public void changeWeekdayButtonPressed(View view) {
         // Get the number id for weekday from end of view id
         String stringId = view.getResources().getResourceName(view.getId());
         stringId = stringId.substring(stringId.length() - 1);
@@ -447,23 +433,30 @@ public class MainActivity extends AppCompatActivity{
         *  If current day is Wednesday, the user can only access meditation and
         *  reading lessons of  Sunday, Monday, Tuesday and Wednesday
         *  */
-        if(selectedDay <= currentDay)
+        if (selectedDay <= currentDay)
             mediaPlayer.updateSelectedDay(Integer.valueOf(stringId));
 
     }
 
-    public int getCurrentWeekDayId(){
+    public int getCurrentWeekDayId() {
         Calendar calendar = Calendar.getInstance();
         int day = calendar.get(Calendar.DAY_OF_WEEK);
 
-        switch(day){
-            case 1: return ar.indexOf("SU");  // Sunday
-            case 2: return ar.indexOf("M");   // Monday
-            case 3: return ar.indexOf("T");   // Tuesday
-            case 4: return ar.indexOf("W");   // Wednesday
-            case 5: return ar.indexOf("TH");  // Thursday
-            case 6: return ar.indexOf("F");   // Friday
-            case 7: return ar.indexOf("S");   // Saturday
+        switch (day) {
+            case 1:
+                return ar.indexOf("SU");  // Sunday
+            case 2:
+                return ar.indexOf("M");   // Monday
+            case 3:
+                return ar.indexOf("T");   // Tuesday
+            case 4:
+                return ar.indexOf("W");   // Wednesday
+            case 5:
+                return ar.indexOf("TH");  // Thursday
+            case 6:
+                return ar.indexOf("F");   // Friday
+            case 7:
+                return ar.indexOf("S");   // Saturday
         }
         return -1;
     }
@@ -478,24 +471,24 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-    public void updateCurrentWeek(){
+    public void updateCurrentWeek() {
 
-        String createdDateString =  user.getCreated_at();
-        int currentWeek=0;
+        String createdDateString = user.getCreated_at();
+        int currentWeek = 0;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try{
+        try {
             Date createdDate = sdf.parse(createdDateString);
             Date currentDate = new Date();
             sdf.format(currentDate);
             Calendar cal = Calendar.getInstance();
             cal.setTime(createdDate);
-            int weekCreated =  cal.get(Calendar.WEEK_OF_YEAR);
+            int weekCreated = cal.get(Calendar.WEEK_OF_YEAR);
             cal.setTime(currentDate);
-            currentWeek =cal.get(Calendar.WEEK_OF_YEAR);
-            user.setCurrent_week(currentWeek-weekCreated+1);
+            currentWeek = cal.get(Calendar.WEEK_OF_YEAR);
+            user.setCurrent_week(currentWeek - weekCreated + 1);
             App.getSession().setUser(user);
             System.out.println("main activity user current week : " + user.getCurrent_week());
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -506,6 +499,7 @@ public class MainActivity extends AppCompatActivity{
 
     /**
      * Sets the Text and Image fields on the weekly progress popup
+     *
      * @param pw_view The popup view that the fields are on
      */
     private void setupPopupTextFields(View pw_view, PopupWindow popupWindow) {
@@ -543,10 +537,9 @@ public class MainActivity extends AppCompatActivity{
                         @Override
                         public void run() {
                             Toast.makeText(getApplicationContext(),
-                                    weekText+ " content requested. Please wait while the content is fetched..!!", Toast.LENGTH_LONG).show();
+                                    weekText + " content requested. Please wait while the content is fetched..!!", Toast.LENGTH_LONG).show();
                         }
                     });
-
 
                     class LoadContent extends AsyncTask {
                         @Override
@@ -573,7 +566,6 @@ public class MainActivity extends AppCompatActivity{
                         }
                     }
 
-
                     try {
 
                         pwindow.dismiss();
@@ -588,76 +580,76 @@ public class MainActivity extends AppCompatActivity{
                         e.printStackTrace();
                     }
 
-
                     return true;
                 }
             });
-
-
         }
     }
 
-    public int getWeekId(String week, int currentWeek){
+    public int getWeekId(String week, int currentWeek) {
 
         int weekID = 0;
-        switch(week){
-            case "This Week": weekID = currentWeek;
+        switch (week) {
+            case "This Week":
+                weekID = currentWeek;
                 break;
-            case "Week 1": weekID = 1;
+            case "Week 1":
+                weekID = 1;
                 break;
-            case "Week 2": weekID = 2;
+            case "Week 2":
+                weekID = 2;
                 break;
-            case "Week 3": weekID = 3;
+            case "Week 3":
+                weekID = 3;
                 break;
-            case "Week 4": weekID = 4;
+            case "Week 4":
+                weekID = 4;
                 break;
-            case "Week 5": weekID = 5;
+            case "Week 5":
+                weekID = 5;
                 break;
-            case "Week 6": weekID = 6;
+            case "Week 6":
+                weekID = 6;
                 break;
-            case "Week 7": weekID = 7;
+            case "Week 7":
+                weekID = 7;
                 break;
-            case "Week 8": weekID = 8;
+            case "Week 8":
+                weekID = 8;
                 break;
         }
 
         return weekID;
     }
 
-
-    public void  weekContentRequest(String weekSelected, final int currentWeek) {
+    public void weekContentRequest(String weekSelected, final int currentWeek) {
 
         final int weekId = getWeekId(weekSelected, currentWeek);
         if (weekId <= currentWeek) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-				weekToDisplay = weekId;
+                    weekToDisplay = weekId;
                     populateWeekContent(weekToDisplay);
                     loadLessonContent(weekToDisplay);
                     Toast.makeText(getApplicationContext(),
-                            "Week "+weekId+" content loaded..! ", Toast.LENGTH_LONG).show();
+                            "Week " + weekId + " content loaded..! ", Toast.LENGTH_LONG).show();
 
                 }
             });
-        }else{
+        } else {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     Toast.makeText(getApplicationContext(),
-                            "Week "+currentWeek+" in progress.\nCannot Access content for Week "+weekId,Toast.LENGTH_LONG).show();
+                            "Week " + currentWeek + " in progress.\nCannot Access content for Week " + weekId, Toast.LENGTH_LONG).show();
                 }
             });
         }
     }
 
-
     public void populateWeekContent(int weekId) {
         setUpMeditationContent(weekId);
         setUpLessonContent(weekId);
     }
-
-
-  
-	
 }

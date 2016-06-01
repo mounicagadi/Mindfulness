@@ -7,9 +7,8 @@ import android.util.Log;
  * Static Context class to give the app's context to classes that are not Activity or Service
  * classes.
  *
- * @example App.context().getResources().getString(...)
- *
  * @author edhurtig
+ * @example App.context().getResources().getString(...)
  */
 public class App extends android.app.Application {
 
@@ -25,6 +24,7 @@ public class App extends android.app.Application {
 
     /**
      * Gets the current Session object
+     *
      * @return
      */
     public static Session getSession() {
@@ -35,18 +35,18 @@ public class App extends android.app.Application {
      * Store the context in App.app static property
      */
     @Override
-    public void onCreate()
-    {
+    public void onCreate() {
         super.onCreate();
         App.app = this;
 
         // Load the Session
         App.session = new Session(this.getApplicationContext());
-		Log.v("Session ", "App session created");
+        Log.v("Session ", "App session created");
     }
 
     /**
      * Gets the staticly stored context
+     *
      * @return The Context
      */
     public static Context context() {

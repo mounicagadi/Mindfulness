@@ -25,6 +25,7 @@ public class AssessmentFlowManagerFactory {
 
     /**
      * AssessmentFlowManagerFactory Constructor
+     *
      * @param context The view that the flow starts from
      */
     public AssessmentFlowManagerFactory(Context context) {
@@ -34,8 +35,9 @@ public class AssessmentFlowManagerFactory {
 
     /**
      * Adds a Dropdown Question to the manager
+     *
      * @param questionText The dropdown question text
-     * @param choices The dropdown question choices
+     * @param choices      The dropdown question choices
      */
     public void addDropdownQuestionToManager(String questionText, String[] choices) {
         DropdownQuestion dropdownAssessment = new DropdownQuestion(questionText, choices);
@@ -44,10 +46,11 @@ public class AssessmentFlowManagerFactory {
 
     /**
      * Adds a Slider Question to the manager
+     *
      * @param quesitionText The slider question text
-     * @param minSliderVal The slider minimum value
+     * @param minSliderVal  The slider minimum value
      * @param minSliderText The slider minimum text
-     * @param maxSliderVal The slider maximum value
+     * @param maxSliderVal  The slider maximum value
      * @param maxSliderText The slider maximum text
      */
     public void addSliderQuestionToManager(String quesitionText, int minSliderVal, String minSliderText,
@@ -59,8 +62,9 @@ public class AssessmentFlowManagerFactory {
 
     /**
      * Adds a Multi Choice Question to the manager
+     *
      * @param questionText The multi choice question text
-     * @param listOptions The multi choice question list options
+     * @param listOptions  The multi choice question list options
      */
     public void addMultiChoiceQuestionToManager(String questionText, String[] listOptions) {
         MultiChoiceQuestion multiChoiceQuestion = new MultiChoiceQuestion(questionText, listOptions);
@@ -71,7 +75,7 @@ public class AssessmentFlowManagerFactory {
      * Adds all the questions to make the daily assessment flow
      */
 
-    public void addAssessmentQuestions(){
+    public void addAssessmentQuestions() {
 
         addSliderQuestionToManager(context.getString(R.string.satisfactionQuestion),
                 0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
@@ -327,7 +331,6 @@ public class AssessmentFlowManagerFactory {
         addSliderQuestionToManager(context.getString(R.string.mindfulnessQuestion16),
                 0, context.getString(R.string.notAtAll), 10, context.getString(R.string.extremely));
     }*/
-
 
 
 }

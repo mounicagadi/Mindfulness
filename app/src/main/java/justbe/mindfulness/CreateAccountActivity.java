@@ -237,11 +237,6 @@ public class CreateAccountActivity extends AppCompatActivity {
             return false;
         }
 
-       /* if ( gender_group.getCheckedRadioButtonId() == -1 ) {
-            Toast.makeText(getApplicationContext(), "Please select Gender", Toast.LENGTH_SHORT).show();
-            return false;
-        }*/
-
         if ( email_field.getText().length() == 0 ){
             email_field.setError("The email field must not be empty");
             return false;

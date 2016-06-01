@@ -19,10 +19,6 @@ public class StartProgramActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_program);
 
-    /*    Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("Start Program");*/
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Start Program");
@@ -32,6 +28,7 @@ public class StartProgramActivity extends AppCompatActivity {
     /**
      * Callback for when the start button is pressed
      * Begins the meditation program by setting the current program week to 1
+     *
      * @param view The View
      */
     public void startButtonPressed(View view) {

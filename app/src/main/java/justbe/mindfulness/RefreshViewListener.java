@@ -15,8 +15,9 @@ public interface RefreshViewListener {
     /**
      * Saves the values changed by the time picker
      * Called when the user accepts the time picker values
+     *
      * @param buttonID The ID of the butotn that created the time picker
-     * @param time The new time
+     * @param time     The new time
      */
     public void saveTimes(int buttonID, Date time);
 }

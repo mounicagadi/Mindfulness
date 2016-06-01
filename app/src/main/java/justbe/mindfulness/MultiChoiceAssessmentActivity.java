@@ -34,6 +34,7 @@ public class MultiChoiceAssessmentActivity extends AppCompatActivity {
 
     /**
      * Called when the view is created
+     *
      * @param savedInstanceState Saved Instance State
      */
     @Override
@@ -42,7 +43,7 @@ public class MultiChoiceAssessmentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_multi_choice_assessment);
 
         // Create toolbar
-        Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Assessment");
 
@@ -68,6 +69,7 @@ public class MultiChoiceAssessmentActivity extends AppCompatActivity {
     /**
      * Callback for when the next button is pressed
      * Saves the results from the assessment
+     *
      * @param view The view
      */
     public void nextPressed(View view) {
@@ -88,16 +90,16 @@ public class MultiChoiceAssessmentActivity extends AppCompatActivity {
 
         System.out.println("Multi Assessment: Options selected: " + checkedOptions.size());
         Response multiChoiceResponse = null;
-        for(int i = 0; i< listView.getCount();i++){
+        for (int i = 0; i < listView.getCount(); i++) {
             System.out.println("Item:" + i + " value=" + checkedOptions.get(i));
-            if(checkedOptions.get(i)){
-                multiChoiceResponse = new Response(questionID,assessmentID,checkedOptions.get(i),0);
+            if (checkedOptions.get(i)) {
+                multiChoiceResponse = new Response(questionID, assessmentID, checkedOptions.get(i), 0);
                 System.out.println("Selected value: " + multiChoiceQuestion.getChoices()[i]);
                 String created_at = sdf.format(Calendar.getInstance().getTime());
                 multiChoiceResponse.setCreated_at(created_at);
 
                 flowManager.addResponse(multiChoiceResponse);
-                System.out.println("Multi Assessment: "+"Question ID: "+questionID+"  " + question + " --> " + checkedOptions.get(i));
+                System.out.println("Multi Assessment: " + "Question ID: " + questionID + "  " + question + " --> " + checkedOptions.get(i));
             }
 
         }

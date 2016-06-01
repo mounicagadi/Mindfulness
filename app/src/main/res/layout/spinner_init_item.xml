@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/textView"
+    style="?android:attr/spinnerItemStyle"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:drawablePadding="10dp"
+    android:drawableRight="@drawable/dropdown_arrow_2x"
     android:gravity="center"
-    style="?android:attr/spinnerItemStyle"
     android:singleLine="true"
     android:textColor="@color/bpDark_gray"
-    android:textSize="@dimen/normal_text_size"
-    android:drawablePadding="10dp"
-    android:drawableRight="@drawable/dropdown_arrow_2x"/>
+    android:textSize="@dimen/normal_text_size" />

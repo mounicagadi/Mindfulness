@@ -2,6 +2,7 @@ package justbe.mindfulness;
 
 /**
  * Created by mounica on 4/6/2016.
+ * Mounica
  */
 
 import android.content.Intent;
@@ -21,12 +22,12 @@ public class ThankYouActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thankyou_program);
 
-        Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Epilogue");
     }
 
-    public void closeButtonPressed(View view){
+    public void closeButtonPressed(View view) {
 
         User user = App.getSession().getUser();
         UserProfile profile = new UserProfile(user);
